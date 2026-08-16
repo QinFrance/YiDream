@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">YiDream</string>
+
+    <string name="status_not_owner">⚠️ עדיין לא פעיל — הגדר דרך Web ADB</string>
+    <string name="status_owner">✅ פעיל ומוגן</string>
+
+    <string name="tab_home">בית</string>
+    <string name="tab_store">חנות אפליקציות</string>
+    <string name="tab_settings">הגדרות</string>
+    <string name="tab_about">אודות</string>
+
+    <string name="home_title">YiDream</string>
+    <string name="home_subtitle">המכשיר שלך מוגן.</string>
+
+    <string name="settings_title">הגדרות</string>
+    <string name="settings_language">שפה</string>
+    <string name="settings_check_updates">בדוק עדכונים</string>
+    <string name="settings_checking">בודק…</string>
+    <string name="settings_up_to_date">YiDream מעודכן.</string>
+
+    <string name="about_title">אודות</string>
+    <string name="about_filter_info">YiDream מגביל מכשיר זה בהתאם להגדרות שנקבעו על ידי המנהל: קטגוריות אפליקציות חסומות, ורק מקור ההתקנה הרשמי מורשה להוסיף אפליקציות חדשות.</string>
+    <string name="about_contact_label">יצירת קשר</string>
+    <string name="about_version_label">גרסה</string>
+    <string name="about_remove_filter">הסר את הסינון</string>
+
+    <string name="unlock_dialog_title">קוד שחרור</string>
+    <string name="unlock_dialog_message">הזן את קוד היום (נוצר דרך Web ADB) כדי להסיר את YiDream ואת כל ההגבלות שלו.</string>
+    <string name="unlock_invalid">❌ קוד שגוי.</string>
+    <string name="unlock_success">✅ הסינון הוסר.</string>
+</resources>

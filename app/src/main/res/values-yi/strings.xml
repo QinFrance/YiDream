@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">YiDream</string>
+
+    <string name="status_not_owner">⚠️ נאך נישט אַקטיוו — קאָנפֿיגורירן דורך Web ADB</string>
+    <string name="status_owner">✅ אַקטיוו און באַשיצט</string>
+
+    <string name="tab_home">היים</string>
+    <string name="tab_store">אַפּ סטאָר</string>
+    <string name="tab_settings">אײַנשטעלונגען</string>
+    <string name="tab_about">וועגן</string>
+
+    <string name="home_title">YiDream</string>
+    <string name="home_subtitle">דײַן געראַט איז באַשיצט.</string>
+
+    <string name="settings_title">אײַנשטעלונגען</string>
+    <string name="settings_language">שפּראַך</string>
+    <string name="settings_check_updates">קאָנטראָלירן פֿאַר אַפּדעיטס</string>
+    <string name="settings_checking">קאָנטראָלירט…</string>
+    <string name="settings_up_to_date">YiDream איז אַקטואַל.</string>
+
+    <string name="about_title">וועגן</string>
+    <string name="about_filter_info">YiDream באַגרענעצט דעם געראַט לויט דער קאָנפֿיגוראַציע וואָס דער אַדמיניסטראַטאָר האָט באַשטימט.</string>
+    <string name="about_contact_label">קאָנטאַקט</string>
+    <string name="about_version_label">ווערסיע</string>
+    <string name="about_remove_filter">אַראָפּנעמען דעם פֿילטער</string>
+
+    <string name="unlock_dialog_title">אַנטשליסונג קאָד</string>
+    <string name="unlock_dialog_message">גיב אַרײַן דעם היינטיקן קאָד (דערשאַפֿן דורך Web ADB) צו אַראָפּנעמען YiDream.</string>
+    <string name="unlock_invalid">❌ פֿאַלשער קאָד.</string>
+    <string name="unlock_success">✅ דער פֿילטער איז אַראָפּגענומען.</string>
+</resources>

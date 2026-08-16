@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:paddingVertical="16dp">
+
+    <EditText
+        android:id="@+id/codeBox0"
+        android:layout_width="42dp"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="4dp"
+        android:background="@drawable/bg_code_box"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/accent_navy"
+        android:maxLength="1"
+        android:inputType="textCapCharacters"
+        android:imeOptions="actionNext" />
+
+    <EditText
+        android:id="@+id/codeBox1"
+        android:layout_width="42dp"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="4dp"
+        android:background="@drawable/bg_code_box"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/accent_navy"
+        android:maxLength="1"
+        android:inputType="textCapCharacters"
+        android:imeOptions="actionNext" />
+
+    <EditText
+        android:id="@+id/codeBox2"
+        android:layout_width="42dp"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="4dp"
+        android:background="@drawable/bg_code_box"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/accent_navy"
+        android:maxLength="1"
+        android:inputType="textCapCharacters"
+        android:imeOptions="actionNext" />
+
+    <EditText
+        android:id="@+id/codeBox3"
+        android:layout_width="42dp"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="4dp"
+        android:background="@drawable/bg_code_box"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/accent_navy"
+        android:maxLength="1"
+        android:inputType="textCapCharacters"
+        android:imeOptions="actionNext" />
+
+    <EditText
+        android:id="@+id/codeBox4"
+        android:layout_width="42dp"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="4dp"
+        android:background="@drawable/bg_code_box"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/accent_navy"
+        android:maxLength="1"
+        android:inputType="textCapCharacters"
+        android:imeOptions="actionNext" />
+
+    <EditText
+        android:id="@+id/codeBox5"
+        android:layout_width="42dp"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="4dp"
+        android:background="@drawable/bg_code_box"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/accent_navy"
+        android:maxLength="1"
+        android:inputType="textCapCharacters"
+        android:imeOptions="actionDone" />
+
+</LinearLayout>

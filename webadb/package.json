@@ -1,0 +1,21 @@
+{
+  "name": "yidream-webadb",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@yume-chan/adb": "latest",
+    "@yume-chan/adb-daemon-webusb": "latest",
+    "@yume-chan/adb-credential-web": "latest",
+    "@yume-chan/android-bin": "latest",
+    "@yume-chan/stream-extra": "latest"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}
