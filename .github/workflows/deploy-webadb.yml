@@ -1,0 +1,84 @@
+name: Deploy YiDream Web ADB
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'webadb/**'
+      - 'app/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
+      - '.github/workflows/deploy-webadb.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      # --- Compilation de l'APK Android, pour le bundler dans le site ---
+      - name: Installer Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configurer le SDK Android
+        uses: android-actions/setup-android@v3
+
+      - name: Générer le gradle wrapper
+        run: gradle wrapper --gradle-version 8.7
+
+      - name: Rendre gradlew exécutable
+        run: chmod +x ./gradlew
+
+      - name: Compiler l'APK debug
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Copier l'APK dans le site (servi automatiquement)
+        run: cp app/build/outputs/apk/debug/app-debug.apk webadb/public/yidream.apk
+
+      # --- Compilation et déploiement du site ---
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Installer les dépendances
+        working-directory: webadb
+        run: npm install
+
+      - name: Compiler le site
+        working-directory: webadb
+        run: npm run build
+
+      - name: Configurer GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Préparer l'artefact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: webadb/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Déployer sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

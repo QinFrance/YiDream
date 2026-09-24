@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">YiDream</string>
+
+    <string name="status_not_owner">⚠️ Pas encore actif — configure via le Web ADB</string>
+    <string name="status_owner">✅ Actif et protégé</string>
+
+    <string name="tab_home">Accueil</string>
+    <string name="tab_store">App Store</string>
+    <string name="tab_settings">Réglages</string>
+    <string name="tab_about">À propos</string>
+
+    <string name="home_title">YiDream</string>
+    <string name="home_subtitle">Ton appareil est protégé.</string>
+
+    <string name="settings_title">Réglages</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_check_updates">Vérifier les mises à jour</string>
+    <string name="settings_checking">Vérification…</string>
+    <string name="settings_up_to_date">YiDream est à jour.</string>
+
+    <string name="about_title">À propos</string>
+    <string name="about_filter_info">YiDream restreint cet appareil selon la configuration définie par l\'administrateur : catégories d\'apps bloquées, et seule la source d\'installation officielle est autorisée pour ajouter de nouvelles apps.</string>
+    <string name="about_contact_label">Contact</string>
+    <string name="about_version_label">Version</string>
+    <string name="about_remove_filter">Supprimer le filtre</string>
+
+    <string name="unlock_dialog_title">Code de déverrouillage</string>
+    <string name="unlock_dialog_message">Entre le code du jour (généré depuis le Web ADB) pour retirer YiDream et toutes ses restrictions.</string>
+    <string name="unlock_invalid">❌ Code invalide.</string>
+    <string name="unlock_success">✅ Filtre supprimé.</string>
+</resources>

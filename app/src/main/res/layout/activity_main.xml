@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- 1. Accueil -->
+        <LinearLayout
+            android:id="@+id/pageHome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="32dp">
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:background="@drawable/bg_glass_card"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/kosher_stamp"
+                    android:contentDescription="@string/app_name" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/Text.LargeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:textColor="@color/white"
+                android:text="@string/home_title" />
+
+            <TextView
+                android:id="@+id/homeSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/text_on_gradient_secondary"
+                android:text="@string/home_subtitle" />
+
+        </LinearLayout>
+
+        <!-- 2. App Store -->
+        <LinearLayout
+            android:id="@+id/pageStore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/storeProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:max="100" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="10dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_glass_card"
+                    android:padding="4dp"
+                    android:clipToOutline="true">
+
+                    <WebView
+                        android:id="@+id/storeWebView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </FrameLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <!-- 3. Réglages -->
+        <ScrollView
+            android:id="@+id/pageSettings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Text.LargeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/white"
+                    android:text="@string/settings_title" />
+
+                <TextView
+                    android:id="@+id/statusBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_status_warning"
+                    android:textColor="@color/status_warning_text"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:padding="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/status_not_owner" />
+
+                <TextView
+                    style="@style/Text.SectionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:textColor="@color/text_on_gradient_secondary"
+                    android:text="@string/settings_language" />
+
+                <LinearLayout
+                    android:id="@+id/languageRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_glass_card"
+                    android:padding="12dp"
+                    android:layout_marginBottom="20dp" />
+
+                <TextView
+                    android:id="@+id/rowUpdates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Text.Body"
+                    android:background="@drawable/bg_glass_card"
+                    android:padding="16dp"
+                    android:text="@string/settings_check_updates"
+                    android:textColor="@color/accent_navy"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- 4. À propos -->
+        <ScrollView
+            android:id="@+id/pageAbout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/Text.LargeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/white"
+                    android:text="@string/about_title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_glass_card"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Text.Body"
+                        android:text="@string/about_filter_info" />
+
+                    <TextView
+                        android:id="@+id/versionLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/text_secondary"
+                        android:text="YiDream" />
+
+                    <TextView
+                        android:id="@+id/contactLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/accent_blue"
+                        android:autoLink="email"
+                        android:text="yiddishdream@gmail.com" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/rowRemoveFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Text.Body"
+                    android:background="@drawable/bg_glass_card"
+                    android:padding="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/about_remove_filter"
+                    android:textColor="@color/danger"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
+
+    <!-- Barre d'onglets façon iOS "liquid glass" -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_glass_bar"
+        android:paddingVertical="12dp">
+
+        <LinearLayout
+            android:id="@+id/tabHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView android:id="@+id/tabHomeIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tab_home" />
+            <TextView android:id="@+id/tabHomeLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_home" android:textSize="11sp" android:textColor="@color/accent_navy" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabStore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView android:id="@+id/tabStoreIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tab_store" />
+            <TextView android:id="@+id/tabStoreLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_store" android:textSize="11sp" android:textColor="@color/accent_navy" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView android:id="@+id/tabSettingsIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tab_settings" />
+            <TextView android:id="@+id/tabSettingsLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_settings" android:textSize="11sp" android:textColor="@color/accent_navy" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabAbout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView android:id="@+id/tabAboutIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tab_about" />
+            <TextView android:id="@+id/tabAboutLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_about" android:textSize="11sp" android:textColor="@color/accent_navy" android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
