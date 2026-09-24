@@ -27,6 +27,8 @@ jobs:
 
       - name: Configurer le SDK Android
         uses: android-actions/setup-android@v3
+        with:
+          packages: "platform-tools platforms;android-34 build-tools;34.0.0"
 
       - name: Générer le gradle wrapper (version fixe, fiable)
         run: gradle wrapper --gradle-version 8.7
