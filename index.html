@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YiDream Suite</title>
+<style>
+:root{
+  --bg:#edf3fc;--surface:#ffffff;--surface2:#f6f9fe;--text:#102448;--muted:#73819a;
+  --line:#dce5f2;--blue:#1769ff;--blue2:#0e55d5;--green:#2fa84f;--red:#e44b4b;
+  --shadow:0 18px 50px rgba(35,70,125,.12);--radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;color:var(--text);background:linear-gradient(135deg,#eaf1fb,#f9fbff)}
+body.dark{--bg:#081225;--surface:#101d35;--surface2:#0c1830;--text:#edf4ff;--muted:#9caac3;--line:#263858;background:linear-gradient(135deg,#061024,#11234a)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+button{cursor:pointer;transition:all .16s ease}
+.primary{border:0;background:linear-gradient(135deg,#1769ff,#0e55d5);color:#fff;border-radius:10px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 7px 18px rgba(23,105,255,.22)}
+.primary:hover{transform:translateY(-1px);box-shadow:0 10px 23px rgba(23,105,255,.30)}
+.primary:active{transform:translateY(0);box-shadow:0 4px 10px rgba(23,105,255,.2)}
+.ghost{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;padding:10px 14px;font-size:11px;font-weight:650;box-shadow:0 3px 10px rgba(30,70,130,.05)}
+.ghost:hover{background:var(--surface2);border-color:#b8cbed;transform:translateY(-1px)}
+.launch{width:100%;padding:9px 11px;border-radius:10px;border:1px solid #d6e3f6;background:linear-gradient(180deg,#f7faff,#edf4fd);color:#1958bd;font-size:11px;font-weight:700;box-shadow:0 4px 12px rgba(30,70,130,.06)}
+.launch:hover{background:#e7f0ff;border-color:#b9cff5;transform:translateY(-1px)}
+.dark .launch{background:linear-gradient(180deg,#162d50,#122747);border-color:#29446d;color:#cfe0ff}
+.dark .launch:hover{background:#19355f}
+.hero-actions button{border-radius:11px;padding:10px 17px;box-shadow:0 8px 22px rgba(0,0,0,.12)}
+.hero-actions button:hover{transform:translateY(-1px)}
+.hero-actions button.secondary{backdrop-filter:blur(10px)}
+.round-btn,.select{box-shadow:0 3px 10px rgba(30,70,130,.06)}
+.round-btn:hover,.select:hover{border-color:#b8cbed;transform:translateY(-1px)}
+.close-app{margin-left:auto;border:1px solid var(--line);background:var(--surface);color:var(--text);width:30px;height:30px;border-radius:9px;font-size:17px;line-height:1}
+.close-app:hover{background:#ffe8e8;border-color:#ffc4c4;color:#c53b3b}
+.os-tab{border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:9px 13px;border-radius:10px;font-size:10px;cursor:pointer;box-shadow:0 3px 9px rgba(30,70,130,.04)}
+.os-tab:hover{border-color:#b8cbed;color:var(--text);transform:translateY(-1px)}
+.app-shell{min-height:100vh}
+.topbar{height:58px;display:flex;align-items:center;padding:0 24px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.76);backdrop-filter:blur(24px);position:sticky;top:0;z-index:30}
+.dark .topbar{background:rgba(7,15,30,.82)}
+.logo-mini{height:34px;width:34px;object-fit:cover;border-radius:9px;margin-right:10px}.suite-name{font-weight:750;font-size:15px}.suite-name span{color:#7890b5;font-weight:500}
+.mac-menu{display:flex;gap:20px;margin-left:34px;font-size:12px;color:var(--muted)}
+.mac-menu button{border:0;background:none;color:inherit}.mac-menu button:hover{color:var(--blue)}
+.top-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+.round-btn,.select{height:34px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:9px;padding:0 11px}
+/* Compact selection controls */
+.picker{position:relative}
+.picker-btn{height:34px;min-width:116px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;padding:0 10px;display:flex;align-items:center;justify-content:space-between;gap:9px;font-size:10px;font-weight:650;box-shadow:0 3px 10px rgba(30,70,130,.06)}
+.picker-btn:hover{border-color:#b8cbed;background:var(--surface2);transform:translateY(-1px)}
+.picker-btn .chevron{font-size:10px;color:var(--muted);transition:transform .15s}
+.picker.open .chevron{transform:rotate(180deg)}
+.picker-menu{position:absolute;right:0;top:40px;min-width:170px;padding:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 45px rgba(30,70,130,.16);z-index:80;display:none}
+.picker.open .picker-menu{display:block;animation:pickerIn .12s ease}
+@keyframes pickerIn{from{opacity:0;transform:translateY(-3px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.picker-option{width:100%;display:flex;align-items:center;gap:9px;border:0;background:transparent;color:var(--text);padding:9px 10px;border-radius:8px;text-align:left;font-size:10px;cursor:pointer}
+.picker-option:hover{background:var(--surface2)}
+.picker-option.active{background:#edf4ff;color:#185bd6;font-weight:700}
+.dark .picker-option.active{background:#142b52;color:#cfe0ff}
+.picker-option .checkmark{margin-left:auto;opacity:0}
+.picker-option.active .checkmark{opacity:1}
+/* Subtle green identity for YiDream Android */
+.app-window.android-theme{box-shadow:0 40px 120px rgba(0,0,0,.34),0 0 0 1px rgba(72,166,66,.18),0 20px 70px rgba(62,153,55,.13)}
+.android-theme .app-windowbar{background:linear-gradient(90deg,var(--surface2),rgba(232,247,229,.72));border-bottom-color:rgba(68,155,61,.16)}
+.dark .android-theme .app-windowbar{background:linear-gradient(90deg,var(--surface2),rgba(30,65,38,.62));border-bottom-color:rgba(100,190,92,.16)}
+.android-theme .app-content{background:radial-gradient(circle at 95% 5%,rgba(91,183,79,.085),transparent 32%),linear-gradient(180deg,rgba(234,248,231,.30),var(--bg) 34%)}
+.dark .android-theme .app-content{background:radial-gradient(circle at 95% 5%,rgba(91,183,79,.10),transparent 32%),linear-gradient(180deg,rgba(30,70,35,.22),var(--bg) 34%)}
+.android-theme .app-sidebar{background:linear-gradient(180deg,rgba(237,249,234,.7),var(--surface2) 40%)}
+.dark .android-theme .app-sidebar{background:linear-gradient(180deg,rgba(26,57,31,.45),var(--surface2) 40%)}
+.android-theme .app-logo img{box-shadow:0 0 0 2px rgba(72,166,66,.10)}
+.round-btn{width:34px;padding:0}
+.layout{padding:22px 24px 34px;max-width:1450px;margin:auto}
+.hero{min-height:214px;border-radius:22px;padding:26px 28px;position:relative;overflow:hidden;color:#fff;background:linear-gradient(115deg,#102c69 0%,#1769ff 50%,#9a43df 100%);box-shadow:0 22px 65px rgba(29,80,180,.23)}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.09)}
+.hero:before{width:520px;height:520px;right:-190px;top:-310px}.hero:after{width:360px;height:360px;right:230px;bottom:-290px}
+.hero-content{position:relative;z-index:1;max-width:620px}
+.eyebrow{font-size:10px;letter-spacing:.12em;font-weight:700;opacity:.75}
+.hero h1{font-size:31px;margin:8px 0 5px}.hero p{margin:0;color:#dfeaff;font-size:13px}
+.hero-actions{position:absolute;right:27px;bottom:26px;z-index:2;display:flex;gap:10px}
+.hero-actions button{border:0;border-radius:10px;padding:10px 17px;background:#fff;color:#1749a1;font-weight:700}
+.hero-actions button.secondary{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.24)}
+.hero-note{position:absolute;right:30px;top:27px;width:250px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.17);border-radius:13px;padding:12px;font-size:11px;z-index:2}
+.hero-note b{font-size:12px}.hero-note button{margin-top:9px;border:0;background:transparent;color:white;padding:0;font-size:11px;text-decoration:underline}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:24px 2px 11px}.section-title h2{font-size:14px;margin:0}.section-title span{font-size:11px;color:var(--muted)}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.app-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:17px;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s,border .18s;cursor:pointer;position:relative;overflow:hidden}
+.app-card:hover{transform:translateY(-4px);box-shadow:0 24px 55px rgba(30,70,135,.17);border-color:#b9cff5}
+.app-card:active{transform:translateY(-1px)}
+.app-card .launch-badge{position:absolute;right:12px;top:12px;font-size:9px;color:var(--blue);background:#edf4ff;border-radius:8px;padding:4px 7px}
+.dark .app-card .launch-badge{background:#12264a}
+.app-icon{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;margin-bottom:11px;box-shadow:inset 0 1px rgba(255,255,255,.3)}
+.android{background:linear-gradient(145deg,#86d15b,#369a31)}.ios{background:linear-gradient(145deg,#6fcaff,#2875da)}
+.admin{background:linear-gradient(145deg,#d68cff,#8d43d3)}.info{background:linear-gradient(145deg,#ffc75e,#e48a20)}
+.app-card h3{font-size:14px;margin:0 0 4px}.app-card p{font-size:11px;color:var(--muted);line-height:1.45;margin:0 0 13px;min-height:31px}
+.launch{width:100%;padding:8px;border-radius:9px;border:1px solid #d8e5f8;background:#f0f5fd;color:#1958bd;font-size:11px;font-weight:650}
+.dark .launch{background:#132747;border-color:#29446d;color:#c4d8ff}.launch:hover{background:#e6efff}
+.preview-body{padding:15px;min-height:245px}
+.preview-layout{display:grid;grid-template-columns:105px 1fr;gap:13px}
+.preview-side{border-right:1px solid var(--line);padding-right:9px}.side-row{padding:7px 8px;border-radius:7px;color:var(--muted);font-size:9px;margin-bottom:2px}.side-row.active{background:#eaf1ff;color:#185cda}.dark .side-row.active{background:#142a50}
+.preview-main h3{margin:0 0 4px;font-size:12px}.muted{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:12px}.stat{border:1px solid var(--line);border-radius:8px;padding:9px;font-size:9px}.stat b{display:block;font-size:16px;margin:2px 0}.device-row{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:9px;padding:9px;margin-top:10px;font-size:9px}.phone{font-size:25px}.pill{font-size:8px;border-radius:8px;padding:3px 6px;background:#e3f8e8;color:#23823b}.preview-right{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}.mini-card{border:1px solid var(--line);border-radius:8px;padding:9px;font-size:9px}
+.footer{text-align:center;color:var(--muted);font-size:10px;margin-top:23px}
+
+/* App window overlay: ONLY opened from the top app cards/buttons */
+.app-overlay{position:fixed;inset:0;background:rgba(4,12,28,.52);backdrop-filter:blur(7px);z-index:50;display:none;padding:4vh 5vw}
+.app-overlay.open{display:flex;animation:fade .16s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.app-window{width:100%;height:100%;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 40px 120px rgba(0,0,0,.34);overflow:hidden;display:flex;flex-direction:column;animation:pop .18s ease}
+@keyframes pop{from{transform:scale(.985);opacity:.6}to{transform:scale(1);opacity:1}}
+.app-windowbar{height:45px;display:flex;align-items:center;padding:0 15px;border-bottom:1px solid var(--line);background:var(--surface2)}
+.app-windowbar .dots{margin-right:15px}.app-title{font-size:12px;font-weight:700}.close-app{margin-left:auto;border:1px solid var(--line);background:var(--surface);color:var(--text);width:29px;height:29px;border-radius:8px}
+.app-inner{flex:1;display:flex;min-height:0}.app-sidebar{width:210px;border-right:1px solid var(--line);padding:16px 12px;background:var(--surface2)}
+.app-logo{display:flex;align-items:center;gap:8px;margin-bottom:18px;font-weight:750;font-size:13px}.app-logo img{width:30px;height:30px;border-radius:8px;object-fit:cover}
+.nav-item{display:flex;gap:9px;align-items:center;padding:10px 11px;border-radius:9px;color:var(--muted);font-size:11px;margin:2px 0;border:0;background:transparent;width:100%;text-align:left}.nav-item:hover,.nav-item.active{background:#eaf1ff;color:#165bd6}.dark .nav-item:hover,.dark .nav-item.active{background:#142b52}
+.app-content{flex:1;overflow:auto;padding:23px;background:var(--bg)}.app-content h2{margin:0;font-size:21px}.sub{color:var(--muted);font-size:11px;margin:4px 0 19px}
+.toolbar{display:flex;gap:9px;margin-bottom:13px}.search{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:9px;padding:9px 11px;font-size:11px}.primary{border:0;background:var(--blue);color:white;border-radius:9px;padding:9px 13px;font-size:11px;font-weight:650}.ghost{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:9px;padding:9px 13px;font-size:11px}
+.panel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:0 8px 25px rgba(30,70,130,.06)}.panel h4{margin:0 0 5px;font-size:11px}.big{font-size:23px;font-weight:750}.small{font-size:9px;color:var(--muted)}
+.table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:10px}.table th,.table td{padding:10px;border-bottom:1px solid var(--line);text-align:left}.table th{color:var(--muted);font-weight:600;background:var(--surface2)}.table tr:last-child td{border-bottom:0}.toggle{width:31px;height:18px;border-radius:12px;background:#c8d0dc;border:0;position:relative}.toggle.on{background:var(--blue)}.toggle:after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.15s}.toggle.on:after{left:15px}
+.notice{padding:12px;border-radius:10px;background:#edf5ff;border:1px solid #d5e5ff;color:#2a5593;font-size:10px}.dark .notice{background:#11294e;border-color:#29446d;color:#c8dcff}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:9px;color:var(--muted)}.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:8px;padding:9px;background:var(--surface);color:var(--text);font-size:10px}.field textarea{min-height:90px;resize:vertical}
+
+.ios-coming{min-height:420px;display:flex;align-items:center;justify-content:center;gap:28px;max-width:850px;margin:auto;padding:45px}
+.ios-logo-wrap{width:118px;height:118px;flex:0 0 118px;border-radius:28px;background:var(--surface);border:1px solid var(--line);box-shadow:0 16px 45px rgba(30,70,130,.13);display:grid;place-items:center;overflow:hidden}
+.ios-logo-wrap img{width:100%;height:100%;object-fit:cover}
+.ios-coming h2{font-size:25px;margin:0 0 7px}
+.ios-coming .sub{font-size:12px;line-height:1.65}
+@media(max-width:650px){.ios-coming{flex-direction:column;text-align:center;padding:25px}.ios-coming .notice{margin-top:15px}}
+
+
+.os-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 14px}
+.os-tab{border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:8px 12px;border-radius:9px;font-size:10px;cursor:pointer}
+.os-tab.active{background:#eaf1ff;border-color:#c7dafe;color:#155bd8;font-weight:700}
+.dark .os-tab.active{background:#142b52;border-color:#294a7e;color:#c8dcff}
+.os-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}
+.os-card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px;cursor:pointer}
+.os-card:hover{border-color:#b9cff5;transform:translateY(-1px)}
+.os-card .os-name{font-weight:700;font-size:10px}.os-card .os-count{font-size:20px;font-weight:750;margin-top:3px}.os-card .os-sub{font-size:9px;color:var(--muted)}
+.stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:15px 0}
+.step{border:1px solid var(--line);border-radius:9px;padding:10px;background:var(--surface);font-size:9px;color:var(--muted)}
+.step.active{border-color:#bcd2ff;background:#edf4ff;color:#1759c9}.dark .step.active{background:#142b52;border-color:#2d4f83;color:#d0e0ff}
+.step b{display:block;font-size:10px;color:var(--text);margin-bottom:3px}
+.android-config{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+.check-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.check{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:8px;padding:9px;font-size:9px;background:var(--surface)}
+.check input{accent-color:var(--blue)}
+.info-logo-line{display:flex;align-items:center;gap:12px}.info-logo-line img{width:52px;height:52px;border-radius:14px;object-fit:cover}
+@media(max-width:850px){.os-summary{grid-template-columns:1fr 1fr}.android-config{grid-template-columns:1fr}.stepper{grid-template-columns:1fr 1fr}}
+
+.toast{position:fixed;right:22px;bottom:22px;z-index:100;background:#11264c;color:#fff;padding:11px 15px;border-radius:10px;box-shadow:0 14px 35px rgba(0,0,0,.2);font-size:11px;display:none}.toast.show{display:block}
+
+html[dir="rtl"] .mac-menu{margin-left:0;margin-right:34px}
+html[dir="rtl"] .top-actions{margin-left:0;margin-right:auto}
+html[dir="rtl"] .hero-actions{right:auto;left:27px}
+html[dir="rtl"] .hero-note{right:auto;left:30px}
+html[dir="rtl"] .app-sidebar{border-right:0;border-left:1px solid var(--line)}
+html[dir="rtl"] .nav-item{text-align:right}
+html[dir="rtl"] .table th,html[dir="rtl"] .table td{text-align:right}
+
+@media(max-width:950px){.hero-note{display:none}.hero-actions{position:static;margin-top:22px}.apps{grid-template-columns:1fr 1fr}.previews{grid-template-columns:1fr}.app-overlay{padding:0}.app-window{border-radius:0}.app-sidebar{width:170px}}
+@media(max-width:650px){.apps{grid-template-columns:1fr}.mac-menu{display:none}.layout{padding:12px}.app-sidebar{display:none}.panel-grid{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app-shell">
+<header class="topbar">
+  <img class="logo-mini" src="assets/yidream-logo.png" alt="YiDream">
+  <div class="suite-name">YiDream <span>| Suite</span></div>
+  <nav class="mac-menu">
+    <button onclick="toast('File menu')">File</button><button onclick="toast('Edit menu')">Edit</button><button onclick="toast('View menu')">View</button><button onclick="toast('Window menu')">Window</button><button onclick="toast('Help menu')">Help</button>
+  </nav>
+  <div class="top-actions">
+    <div class="picker" id="themePicker">
+      <button class="picker-btn" onclick="togglePicker('themePicker')" aria-label="Theme"><span id="themeLabel">☼ Theme</span><span class="chevron">⌄</span></button>
+      <div class="picker-menu">
+        <button class="picker-option" data-theme="light" onclick="setTheme('light')">☀️ <span>Light</span><span class="checkmark">✓</span></button>
+        <button class="picker-option" data-theme="dark" onclick="setTheme('dark')">🌙 <span>Dark</span><span class="checkmark">✓</span></button>
+      </div>
+    </div>
+    <div class="picker" id="languagePicker">
+      <button class="picker-btn" onclick="togglePicker('languagePicker')" aria-label="Language"><span id="languageLabel">🇬🇧 English</span><span class="chevron">⌄</span></button>
+      <div class="picker-menu">
+        <button class="picker-option" data-lang="en" onclick="language('en')">🇬🇧 <span>English</span><span class="checkmark">✓</span></button>
+        <button class="picker-option" data-lang="fr" onclick="language('fr')">🇫🇷 <span>Français</span><span class="checkmark">✓</span></button>
+        <button class="picker-option" data-lang="he" onclick="language('he')">🇮🇱 <span>עברית</span><span class="checkmark">✓</span></button>
+        <button class="picker-option" data-lang="yi" onclick="language('yi')">🕎 <span>יידיש</span><span class="checkmark">✓</span></button>
+      </div>
+    </div>
+    <button class="round-btn" onclick="toast('Account menu')">●</button>
+  </div>
+</header>
+
+<main class="layout">
+<section class="hero">
+  <div class="hero-content">
+    <div class="eyebrow">PROFESSIONAL DEVICE MANAGEMENT</div>
+    <h1>YiDream Suite</h1>
+    <p id="heroText">One professional suite — with device management centralized in YiDream Admin.</p>
+  </div>
+  <div class="hero-note"><b>What's new</b><br><span id="newsText">YiDream Admin centralizes device management for professional resellers.</span><br><button onclick="openInfo()">Read more →</button></div>
+  <div class="hero-actions">
+    <button onclick="launchApp('Admin')">Open YiDream Admin</button>
+    <button class="secondary" onclick="launchApp('Android')">Open YiDream Android</button>
+  </div>
+</section>
+
+<div class="section-title"><h2>YiDream applications</h2><span>Click an application to open it</span></div>
+<section class="apps">
+  <article class="app-card" onclick="launchApp('Android')"><span class="launch-badge">OPEN APP ↗</span><div class="app-icon android">♟</div><h3>YiDream Android</h3><p>Configure Android devices, filtering and Web ADB.</p><button class="launch">Open YiDream Android</button></article>
+  <article class="app-card" onclick="launchApp('iOS')"><span class="launch-badge">OPEN APP ↗</span><div class="app-icon ios">●</div><h3>YiDream iOS</h3><p>Future iPhone and iPad filtering solution.</p><button class="launch">Open YiDream iOS</button></article>
+  <article class="app-card" onclick="launchApp('Admin')"><span class="launch-badge">OPEN APP ↗</span><div class="app-icon admin">✦</div><h3>YiDream Admin</h3><p>Manage clients, devices, applications and notifications.</p><button class="launch">Open YiDream Admin</button></article>
+  <article class="app-card" onclick="launchApp('Info')"><span class="launch-badge">OPEN APP ↗</span><div class="app-icon info">i</div><h3>YiDream Info</h3><p>Support, legal information and project details.</p><button class="launch">Open YiDream Info</button></article>
+</section>
+
+
+<div class="footer">YiDream Suite · Web ADB & professional device management · Beta</div>
+</main>
+</div>
+
+<!-- Application window. It is opened ONLY from the application cards/buttons above. -->
+<div class="app-overlay" id="appOverlay">
+  <div class="app-window">
+    <div class="app-windowbar"><div class="dots"><i></i><i></i><i></i></div><div class="app-title" id="windowTitle">YiDream Admin</div><button class="close-app" onclick="closeApp()">×</button></div>
+    <div class="app-inner">
+      <aside class="app-sidebar">
+        <div class="app-logo"><img src="assets/yidream-logo.png"><span id="sideBrand">YiDream Admin</span></div>
+        <div id="appNav"></div>
+      </aside>
+      <section class="app-content" id="appContent"></section>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+let currentApp='';
+let currentSection='';
+let currentLang=localStorage.getItem('yidream-lang')||'en';
+const apps={
+  Admin:{
+    nav:['Dashboard','Devices','Clients','Groups','Applications','Notifications','Activity Logs','Settings'],
+    render:'admin'
+  },
+  Android:{
+    nav:['Connect','Install YiDream','Web ADB','Device Owner','Configuration','Logs','Settings'],
+    render:'android'
+  },
+  iOS:{
+    nav:['Overview','Devices','Apps','Allowed Apps','Restrictions','Updates','Settings'],
+    render:'ios'
+  },
+  Info:{
+    nav:['About YiDream','Support','Legal','Privacy','Contact'],
+    render:'info'
+  }
+};
+
+function toast(msg){const x=document.getElementById('toast');x.textContent=msg;x.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>x.classList.remove('show'),1900)}
+function togglePicker(id){
+ document.querySelectorAll('.picker.open').forEach(p=>{if(p.id!==id)p.classList.remove('open')});
+ document.getElementById(id).classList.toggle('open');
+}
+function setTheme(mode){
+ document.body.classList.toggle('dark',mode==='dark');
+ localStorage.setItem('yidream-theme',mode);
+ updatePickers();
+ document.getElementById('themePicker').classList.remove('open');
+ toast(mode==='dark'?'Dark mode enabled':'Light mode enabled');
+}
+function toggleTheme(){setTheme(document.body.classList.contains('dark')?'light':'dark')}
+function updatePickers(){
+ const langNames={en:'🇬🇧 English',fr:'🇫🇷 Français',he:'🇮🇱 עברית',yi:'🕎 יידיש'};
+ const ll=document.getElementById('languageLabel'); if(ll)ll.textContent=langNames[currentLang]||langNames.en;
+ document.querySelectorAll('[data-lang]').forEach(b=>b.classList.toggle('active',b.dataset.lang===currentLang));
+ const mode=document.body.classList.contains('dark')?'dark':'light';
+ const tl=document.getElementById('themeLabel'); if(tl)tl.textContent=mode==='dark'?'🌙 Dark':'☀️ Light';
+ document.querySelectorAll('[data-theme]').forEach(b=>b.classList.toggle('active',b.dataset.theme===mode));
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.picker'))document.querySelectorAll('.picker.open').forEach(p=>p.classList.remove('open'))});
+function language(v){
+ currentLang=v||'en'; localStorage.setItem('yidream-lang',currentLang);
+ document.documentElement.lang=currentLang;
+ document.documentElement.dir=(currentLang==='he'||currentLang==='yi')?'rtl':'ltr';
+ updatePickers();
+ applyLanguage();
+ if(currentApp){
+   const sec=currentSection||apps[currentApp].nav[0];
+   buildNav(sec); renderApp(apps[currentApp].render,sec); applyLanguage();
+ }
+ toast(({en:'Language changed',fr:'Langue changée',he:'השפה שונתה',yi:'די שפראך איז געטוישט געווארן'})[currentLang]);
+}
+const L={
+ en:{
+  'PROFESSIONAL DEVICE MANAGEMENT':'PROFESSIONAL DEVICE MANAGEMENT','YiDream applications':'YiDream applications','Click an application to open it':'Click an application to open it','What\'s new':'What\'s new','Read more →':'Read more →','Open YiDream Admin':'Open YiDream Admin','Open YiDream Android':'Open YiDream Android','Open YiDream iOS':'Open YiDream iOS','Open YiDream Info':'Open YiDream Info','Configure Android devices, filtering and Web ADB.':'Configure Android devices, filtering and Web ADB.','Future iPhone and iPad filtering solution.':'Future iPhone and iPad filtering solution.','Manage clients, devices, applications and notifications.':'Manage clients, devices, applications and notifications.','Support, legal information and project details.':'Support, legal information and project details.','OPEN APP ↗':'OPEN APP ↗','Beta':'Beta','File':'File','Edit':'Edit','View':'View','Window':'Window','Help':'Help','Dashboard':'Dashboard','Devices':'Devices','Clients':'Clients','Groups':'Groups','Applications':'Applications','Notifications':'Notifications','Activity Logs':'Activity Logs','Settings':'Settings','Connect':'Connect','Install YiDream':'Install YiDream','Web ADB':'Web ADB','Device Owner':'Device Owner','Configuration':'Configuration','Logs':'Logs','Overview':'Overview','Allowed Apps':'Allowed Apps','Restrictions':'Restrictions','Updates':'Updates','About YiDream':'About YiDream','Support':'Support','Legal':'Legal','Privacy':'Privacy','Contact':'Contact','All devices':'All devices','Android':'Android','iOS':'iOS','Nokia / Other':'Nokia / Other','Online':'Online','Offline':'Offline','Manage':'Manage','Search devices...':'Search devices...','+ Add device':'+ Add device','Save changes':'Save changes','Save':'Save'
+ },
+ fr:{
+  'PROFESSIONAL DEVICE MANAGEMENT':'GESTION PROFESSIONNELLE DES APPAREILS','YiDream applications':'Applications YiDream','Click an application to open it':'Cliquez sur une application pour l’ouvrir','What\'s new':'Nouveautés','Read more →':'En savoir plus →','Open YiDream Admin':'Ouvrir YiDream Admin','Open YiDream Android':'Ouvrir YiDream Android','Open YiDream iOS':'Ouvrir YiDream iOS','Open YiDream Info':'Ouvrir YiDream Info','Configure Android devices, filtering and Web ADB.':'Configurer les appareils Android, le filtrage et Web ADB.','Future iPhone and iPad filtering solution.':'Solution de filtrage iPhone et iPad — en développement.','Manage clients, devices, applications and notifications.':'Gérer les clients, appareils, applications et notifications.','Support, legal information and project details.':'Support, informations légales et détails du projet.','OPEN APP ↗':'OUVRIR L’APP ↗','Beta':'Bêta','File':'Fichier','Edit':'Édition','View':'Affichage','Window':'Fenêtre','Help':'Aide','Dashboard':'Tableau de bord','Devices':'Appareils','Clients':'Clients','Groups':'Groupes','Applications':'Applications','Notifications':'Notifications','Activity Logs':'Journal d’activité','Settings':'Paramètres','Connect':'Connexion','Install YiDream':'Installer YiDream','Web ADB':'Web ADB','Device Owner':'Device Owner','Configuration':'Configuration','Logs':'Journaux','Overview':'Vue d’ensemble','Allowed Apps':'Apps autorisées','Restrictions':'Restrictions','Updates':'Mises à jour','About YiDream':'À propos de YiDream','Support':'Support','Legal':'Mentions légales','Privacy':'Confidentialité','Contact':'Contact','All devices':'Tous les appareils','Android':'Android','iOS':'iOS','Nokia / Other':'Nokia / Autres','Online':'En ligne','Offline':'Hors ligne','Manage':'Gérer','Search devices...':'Rechercher des appareils...','+ Add device':'+ Ajouter un appareil','Save changes':'Enregistrer les modifications','Save':'Enregistrer'
+ },
+ he:{
+  'PROFESSIONAL DEVICE MANAGEMENT':'ניהול מכשירים מקצועי','YiDream applications':'אפליקציות YiDream','Click an application to open it':'לחצו על אפליקציה כדי לפתוח אותה','What\'s new':'מה חדש','Read more →':'למידע נוסף →','Open YiDream Admin':'פתיחת YiDream Admin','Open YiDream Android':'פתיחת YiDream Android','Open YiDream iOS':'פתיחת YiDream iOS','Open YiDream Info':'פתיחת YiDream Info','Configure Android devices, filtering and Web ADB.':'הגדרת מכשירי Android, סינון ו-Web ADB.','Future iPhone and iPad filtering solution.':'פתרון סינון ל-iPhone ול-iPad — בפיתוח.','Manage clients, devices, applications and notifications.':'ניהול לקוחות, מכשירים, אפליקציות והתראות.','Support, legal information and project details.':'תמיכה, מידע משפטי ופרטי הפרויקט.','OPEN APP ↗':'פתיחת אפליקציה ↗','Beta':'בטא','File':'קובץ','Edit':'עריכה','View':'תצוגה','Window':'חלון','Help':'עזרה','Dashboard':'לוח בקרה','Devices':'מכשירים','Clients':'לקוחות','Groups':'קבוצות','Applications':'אפליקציות','Notifications':'התראות','Activity Logs':'יומן פעילות','Settings':'הגדרות','Connect':'חיבור','Install YiDream':'התקנת YiDream','Web ADB':'Web ADB','Device Owner':'בעלות על המכשיר','Configuration':'הגדרה','Logs':'יומנים','Overview':'סקירה','Allowed Apps':'אפליקציות מותרות','Restrictions':'הגבלות','Updates':'עדכונים','About YiDream':'אודות YiDream','Support':'תמיכה','Legal':'מידע משפטי','Privacy':'פרטיות','Contact':'צור קשר','All devices':'כל המכשירים','Android':'Android','iOS':'iOS','Nokia / Other':'Nokia / אחר','Online':'מקוון','Offline':'לא מקוון','Manage':'ניהול','Search devices...':'חיפוש מכשירים...','+ Add device':'+ הוספת מכשיר','Save changes':'שמירת שינויים','Save':'שמירה'
+ },
+ yi:{
+  'PROFESSIONAL DEVICE MANAGEMENT':'פראפעסיאנעלע דעוויס פאַרוואַלטונג','YiDream applications':'YiDream אַפּפּס','Click an application to open it':'דרוקט אויף אַן אַפּ צו עפענען','What\'s new':'וואָס איז נײַ','Read more →':'לייענען מער →','Open YiDream Admin':'עפֿענען YiDream Admin','Open YiDream Android':'עפֿענען YiDream Android','Open YiDream iOS':'עפֿענען YiDream iOS','Open YiDream Info':'עפֿענען YiDream Info','Configure Android devices, filtering and Web ADB.':'קאָנפיגורירן Android דעוויסעס, פֿילטער און Web ADB.','Future iPhone and iPad filtering solution.':'iPhone און iPad פֿילטער לייזונג — אין אַנטוויקלונג.','Manage clients, devices, applications and notifications.':'פירן קליענטן, דעוויסעס, אַפּפּס און נאָוטיפיקאַציעס.','Support, legal information and project details.':'שטיצע, לעגאַלע אינפֿאָרמאַציע און פּראָיעקט דעטאַלן.','OPEN APP ↗':'עפֿענען אַפּ ↗','Beta':'ביתא','File':'טעקע','Edit':'רעדאַקטירן','View':'וויזשאַוואַל','Window':'פֿענצטער','Help':'הילף','Dashboard':'דאַשבאָרד','Devices':'דעוויסעס','Clients':'קליענטן','Groups':'גרופּעס','Applications':'אַפּפּס','Notifications':'נאָוטיפיקאַציעס','Activity Logs':'אַקטיוויטעט לאָג','Settings':'סעטטינגס','Connect':'קאַנעקט','Install YiDream':'ינסטאַלירן YiDream','Web ADB':'Web ADB','Device Owner':'דעוויס אָונער','Configuration':'קאָנפיגוראַציע','Logs':'לאָגס','Overview':'איבערבליק','Allowed Apps':'דערלויבטע אַפּפּס','Restrictions':'ריסטריקציעס','Updates':'דערהייַנטיקונגען','About YiDream':'וועגן YiDream','Support':'שטיצע','Legal':'לעגאַל','Privacy':'פּריוואַטקייט','Contact':'קאָנטאַקט','All devices':'אַלע דעוויסעס','Android':'Android','iOS':'iOS','Nokia / Other':'Nokia / אַנדערע','Online':'אָנליין','Offline':'אָפ-ליין','Manage':'פירן','Search devices...':'זוכן דעוויסעס...','+ Add device':'+ צולייגן דעוויס','Save changes':'היטן ענדערונגען','Save':'היטן'
+ }
+};
+function tr(text){return (L[currentLang]&&L[currentLang][text])||L.en[text]||text}
+function applyLanguage(){
+ document.querySelectorAll('body *').forEach(el=>{
+   if(el.children.length===0 && el.textContent.trim()){
+     if(!el.dataset.i18n) el.dataset.i18n=el.textContent.trim();
+     const raw=el.dataset.i18n; if(L.en[raw]) el.textContent=tr(raw);
+   }
+   ['placeholder','title','aria-label'].forEach(a=>{
+     if(el.hasAttribute(a)){
+       const key='i18n'+a.charAt(0).toUpperCase()+a.slice(1);
+       if(!el.dataset[key]) el.dataset[key]=el.getAttribute(a);
+       const raw=el.dataset[key]; if(L.en[raw]) el.setAttribute(a,tr(raw));
+     }
+   })
+ });
+ const hero={en:'One professional suite — with device management centralized in YiDream Admin.',fr:'Une suite professionnelle — la gestion des appareils est centralisée dans YiDream Admin.',he:'חבילה מקצועית אחת — ניהול המכשירים מרוכז ב-YiDream Admin.',yi:'איין פראפעסיאנעלע סוויט — די דעוויס פאַרוואַלטונג איז צענטראליזירט אין YiDream Admin.'};
+ const news={en:'YiDream Admin centralizes device management for professional resellers.',fr:'YiDream Admin centralise la gestion des appareils pour les revendeurs professionnels.',he:'YiDream Admin מרכז את ניהול המכשירים עבור משווקים מקצועיים.',yi:'YiDream Admin צענטראליזירט דעוויס פאַרוואַלטונג פֿאַר פראפעסיאנעלע ריסעלערס.'};
+ const h=document.getElementById('heroText'),n=document.getElementById('newsText'); if(h)h.textContent=hero[currentLang];if(n)n.textContent=news[currentLang];
+}
+
+function openInfo(){launchApp('Info','About YiDream')}
+function launchApp(name,section){
+ currentApp=name; currentSection=section||apps[name].nav[0];
+ const overlay=document.getElementById('appOverlay');
+ const win=overlay.querySelector('.app-window');
+ win.classList.toggle('android-theme',name==='Android');
+ document.getElementById('windowTitle').textContent='YiDream '+name;
+ document.getElementById('sideBrand').textContent='YiDream '+name;
+ overlay.classList.add('open');
+ buildNav(currentSection);
+ renderApp(apps[name].render,currentSection); applyLanguage();
+}
+function closeApp(){document.getElementById('appOverlay').classList.remove('open');document.getElementById('appOverlay').querySelector('.app-window').classList.remove('android-theme')}
+function buildNav(active){
+ currentSection=active;
+ const box=document.getElementById('appNav');box.innerHTML='';
+ apps[currentApp].nav.forEach((n,i)=>{const b=document.createElement('button');b.className='nav-item '+(n===active?'active':'');b.innerHTML=iconFor(n)+' '+n;b.onclick=()=>{buildNav(n);renderApp(apps[currentApp].render,n);applyLanguage()};box.appendChild(b)})
+}
+function iconFor(n){return ({Dashboard:'⌂',Devices:'▣',Clients:'●',Groups:'▦',Applications:'▤',Notifications:'♧','Activity Logs':'≡',Settings:'⚙',Apps:'▤','Install YiDream':'↓','Web ADB':'⌘','Device Management':'⚙','Device Owner':'🔐','Connect':'⌁',Configuration:'☷',Logs:'≡',Overview:'⌂','Allowed Apps':'✓',Restrictions:'🔒',Updates:'↻','About YiDream':'Y',Support:'?',Legal:'§',Privacy:'🔐',Contact:'✉'})[n]||'•'}
+function renderApp(type,section){
+ const c=document.getElementById('appContent');
+ if(type==='admin') renderAdmin(c,section);
+ if(type==='android') renderAndroid(c,section);
+ if(type==='ios') renderIOS(c,section);
+ if(type==='info') renderInfo(c,section);
+}
+function renderAdmin(c,s){
+ if(s==='Dashboard') c.innerHTML=`<h2>Welcome, Reseller!</h2><div class="sub">Manage your complete YiDream device fleet from one place.</div><div class="panel-grid">
+ <div class="panel">Total devices<div class="big">248</div><div class="small">all operating systems</div></div><div class="panel">Online<div class="big">231</div><div class="small">93.5% connected</div></div><div class="panel">Offline<div class="big">16</div><div class="small">6.5% offline</div></div><div class="panel">Clients<div class="big">184</div><div class="small">12 new clients</div></div></div>
+ <div style="height:13px"></div><h3 style="font-size:12px">Devices by operating system</h3><div class="os-summary">
+  <div class="os-card" onclick="buildNav('Devices');renderAdminDevices(document.getElementById('appContent'),'Android')"><div class="os-name">🤖 Android</div><div class="os-count">168</div><div class="os-sub">67.7% of fleet</div></div>
+  <div class="os-card" onclick="buildNav('Devices');renderAdminDevices(document.getElementById('appContent'),'iOS')"><div class="os-name"> iOS</div><div class="os-count">42</div><div class="os-sub">16.9% of fleet</div></div>
+  <div class="os-card" onclick="buildNav('Devices');renderAdminDevices(document.getElementById('appContent'),'Nokia / Other')"><div class="os-name">📱 Nokia / Other</div><div class="os-count">38</div><div class="os-sub">15.3% of fleet</div></div>
+  <div class="os-card"><div class="os-name">🟢 Online</div><div class="os-count">231</div><div class="os-sub">all platforms</div></div></div>
+ <div style="height:4px"></div><div class="panel"><h4>Recent devices</h4><table class="table"><tr><th>Device</th><th>OS</th><th>Client</th><th>Status</th></tr><tr><td>Qin F21 Pro</td><td>Android 12</td><td>#1042</td><td><span class="pill">Online</span></td></tr><tr><td>iPhone 15</td><td>iOS 18</td><td>#1018</td><td><span class="pill">Online</span></td></tr><tr><td>Nokia 3210 4G</td><td>Nokia OS</td><td>#1039</td><td><span class="pill">Online</span></td></tr></table></div>`;
+ else if(s==='Devices') renderAdminDevices(c,'All');
+ else if(s==='Clients') c.innerHTML=`<h2>Clients</h2><div class="sub">Customers and their assigned devices.</div><div class="toolbar"><input class="search" placeholder="Search clients..."><button class="primary" onclick="toast('New client form')">+ New client</button></div><table class="table"><tr><th>Client</th><th>Devices</th><th>Group</th><th>Status</th></tr><tr><td>Client #1042</td><td>3</td><td>Students</td><td><span class="pill">Active</span></td></tr><tr><td>Client #1039</td><td>1</td><td>Family</td><td><span class="pill">Active</span></td></tr><tr><td>Client #1028</td><td>2</td><td>Business</td><td>Pending</td></tr></table>`;
+ else if(s==='Applications') c.innerHTML=`<h2>Applications</h2><div class="sub">Control which apps are allowed on managed devices.</div><div class="toolbar"><input class="search" placeholder="Search applications..."><button class="primary" onclick="toast('Application added')">+ Add application</button></div><table class="table"><tr><th>Application</th><th>Package</th><th>Policy</th><th>Allowed</th></tr>${appRows()}</table>`;
+ else if(s==='Notifications') c.innerHTML=`<h2>Notifications</h2><div class="sub">Send messages to one or more managed devices.</div><div class="panel"><div class="form-grid"><div class="field"><label>Audience</label><select><option>All devices</option><option>Group: Students</option><option>Group: Family</option></select></div><div class="field"><label>Priority</label><select><option>Normal</option><option>High</option></select></div><div class="field" style="grid-column:1/-1"><label>Message</label><textarea placeholder="Write your notification..."></textarea></div></div><br><button class="primary" onclick="toast('Notification queued')">Send notification</button></div>`;
+ else if(s==='Groups') c.innerHTML=`<h2>Groups</h2><div class="sub">Apply shared policies to multiple devices.</div><div class="panel-grid"><div class="panel"><h4>Students</h4><div class="big">84</div><div class="small">devices</div></div><div class="panel"><h4>Family</h4><div class="big">62</div><div class="small">devices</div></div><div class="panel"><h4>Business</h4><div class="big">38</div><div class="small">devices</div></div></div>`;
+ else if(s==='Activity Logs') c.innerHTML=`<h2>Activity Logs</h2><div class="sub">Recent administrator actions.</div><table class="table"><tr><th>Time</th><th>Action</th><th>Device</th><th>User</th></tr><tr><td>10:24</td><td>Policy updated</td><td>Qin F21 Pro</td><td>Admin</td></tr><tr><td>09:58</td><td>App blocked</td><td>Nokia 3210</td><td>Admin</td></tr><tr><td>09:31</td><td>Device connected</td><td>Qin F22</td><td>Web ADB</td></tr></table>`;
+ else c.innerHTML=`<h2>Settings</h2><div class="sub">Suite and account settings.</div><div class="panel"><div class="field"><label>Company name</label><input value="YiDream Reseller"></div><br><button class="primary" onclick="toast('Settings saved')">Save changes</button></div>`;
+}
+
+function renderAdminDevices(c,os){
+ const data={
+   All:[
+    ['Android','168','Qin F21 Pro','Android 12','Client #1042','Online'],
+    ['Android','168','Samsung Galaxy A52','Android 14','Client #1037','Online'],
+    ['Android','168','Qin F22','Android 12','Client #1028','Offline'],
+    ['iOS','42','iPhone 15','iOS 18','Client #1018','Online'],
+    ['iOS','42','iPhone 13','iOS 18','Client #1007','Online'],
+    ['Nokia / Other','38','Nokia 3210 4G','Nokia OS','Client #1039','Online']
+   ],
+   Android:[
+    ['Android','168','Qin F21 Pro','Android 12','Client #1042','Online'],
+    ['Android','168','Samsung Galaxy A52','Android 14','Client #1037','Online'],
+    ['Android','168','Qin F22','Android 12','Client #1028','Offline']
+   ],
+   iOS:[
+    ['iOS','42','iPhone 15','iOS 18','Client #1018','Online'],
+    ['iOS','42','iPhone 13','iOS 18','Client #1007','Online']
+   ],
+   'Nokia / Other':[
+    ['Nokia / Other','38','Nokia 3210 4G','Nokia OS','Client #1039','Online'],
+    ['Nokia / Other','38','Nokia 220 4G','Nokia OS','Client #1004','Offline']
+   ]
+ };
+ const rows=data[os]||data.All;
+ const counts={Android:168,iOS:42,'Nokia / Other':38};
+ c.innerHTML=`<h2>Devices</h2><div class="sub">All device management is handled here in YiDream Admin. Devices are separated by operating system.</div>
+ <div class="os-tabs">
+  <button class="os-tab ${os==='All'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'All')">All devices · 248</button>
+  <button class="os-tab ${os==='Android'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'Android')">🤖 Android · ${counts.Android}</button>
+  <button class="os-tab ${os==='iOS'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'iOS')"> iOS · ${counts.iOS}</button>
+  <button class="os-tab ${os==='Nokia / Other'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'Nokia / Other')">📱 Nokia / Other · ${counts['Nokia / Other']}</button>
+ </div>
+ <div class="os-summary">
+  <div class="os-card" onclick="renderAdminDevices(document.getElementById('appContent'),'Android')"><div class="os-name">🤖 Android</div><div class="os-count">${counts.Android}</div><div class="os-sub">managed devices</div></div>
+  <div class="os-card" onclick="renderAdminDevices(document.getElementById('appContent'),'iOS')"><div class="os-name"> iOS</div><div class="os-count">${counts.iOS}</div><div class="os-sub">devices</div></div>
+  <div class="os-card" onclick="renderAdminDevices(document.getElementById('appContent'),'Nokia / Other')"><div class="os-name">📱 Nokia / Other</div><div class="os-count">${counts['Nokia / Other']}</div><div class="os-sub">devices</div></div>
+  <div class="os-card"><div class="os-name">🟢 Online</div><div class="os-count">231</div><div class="os-sub">across all platforms</div></div>
+ </div>
+ <div class="toolbar"><input class="search" placeholder="Search devices..." oninput="filterTable(this.value,'deviceTable')"><button class="primary" onclick="toast('Add device flow')">+ Add device</button></div>
+ <table class="table" id="deviceTable"><tr><th>Device</th><th>OS</th><th>Client</th><th>Status</th><th>Action</th></tr>
+ ${rows.map(r=>`<tr><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]==='Online'?'<span class="pill">Online</span>':'Offline'}</td><td><button class="ghost" onclick="openManagedDevice('${r[2]}','${r[3]}','${r[4]}')">Manage</button></td></tr>`).join('')}
+ </table>`;
+}
+function openManagedDevice(name,os,client){
+ const c=document.getElementById('appContent');
+ c.innerHTML=`<div class="toolbar"><button class="ghost" onclick="renderAdminDevices(document.getElementById('appContent'),'All')">← Back to devices</button></div>
+ <h2>${name}</h2><div class="sub">${os} · ${client}</div>
+ <div class="panel-grid"><div class="panel">Connection<div class="big">Online</div><div class="small">Managed by YiDream Admin</div></div><div class="panel">Filter<div class="big">Active</div><div class="small">Current policy</div></div><div class="panel">Apps<div class="big">24</div><div class="small">installed</div></div></div>
+ <div style="height:13px"></div><div class="panel"><h4>Device management</h4><div class="toolbar" style="margin-top:10px"><button class="primary" onclick="toast('Policy update sent')">Update policy</button><button class="ghost" onclick="toast('Notification sent')">Send notification</button><button class="ghost" onclick="toast('Restart command sent')">Restart device</button></div><div class="notice">This device is managed from YiDream Admin. Platform-specific tools and policies are applied from this central interface.</div></div>`;
+}
+
+function deviceRows(){return `<tr><td>Qin F21 Pro</td><td>Qin F21 Pro</td><td>#1042</td><td><span class="pill">Online</span></td><td><button class="ghost" onclick="toast('Device opened')">Open</button></td></tr><tr><td>Nokia 3210 4G</td><td>Nokia 3210 4G</td><td>#1039</td><td><span class="pill">Online</span></td><td><button class="ghost" onclick="toast('Device opened')">Open</button></td></tr><tr><td>Qin F22</td><td>Qin F22</td><td>#1028</td><td>Offline</td><td><button class="ghost" onclick="toast('Device opened')">Open</button></td></tr>`}
+function appRows(){return `<tr><td>Phone</td><td>com.android.dialer</td><td>Allowed</td><td><button class="toggle on" onclick="this.classList.toggle('on')"></button></td></tr><tr><td>Messages</td><td>com.android.messaging</td><td>Allowed</td><td><button class="toggle on" onclick="this.classList.toggle('on')"></button></td></tr><tr><td>Chrome</td><td>com.android.chrome</td><td>Blocked</td><td><button class="toggle" onclick="this.classList.toggle('on')"></button></td></tr><tr><td>Social Media</td><td>category.social</td><td>Blocked</td><td><button class="toggle" onclick="this.classList.toggle('on')"></button></td></tr>`}
+function filterTable(q,id){document.querySelectorAll('#'+id+' tr').forEach((r,i)=>{if(i===0)return;r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none'})}
+function renderAndroid(c,s){
+ if(s==='Connect') s='Devices';
+ if(s==='Install YiDream') s='Apps';
+ if(s==='Device Owner') s='Device Management';
+ if(s==='Devices') c.innerHTML=`<h2>Android Configurator</h2><div class="sub">Connect and prepare one Android device. Fleet management is handled in YiDream Admin.</div>
+ <div class="stepper"><div class="step active"><b>1 · Connect</b>Connect your phone</div><div class="step"><b>2 · Install</b>Install YiDream</div><div class="step"><b>3 · Device Owner</b>Activate management</div><div class="step"><b>4 · Configure</b>Apply the filter</div></div>
+ <div class="android-config"><div class="panel"><h4>Web ADB connection</h4><p class="small">Use Chrome or Edge and connect the Android phone by USB.</p><div class="notice">No external ADB program is required for the web configurator.</div><br><button class="primary" onclick="webAdbConnect()">Connect device</button></div><div class="panel"><h4>Connected device</h4><div id="adbDevicePanel"></div></div></div>`,refreshDevicePanel();
+ else if(s==='Apps') c.innerHTML=`<h2>YiDream installation</h2><div class="sub">Install or update the YiDream Android application on the connected device.</div><div class="panel"><h4>YiDream Android</h4><p class="small">The installer prepares the application before Device Owner activation.</p><input type="file" id="apkFile" accept=".apk" style="display:none" onchange="adbInstall(this.files[0])"><button class="primary" onclick="document.getElementById('apkFile').click()">Install YiDream APK…</button> <button class="ghost" onclick="adbCheckInstalled()">Check installation</button><div class="small" id="installStatus" style="margin-top:12px"></div></div>`;
+ else if(s==='Web ADB') c.innerHTML=`<h2>Web ADB</h2><div class="sub">The browser connection layer used by the YiDream Android configurator.</div><div class="notice">Connect the phone, authorize USB debugging when requested, then continue with the setup steps.</div><br><button class="primary" onclick="webAdbConnect()">Connect Android device</button><div style="height:12px"></div><div class="panel"><h4>Connection</h4><div class="small">Chrome / Edge · WebUSB · USB connection</div></div>`;
+ else if(s==='Device Management') c.innerHTML=`<h2>Device Owner setup</h2><div class="sub">Activate YiDream as the device owner on the connected Android device.</div><div class="panel"><h4>Device Owner</h4><div class="notice">This step prepares the device for YiDream's Android management policies.</div><br><button class="primary" onclick="adbDeviceOwner()">Activate Device Owner</button><div class="small" id="doStatus" style="margin-top:12px;white-space:pre-wrap"></div></div>`;
+ else if(s==='Configuration') c.innerHTML=`<h2>Configure YiDream</h2><div class="sub">Choose the restrictions and applications for this Android device.</div>
+ <div class="android-config"><div class="panel"><h4>Blocked categories</h4><div class="check-list"><label class="check"><input type="checkbox" data-cat="browsers" checked> Internet browsers</label><label class="check"><input type="checkbox" data-cat="ai" checked> AI assistants</label><label class="check"><input type="checkbox" data-cat="social" checked> Social media</label><label class="check"><input type="checkbox" data-cat="stores" checked> App stores</label></div><br><div class="small">Messaging apps remain available unless individually restricted.</div></div>
+ <div class="panel"><h4>Allowed apps</h4><div class="check-list"><label class="check"><input type="checkbox" checked> Phone</label><label class="check"><input type="checkbox" checked> Messages</label><label class="check"><input type="checkbox" checked> Contacts</label><label class="check"><input type="checkbox" checked> YiDream Installer</label></div><br><button class="primary" onclick="adbApplyConfig()">Apply configuration</button></div></div>
+ <div style="height:12px"></div><div class="panel"><h4>Device restrictions</h4><div class="check-list"><label class="check"><input type="checkbox" checked> Block factory reset</label><label class="check"><input type="checkbox" checked> Block sideloading</label><label class="check"><input type="checkbox" checked> Block new users</label><label class="check"><input type="checkbox" checked> Protect safe boot</label></div></div>`;
+ else if(s==='Logs') renderLogs(c);
+ else c.innerHTML=`<h2>Android Settings</h2><div class="sub">Configurator preferences.</div><div class="panel"><div class="field"><label>Browser connection</label><select><option>Web ADB / WebUSB</option></select></div><br><button class="primary" onclick="toast('Settings saved')">Save</button></div>`;
+}
+var adbLogs=[];
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c])}
+function renderLogs(c){c.innerHTML=`<h2>Setup logs</h2><div class="sub">Events from the current Android configuration session.</div><table class="table"><tr><th>Time</th><th>Step</th><th>Event</th><th>Result</th></tr>${adbLogs.length?adbLogs.slice().reverse().map(l=>`<tr><td>${esc(l.time)}</td><td>${esc(l.step)}</td><td>${esc(l.event)}</td><td>${esc(l.result)}</td></tr>`).join(''):'<tr><td colspan="4">No events yet.</td></tr>'}</table>`}
+function refreshDevicePanel(){const el=document.getElementById('adbDevicePanel');if(!el)return;const i=window.yidream&&window.yidream.info;
+ el.innerHTML=i?`<div class="device-row"><div class="phone">📱</div><div><b>${esc(i.manufacturer)} ${esc(i.model)}</b><br><span class="small">Android ${esc(i.android)} · SDK ${esc(i.sdk)}<br>Serial ${esc(i.serial)}</span></div></div><br><button class="ghost" onclick="adbDisconnect()">Disconnect</button>`:`<div class="device-row"><div class="phone">📱</div><div><b>Waiting for device</b><br><span class="small">Web ADB connection required</span></div></div>`}
+function errToast(e){console.error(e);toast(e&&e.message?e.message.split('\n')[0]:String(e))}
+async function webAdbConnect(){
+ if(!window.yidream){toast('Web ADB is still loading…');return}
+ if(!window.yidream.supported){toast('WebUSB unavailable — use Chrome or Edge over HTTPS');return}
+ try{toast('Select your phone in the browser prompt…');await window.yidream.connect();refreshDevicePanel();toast('Device connected — authorize USB debugging on the phone if asked')}catch(e){errToast(e)}}
+async function adbDisconnect(){try{await window.yidream.disconnect();refreshDevicePanel();toast('Disconnected')}catch(e){errToast(e)}}
+async function adbCheckInstalled(){try{const ok=await window.yidream.isInstalled();document.getElementById('installStatus').textContent=ok?'YiDream is installed on this device.':'YiDream is not installed.'}catch(e){errToast(e)}}
+async function adbInstall(file){if(!file)return;const st=document.getElementById('installStatus');try{st.textContent='Installing…';await window.yidream.installApk(file);st.textContent='YiDream APK installed successfully.';toast('APK installed')}catch(e){st.textContent=e.message;errToast(e)}}
+async function adbDeviceOwner(){const st=document.getElementById('doStatus');if(!confirm('Activate Device Owner? This requires a freshly reset phone with no accounts.'))return;try{st.textContent='Activating…';await window.yidream.setDeviceOwner();st.textContent='Device Owner activated.';toast('Device Owner activated')}catch(e){st.textContent=e.message;errToast(e)}}
+async function adbApplyConfig(){try{const cats=[...document.querySelectorAll('input[data-cat]:checked')].map(i=>i.dataset.cat);const res=await window.yidream.applyCategories(cats);toast(res.filter(r=>r.status==='disabled').length+' app(s) disabled')}catch(e){errToast(e)}}
+function renderIOS(c,s){
+ c.innerHTML=`<div class="ios-coming">
+   <div class="ios-logo-wrap"><img src="assets/yidream-logo.png" alt="YiDream"></div>
+   <div>
+     <div class="eyebrow" style="color:var(--blue);margin-bottom:7px">YIDREAM iOS</div>
+     <h2>Currently in development</h2>
+     <div class="sub" style="max-width:560px">YiDream iOS is currently under development. We are working on bringing the YiDream experience to iPhone and iPad.</div>
+     <div class="notice">More information and features will be available soon.</div>
+   </div>
+ </div>`;
+}
+function renderInfo(c,s){
+ const data={
+  'About YiDream':['About YiDream','YiDream is a platform for devices, custom ROMs, device management and kosher technology solutions.'],
+  Support:['Support','Support center placeholder. Add your support email, WhatsApp or ticket system here.'],
+  Legal:['Legal','Legal notices and company information can be placed here.'],
+  Privacy:['Privacy','Privacy policy placeholder. Replace this text with the final YiDream policy before production.'],
+  Contact:['Contact','Contact form placeholder for professional resellers and customers.']
+ };
+ const d=data[s]||data['About YiDream'];c.innerHTML=`<h2>${d[0]}</h2><div class="sub">${d[1]}</div><div class="panel"><div class="notice">${d[1]}</div></div>`;
+}
+document.getElementById('appOverlay').addEventListener('click',e=>{if(e.target.id==='appOverlay')closeApp()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeApp()});
+window.addEventListener('DOMContentLoaded',()=>{ const savedTheme=localStorage.getItem('yidream-theme')||'light'; document.body.classList.toggle('dark',savedTheme==='dark'); language(currentLang); updatePickers(); });
+</script>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
