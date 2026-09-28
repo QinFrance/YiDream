@@ -1,0 +1,37 @@
+<resources>
+    <!-- Palette "YiDream" — thème "liquid glass" (verre dépoli translucide) -->
+    <color name="accent_navy">#0C1C38</color>
+    <color name="accent_navy_dark">#071226</color>
+    <color name="accent_blue">#014DB3</color>
+    <color name="accent_blue_soft">#E8EFFB</color>
+
+    <color name="bg_grouped">#F2F2F7</color>
+    <color name="surface_card">#FFFFFF</color>
+
+    <color name="text_primary">#1C1C1E</color>
+    <color name="text_secondary">#8E8E93</color>
+    <color name="text_tertiary">#C7C7CC</color>
+
+    <color name="status_success_bg">#E3F7E9</color>
+    <color name="status_success_text">#1E7A3D</color>
+    <color name="status_warning_bg">#FDECEC</color>
+    <color name="status_warning_text">#C0392B</color>
+
+    <color name="danger">#F04438</color>
+    <color name="divider">#E5E5EA</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Tons "verre" : blancs et bords semi-transparents pour l'effet dépoli -->
+    <color name="glass_fill">#CCFFFFFF</color>
+    <color name="glass_fill_light">#99FFFFFF</color>
+    <color name="glass_border">#66FFFFFF</color>
+    <color name="glass_highlight">#33FFFFFF</color>
+    <color name="glass_shadow">#1A0C1C38</color>
+
+    <color name="text_on_gradient_secondary">#CCFFFFFF</color>
+
+    <!-- Dégradé de fond (navy → bleu → bleu clair) derrière les panneaux de verre -->
+    <color name="gradient_start">#0C1C38</color>
+    <color name="gradient_mid">#014DB3</color>
+    <color name="gradient_end">#3B8EF0</color>
+</resources>

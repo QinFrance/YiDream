@@ -1,4 +1,7 @@
 node_modules/
 dist/
 *.apk
+.gradle/
+build/
+local.properties
 .DS_Store
