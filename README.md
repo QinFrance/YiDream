@@ -1,4 +1,4 @@
-# YiDream v1.2
+# YiDream v1.3 — design Suite v3.8
 
 Plateforme de gestion d'appareils Android filtrés. Ce dépôt contient l'app Android et le site **YiDream Suite** (configurateur Web ADB).
 
@@ -62,3 +62,7 @@ npm run dev     # http://localhost:5173 (le verrou d'origine est levé sur local
 ```
 
 Windows : WebUSB exige de remplacer le pilote USB du téléphone par WinUSB avec Zadig (détails affichés dans l'onglet Connect).
+
+## Design v3.8 (intégré)
+Nouveaux logo et icônes (`webadb/assets/icons/`) : YiDream, Admin, Android. Logo et favicon mis à jour, dock avec icônes PNG.
+Site publié : https://qinfrance.github.io/YiDream/ (verrou `allowedSites` inchangé).

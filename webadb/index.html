@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>YiDream Suite</title>
-<link rel="icon" type="image/png" href="./assets/yidream-logo.png">
+<link rel="icon" type="image/png" href="./assets/icons/yidream-original.png">
 <style>
 :root{
   --bg:#edf3fc;--surface:#ffffff;--surface2:#f6f9fe;--text:#102448;--muted:#73819a;
@@ -223,6 +223,10 @@ body.dark .status-pill.no{color:#ff8a80}
 body.dark .code-display{color:#d9ceff}
 .toast{bottom:104px}
 @media(max-width:650px){.topbar{padding:0 10px}.suite-name{display:none}.top-actions{gap:6px}.picker-btn{padding:0 8px}}
+
+/* ===== v1.3 : icônes du design Suite v3.8 ===== */
+.dock .tile img{width:100%;height:100%;object-fit:cover;border-radius:14px;display:block}
+.dock .tile.android,.dock .tile.admin{background:none;box-shadow:0 6px 16px rgba(0,0,0,.3)}
 </style>
 </head>
 <body>
@@ -282,9 +286,9 @@ body.dark .code-display{color:#d9ceff}
 </div>
 
 <nav class="dock" aria-label="YiDream apps">
-  <button onclick="launchApp('Android')" title="YiDream Android"><div class="tile android"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="3"/><circle cx="9.5" cy="13" r="1.1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="13" r="1.1" fill="currentColor" stroke="none"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><path d="M3 12h2M19 12h2"/></svg></div><span>Android</span></button>
+  <button onclick="launchApp('Android')" title="YiDream Android"><div class="tile android"><img src="assets/icons/yidream-android.png" alt=""></div><span>Android</span></button>
   <button onclick="launchApp('iOS')" title="YiDream iOS"><div class="tile ios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 19h3"/></svg></div><span>iOS</span></button>
-  <button onclick="launchApp('Admin')" title="YiDream Admin"><div class="tile admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l2 2M19 3l2 2"/></svg></div><span>Admin</span></button>
+  <button onclick="launchApp('Admin')" title="YiDream Admin"><div class="tile admin"><img src="assets/icons/yidream-admin.png" alt=""></div><span>Admin</span></button>
   <button onclick="launchApp('Info')" title="YiDream Info"><div class="tile info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.7" r="0.3" fill="currentColor"/></svg></div><span>Info</span></button>
 </nav>
 
