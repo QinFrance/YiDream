@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>YiDream Suite</title>
-<link rel="icon" href="data:,">
+<link rel="icon" type="image/png" href="./assets/yidream-logo.png">
 <style>
 :root{
   --bg:#edf3fc;--surface:#ffffff;--surface2:#f6f9fe;--text:#102448;--muted:#73819a;
@@ -39,7 +39,7 @@ button{cursor:pointer;transition:all .16s ease}
 .app-shell{min-height:100vh}
 .topbar{height:58px;display:flex;align-items:center;padding:0 24px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.76);backdrop-filter:blur(24px);position:sticky;top:0;z-index:30}
 .dark .topbar{background:rgba(7,15,30,.82)}
-.logo-mini{height:34px;width:34px;object-fit:cover;border-radius:9px;margin-right:10px}.suite-name{font-weight:750;font-size:15px}.suite-name span{color:#7890b5;font-weight:500}
+.logo-mini{height:46px;width:46px;object-fit:contain;border-radius:10px;margin-right:10px}.suite-name{font-weight:750;font-size:15px}.suite-name span{color:#7890b5;font-weight:500}
 .mac-menu{display:flex;gap:20px;margin-left:34px;font-size:12px;color:var(--muted)}
 .mac-menu button{border:0;background:none;color:inherit}.mac-menu button:hover{color:var(--blue)}
 .top-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
@@ -86,8 +86,8 @@ button{cursor:pointer;transition:all .16s ease}
 .app-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:17px;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s,border .18s;cursor:pointer;position:relative;overflow:hidden}
 .app-card:hover{transform:translateY(-4px);box-shadow:0 24px 55px rgba(30,70,135,.17);border-color:#b9cff5}
 .app-card:active{transform:translateY(-1px)}
-.app-card .launch-badge{position:absolute;right:12px;top:12px;font-size:9px;color:var(--blue);background:#edf4ff;border-radius:8px;padding:4px 7px}
-.dark .app-card .launch-badge{background:#12264a}
+
+
 .app-icon{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;margin-bottom:11px;box-shadow:inset 0 1px rgba(255,255,255,.3)}
 .android{background:linear-gradient(145deg,#86d15b,#369a31)}.ios{background:linear-gradient(145deg,#6fcaff,#2875da)}
 .admin{background:linear-gradient(145deg,#d68cff,#8d43d3)}.info{background:linear-gradient(145deg,#ffc75e,#e48a20)}
@@ -110,7 +110,7 @@ button{cursor:pointer;transition:all .16s ease}
 .app-windowbar{height:45px;display:flex;align-items:center;padding:0 15px;border-bottom:1px solid var(--line);background:var(--surface2)}
 .app-windowbar .dots{margin-right:15px}.app-title{font-size:12px;font-weight:700}.close-app{margin-left:auto;border:1px solid var(--line);background:var(--surface);color:var(--text);width:29px;height:29px;border-radius:8px}
 .app-inner{flex:1;display:flex;min-height:0}.app-sidebar{width:210px;border-right:1px solid var(--line);padding:16px 12px;background:var(--surface2)}
-.app-logo{display:flex;align-items:center;gap:8px;margin-bottom:18px;font-weight:750;font-size:13px}.app-logo img{width:30px;height:30px;border-radius:8px;object-fit:cover}
+.app-logo{display:flex;align-items:center;gap:9px;margin-bottom:18px;font-weight:750;font-size:13px}.app-logo img{width:38px;height:38px;border-radius:9px;object-fit:contain}
 .nav-item{display:flex;gap:9px;align-items:center;padding:10px 11px;border-radius:9px;color:var(--muted);font-size:11px;margin:2px 0;border:0;background:transparent;width:100%;text-align:left}.nav-item:hover,.nav-item.active{background:#eaf1ff;color:#165bd6}.dark .nav-item:hover,.dark .nav-item.active{background:#142b52}
 .app-content{flex:1;overflow:auto;padding:23px;background:var(--bg)}.app-content h2{margin:0;font-size:21px}.sub{color:var(--muted);font-size:11px;margin:4px 0 19px}
 .toolbar{display:flex;gap:9px;margin-bottom:13px}.search{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:9px;padding:9px 11px;font-size:11px}.primary{border:0;background:var(--blue);color:white;border-radius:9px;padding:9px 13px;font-size:11px;font-weight:650}.ghost{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:9px;padding:9px 13px;font-size:11px}
@@ -121,7 +121,7 @@ button{cursor:pointer;transition:all .16s ease}
 
 .ios-coming{min-height:420px;display:flex;align-items:center;justify-content:center;gap:28px;max-width:850px;margin:auto;padding:45px}
 .ios-logo-wrap{width:118px;height:118px;flex:0 0 118px;border-radius:28px;background:var(--surface);border:1px solid var(--line);box-shadow:0 16px 45px rgba(30,70,130,.13);display:grid;place-items:center;overflow:hidden}
-.ios-logo-wrap img{width:100%;height:100%;object-fit:cover}
+.ios-logo-wrap img{width:78%;height:78%;object-fit:contain}
 .ios-coming h2{font-size:25px;margin:0 0 7px}
 .ios-coming .sub{font-size:12px;line-height:1.65}
 @media(max-width:650px){.ios-coming{flex-direction:column;text-align:center;padding:25px}.ios-coming .notice{margin-top:15px}}
@@ -165,6 +165,64 @@ html[dir="rtl"] .table th,html[dir="rtl"] .table td{text-align:right}
 .status-pill.ok{background:#e3f8e8;color:#23823b}.status-pill.no{background:#eef2f9;color:var(--muted)}
 .code-display{margin-top:12px;font:700 26px ui-monospace,Menlo,Consolas,monospace;letter-spacing:6px;color:var(--blue)}
 .ghost.danger{color:var(--red);border-color:rgba(228,75,75,.4)}
+
+/* ===== v1.2 MIX : bureau YiDream (violet, dock, badges) + Suite ===== */
+:root{--accent:#7C5CFF;--soft:#F0ECFF;--wall:radial-gradient(ellipse 90% 60% at 15% 0%,#8B4A6B 0%,transparent 55%),radial-gradient(ellipse 80% 70% at 100% 100%,#C97A7A 0%,transparent 50%),linear-gradient(155deg,#2C1F52 0%,#4A3178 55%,#8B4A6B 100%)}
+html,body{background:var(--wall) fixed;background-color:#2C1F52}
+body.dark{--bg:#18132A;--surface:#221C38;--surface2:#1C1730;--text:#F2F0F8;--muted:#A79FC2;--line:#362E52;--soft:rgba(124,92,255,.18);background:var(--wall) fixed;background-color:#18132A}
+body:not(.dark){--bg:#F5F3FB;--surface2:#F7F5FB;--line:#E1DCEE}
+.topbar{background:rgba(28,18,58,.38);color:#fff;border-bottom:1px solid rgba(255,255,255,.14);backdrop-filter:blur(22px) saturate(1.3)}
+.topbar .suite-name,.topbar .mac-menu button{color:#fff}.topbar .suite-name span{color:rgba(255,255,255,.62)}
+.topbar .mac-menu button:hover{background:rgba(255,255,255,.14)}
+.hero{background:linear-gradient(115deg,#241a4a 0%,#3f5df0 48%,#9d6de0 100%);border:1px solid rgba(255,255,255,.18);box-shadow:0 26px 70px rgba(20,8,50,.45)}
+.section-title h2{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.35)}.section-title span,.footer{color:rgba(255,255,255,.72)}
+.layout{padding-bottom:118px}
+.app-card{background:rgba(255,255,255,.94);border-color:rgba(255,255,255,.5);color:#1C1730}
+body.dark .app-card{background:rgba(34,28,56,.92);border-color:#362E52;color:#F2F0F8}
+.app-card:hover{border-color:var(--accent);box-shadow:0 24px 55px rgba(20,8,50,.4)}
+.app-card h3{color:inherit}.app-card p{color:#6B6480}body.dark .app-card p{color:#A79FC2}
+
+.launch{background:var(--soft);border-color:var(--line);color:var(--accent)}.launch:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.android{background:linear-gradient(160deg,#6FD97F,#3FB84F)}.ios{background:linear-gradient(160deg,#6FB8F5,#3F8FF0)}
+.admin{background:linear-gradient(160deg,#C9A6F0,#9D6DE0)}.info{background:linear-gradient(160deg,#FFCC80,#FFA63F)}
+.primary{background:linear-gradient(135deg,#3f7bff,#7C5CFF);box-shadow:0 7px 18px rgba(124,92,255,.32)}
+.primary:hover{box-shadow:0 10px 24px rgba(124,92,255,.42)}
+.notice{background:var(--soft);border-color:var(--line);color:var(--text)}
+.step.active{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+.nav-item:hover{background:var(--soft);color:var(--accent)}
+.nav-item.active{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(124,92,255,.35)}
+.app-window{border-color:rgba(255,255,255,.22);box-shadow:0 40px 120px rgba(10,4,30,.55)}
+.app-overlay{background:rgba(24,14,52,.55)}
+.app-windowbar{justify-content:flex-start}
+.app-titlewrap{position:absolute;left:0;right:0;top:0;height:45px;display:flex;align-items:center;justify-content:center;gap:7px;pointer-events:none}
+.app-titlewrap img{width:24px;height:24px;border-radius:6px;object-fit:contain}
+.app-windowbar{position:relative}.close-app{position:relative;z-index:1}
+.code-display{background:var(--soft);color:var(--accent);border-radius:10px;padding:14px;text-align:center}
+.log-box{background:#1D1D1F;color:#9EA1A6}body.dark .log-box{background:#0E0E10}
+.status-pill.no{background:#FDECEC;color:#D70015}body.dark .status-pill.no{background:rgba(255,69,58,.15)}
+/* Dock façon macOS avec les badges de l'ancien bureau */
+.dock{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:40;display:flex;gap:16px;padding:10px 16px 8px;border-radius:22px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(20px) saturate(1.4);box-shadow:0 18px 50px rgba(10,4,30,.4)}
+.dock button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;width:64px}
+.dock .tile{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;box-shadow:0 6px 16px rgba(0,0,0,.3);transition:transform .16s}
+.dock .tile svg{width:26px;height:26px;color:#fff}
+.dock button:hover .tile{transform:translateY(-6px) scale(1.06)}
+.dock span{color:#fff;font-size:10px;font-weight:650;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+@media(max-width:650px){.dock{gap:8px;padding:8px 10px}.dock button{width:52px}.dock .tile{width:44px;height:44px}.dock span{display:none}}
+
+/* dark : aligner sur le violet (règles plus spécifiques que celles de la Suite d'origine) */
+body.dark .nav-item:hover{background:var(--soft);color:#d9ceff}
+body.dark .nav-item.active{background:var(--accent);color:#fff}
+body.dark .notice{background:var(--soft);border-color:var(--line);color:var(--text)}
+body.dark .step.active{background:var(--soft);border-color:var(--accent);color:#d9ceff}
+body.dark .launch{background:var(--soft);border-color:var(--line);color:#d9ceff}
+body.dark .launch:hover{background:var(--accent);color:#fff}
+
+body.dark .picker-option.active,body.dark .os-tab.active,body.dark .side-row.active{background:var(--soft);color:#d9ceff;border-color:var(--accent)}
+body.dark .topbar{background:rgba(20,12,44,.5)}
+body.dark .status-pill.no{color:#ff8a80}
+body.dark .code-display{color:#d9ceff}
+.toast{bottom:104px}
+@media(max-width:650px){.topbar{padding:0 10px}.suite-name{display:none}.top-actions{gap:6px}.picker-btn{padding:0 8px}}
 </style>
 </head>
 <body>
@@ -212,10 +270,10 @@ html[dir="rtl"] .table th,html[dir="rtl"] .table td{text-align:right}
 
 <div class="section-title"><h2>YiDream applications</h2><span>Click an application to open it</span></div>
 <section class="apps">
-  <article class="app-card" onclick="launchApp('Android')"><span class="launch-badge">OPEN APP ↗</span><div class="app-icon android">♟</div><h3>YiDream Android</h3><p>Configure Android devices, filtering and Web ADB.</p><button class="launch">Open YiDream Android</button></article>
-  <article class="app-card" onclick="launchApp('iOS')"><span class="launch-badge">OPEN APP ↗</span><div class="app-icon ios">●</div><h3>YiDream iOS</h3><p>Future iPhone and iPad filtering solution.</p><button class="launch">Open YiDream iOS</button></article>
-  <article class="app-card" onclick="launchApp('Admin')"><span class="launch-badge">OPEN APP ↗</span><div class="app-icon admin">✦</div><h3>YiDream Admin</h3><p>Manage clients, devices, applications and notifications.</p><button class="launch">Open YiDream Admin</button></article>
-  <article class="app-card" onclick="launchApp('Info')"><span class="launch-badge">OPEN APP ↗</span><div class="app-icon info">i</div><h3>YiDream Info</h3><p>Support, legal information and project details.</p><button class="launch">Open YiDream Info</button></article>
+  <article class="app-card" onclick="launchApp('Android')"><div class="app-icon android">♟</div><h3>YiDream Android</h3><p>Configure Android devices, filtering and Web ADB.</p><button class="launch">Open YiDream Android</button></article>
+  <article class="app-card" onclick="launchApp('iOS')"><div class="app-icon ios">●</div><h3>YiDream iOS</h3><p>Future iPhone and iPad filtering solution.</p><button class="launch">Open YiDream iOS</button></article>
+  <article class="app-card" onclick="launchApp('Admin')"><div class="app-icon admin">✦</div><h3>YiDream Admin</h3><p>Manage clients, devices, applications and notifications.</p><button class="launch">Open YiDream Admin</button></article>
+  <article class="app-card" onclick="launchApp('Info')"><div class="app-icon info">i</div><h3>YiDream Info</h3><p>Support, legal information and project details.</p><button class="launch">Open YiDream Info</button></article>
 </section>
 
 
@@ -223,10 +281,17 @@ html[dir="rtl"] .table th,html[dir="rtl"] .table td{text-align:right}
 </main>
 </div>
 
+<nav class="dock" aria-label="YiDream apps">
+  <button onclick="launchApp('Android')" title="YiDream Android"><div class="tile android"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="3"/><circle cx="9.5" cy="13" r="1.1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="13" r="1.1" fill="currentColor" stroke="none"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><path d="M3 12h2M19 12h2"/></svg></div><span>Android</span></button>
+  <button onclick="launchApp('iOS')" title="YiDream iOS"><div class="tile ios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 19h3"/></svg></div><span>iOS</span></button>
+  <button onclick="launchApp('Admin')" title="YiDream Admin"><div class="tile admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l2 2M19 3l2 2"/></svg></div><span>Admin</span></button>
+  <button onclick="launchApp('Info')" title="YiDream Info"><div class="tile info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.7" r="0.3" fill="currentColor"/></svg></div><span>Info</span></button>
+</nav>
+
 <!-- Application window. It is opened ONLY from the application cards/buttons above. -->
 <div class="app-overlay" id="appOverlay">
   <div class="app-window">
-    <div class="app-windowbar"><div class="dots"><i></i><i></i><i></i></div><div class="app-title" id="windowTitle">YiDream Admin</div><button class="close-app" onclick="closeApp()">×</button></div>
+    <div class="app-windowbar"><div class="dots"><i></i><i></i><i></i></div><div class="app-titlewrap"><img src="assets/yidream-logo.png" alt=""><div class="app-title" id="windowTitle">YiDream Admin</div></div><button class="close-app" onclick="closeApp()">×</button></div>
     <div class="app-inner">
       <aside class="app-sidebar">
         <div class="app-logo"><img src="assets/yidream-logo.png"><span id="sideBrand">YiDream Admin</span></div>
@@ -318,7 +383,7 @@ function applyLanguage(){
    }
    ['placeholder','title','aria-label'].forEach(a=>{
      if(el.hasAttribute(a)){
-       const key='i18n'+a.charAt(0).toUpperCase()+a.slice(1);
+       const key={placeholder:'i18nPlaceholder',title:'i18nTitle','aria-label':'i18nAriaLabel'}[a];
        if(!el.dataset[key]) el.dataset[key]=el.getAttribute(a);
        const raw=el.dataset[key]; if(L.en[raw]) el.setAttribute(a,tr(raw));
      }
@@ -355,82 +420,158 @@ function renderApp(type,section){
  if(type==='ios') renderIOS(c,section);
  if(type==='info') renderInfo(c,section);
 }
-function renderAdmin(c,s){
- if(s==='Dashboard') c.innerHTML=`<h2>Welcome, Reseller!</h2><div class="sub">Manage your complete YiDream device fleet from one place.</div><div class="panel-grid">
- <div class="panel">Total devices<div class="big">248</div><div class="small">all operating systems</div></div><div class="panel">Online<div class="big">231</div><div class="small">93.5% connected</div></div><div class="panel">Offline<div class="big">16</div><div class="small">6.5% offline</div></div><div class="panel">Clients<div class="big">184</div><div class="small">12 new clients</div></div></div>
- <div style="height:13px"></div><h3 style="font-size:12px">Devices by operating system</h3><div class="os-summary">
-  <div class="os-card" onclick="buildNav('Devices');renderAdminDevices(document.getElementById('appContent'),'Android')"><div class="os-name">🤖 Android</div><div class="os-count">168</div><div class="os-sub">67.7% of fleet</div></div>
-  <div class="os-card" onclick="buildNav('Devices');renderAdminDevices(document.getElementById('appContent'),'iOS')"><div class="os-name"> iOS</div><div class="os-count">42</div><div class="os-sub">16.9% of fleet</div></div>
-  <div class="os-card" onclick="buildNav('Devices');renderAdminDevices(document.getElementById('appContent'),'Nokia / Other')"><div class="os-name">📱 Nokia / Other</div><div class="os-count">38</div><div class="os-sub">15.3% of fleet</div></div>
-  <div class="os-card"><div class="os-name">🟢 Online</div><div class="os-count">231</div><div class="os-sub">all platforms</div></div></div>
- <div style="height:4px"></div><div class="panel"><h4>Recent devices</h4><table class="table"><tr><th>Device</th><th>OS</th><th>Client</th><th>Status</th></tr><tr><td>Qin F21 Pro</td><td>Android 12</td><td>#1042</td><td><span class="pill">Online</span></td></tr><tr><td>iPhone 15</td><td>iOS 18</td><td>#1018</td><td><span class="pill">Online</span></td></tr><tr><td>Nokia 3210 4G</td><td>Nokia OS</td><td>#1039</td><td><span class="pill">Online</span></td></tr></table></div>`;
- else if(s==='Devices') renderAdminDevices(c,'All');
- else if(s==='Clients') c.innerHTML=`<h2>Clients</h2><div class="sub">Customers and their assigned devices.</div><div class="toolbar"><input class="search" placeholder="Search clients..."><button class="primary" onclick="toast('New client form')">+ New client</button></div><table class="table"><tr><th>Client</th><th>Devices</th><th>Group</th><th>Status</th></tr><tr><td>Client #1042</td><td>3</td><td>Students</td><td><span class="pill">Active</span></td></tr><tr><td>Client #1039</td><td>1</td><td>Family</td><td><span class="pill">Active</span></td></tr><tr><td>Client #1028</td><td>2</td><td>Business</td><td>Pending</td></tr></table>`;
- else if(s==='Applications') c.innerHTML=`<h2>Applications</h2><div class="sub">Control which apps are allowed on managed devices.</div><div class="toolbar"><input class="search" placeholder="Search applications..."><button class="primary" onclick="toast('Application added')">+ Add application</button></div><table class="table"><tr><th>Application</th><th>Package</th><th>Policy</th><th>Allowed</th></tr>${appRows()}</table>`;
- else if(s==='Notifications') c.innerHTML=`<h2>Notifications</h2><div class="sub">Send messages to one or more managed devices.</div><div class="panel"><div class="form-grid"><div class="field"><label>Audience</label><select><option>All devices</option><option>Group: Students</option><option>Group: Family</option></select></div><div class="field"><label>Priority</label><select><option>Normal</option><option>High</option></select></div><div class="field" style="grid-column:1/-1"><label>Message</label><textarea placeholder="Write your notification..."></textarea></div></div><br><button class="primary" onclick="toast('Notification queued')">Send notification</button></div>`;
- else if(s==='Groups') c.innerHTML=`<h2>Groups</h2><div class="sub">Apply shared policies to multiple devices.</div><div class="panel-grid"><div class="panel"><h4>Students</h4><div class="big">84</div><div class="small">devices</div></div><div class="panel"><h4>Family</h4><div class="big">62</div><div class="small">devices</div></div><div class="panel"><h4>Business</h4><div class="big">38</div><div class="small">devices</div></div></div>`;
- else if(s==='Activity Logs') c.innerHTML=`<h2>Activity Logs</h2><div class="sub">Recent administrator actions.</div><table class="table"><tr><th>Time</th><th>Action</th><th>Device</th><th>User</th></tr><tr><td>10:24</td><td>Policy updated</td><td>Qin F21 Pro</td><td>Admin</td></tr><tr><td>09:58</td><td>App blocked</td><td>Nokia 3210</td><td>Admin</td></tr><tr><td>09:31</td><td>Device connected</td><td>Qin F22</td><td>Web ADB</td></tr></table>`;
- else c.innerHTML=`<h2>Settings</h2><div class="sub">Suite and account settings.</div><div class="panel"><div class="field"><label>Company name</label><input value="YiDream Reseller"></div><br><button class="primary" onclick="toast('Settings saved')">Save changes</button></div>`;
+function admL(en,fr){return currentLang==='fr'?fr:en}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c])}
+function fmtDate(ts){return new Date(ts).toLocaleDateString(currentLang==='fr'?'fr-FR':'en-US',{day:'2-digit',month:'short',year:'numeric'})}
+
+// ---- Auth (compte revendeur local, sans serveur) ----
+function renderAdminAuth(c){
+ const hasAcc=AdminStore.hasAccount();
+ c.innerHTML=`<div style="max-width:360px;margin:26px auto"><div style="text-align:center;margin-bottom:18px">
+   <div style="font-size:30px">${hasAcc?'🔑':'🏬'}</div>
+   <h2 style="margin:8px 0 2px">${hasAcc?admL('Log in to YiDream Admin','Connexion à YiDream Admin'):admL('Create your professional account','Créer votre compte professionnel')}</h2>
+   <div class="sub" style="margin:0">${hasAcc?admL('This account is local to this browser.','Ce compte est local à ce navigateur.'):admL('One local account per shop, stored only in this browser.','Un compte local par boutique, stocké uniquement dans ce navigateur.')}</div>
+ </div>
+ <div class="panel">
+  ${hasAcc?'':`<div class="field"><label>${admL('Shop / company name','Nom de la boutique / entreprise')}</label><input id="aShop" type="text" placeholder="${admL('e.g. Mobile Plus','ex. Mobile Plus')}"></div><br>`}
+  <div class="field"><label>${admL('Email','E-mail')}</label><input id="aEmail" type="email" placeholder="shop@example.com"></div><br>
+  <div class="field"><label>${admL('Password','Mot de passe')}</label><input id="aPass" type="password"></div><br>
+  ${hasAcc?'':`<div class="field"><label>${admL('Confirm password','Confirmer le mot de passe')}</label><input id="aPass2" type="password"></div><br>`}
+  <button class="primary" id="aSubmit" style="width:100%">${hasAcc?admL('Log in','Se connecter'):admL('Create account','Créer le compte')}</button>
+  <div class="small" id="aError" style="color:var(--red);margin-top:9px;min-height:14px"></div>
+ </div>
+ <div class="notice" style="margin-top:14px">${admL('⚠️ Beta: this is a local demo account (this browser only). Real cloud accounts shared across your team are planned for a later release.','⚠️ Bêta : ce compte est une démo locale (ce navigateur uniquement). De vrais comptes cloud partagés avec votre équipe sont prévus pour une prochaine version.')}</div>
+ ${hasAcc?`<div class="small" style="text-align:center;margin-top:12px"><a href="#" id="aReset" style="color:var(--muted)">${admL('Not your shop? Erase this local account','Pas votre boutique ? Effacer ce compte local')}</a></div>`:''}
+ </div>`;
+ const go=async()=>{
+  const err=document.getElementById('aError'); err.textContent='';
+  const email=document.getElementById('aEmail').value, pass=document.getElementById('aPass').value;
+  if(hasAcc){
+   const r=await AdminStore.login(email,pass);
+   if(!r.ok){ err.textContent=admL('Incorrect email or password.','E-mail ou mot de passe incorrect.'); return; }
+  } else {
+   const shop=document.getElementById('aShop').value, pass2=document.getElementById('aPass2').value;
+   if(pass!==pass2){ err.textContent=admL('Passwords do not match.','Les mots de passe ne correspondent pas.'); return; }
+   const r=await AdminStore.createAccount(shop,email,pass);
+   if(!r.ok){
+    err.textContent={missing:admL('Please fill in every field.','Merci de remplir tous les champs.'),weak:admL('Password must be at least 8 characters.','Le mot de passe doit faire au moins 8 caractères.'),exists:admL('An account already exists in this browser.','Un compte existe déjà dans ce navigateur.')}[r.error]||admL('Something went wrong.','Une erreur est survenue.');
+    return;
+   }
+  }
+  buildNav('Dashboard'); renderApp('admin','Dashboard'); applyLanguage();
+ };
+ document.getElementById('aSubmit').onclick=go;
+ c.querySelectorAll('#aEmail,#aPass,#aPass2').forEach(el=>el&&(el.onkeydown=e=>{if(e.key==='Enter')go()}));
+ const reset=document.getElementById('aReset');
+ if(reset) reset.onclick=(e)=>{e.preventDefault(); if(confirm(admL('Erase the local account and all data stored in this browser? This cannot be undone.','Effacer le compte local et toutes les données stockées dans ce navigateur ? Action irréversible.'))){AdminStore.eraseAll(); renderAdminAuth(c);}};
 }
+
+function renderAdmin(c,s){
+ if(!AdminStore.isLoggedIn()){ renderAdminAuth(c); return; }
+ const account=AdminStore.getAccount();
+ if(s==='Dashboard'){
+  const st=AdminStore.stats();
+  c.innerHTML=`<h2>${admL('Welcome','Bienvenue')}, ${esc(account.shopName)}!</h2><div class="sub">${admL('Manage your device fleet from one place.','Gérez votre parc d’appareils depuis un seul endroit.')}</div>
+  <div class="panel-grid"><div class="panel">${admL('Devices registered','Appareils enregistrés')}<div class="big">${st.totalDevices}</div><div class="small">${admL('across all platforms','tous systèmes confondus')}</div></div>
+  <div class="panel">${admL('Clients','Clients')}<div class="big">${st.totalClients}</div><div class="small">${admL('in your directory','dans votre répertoire')}</div></div>
+  <div class="panel">${admL('Android','Android')}<div class="big">${st.byOs.Android||0}</div><div class="small">${admL('devices','appareils')}</div></div>
+  <div class="panel">${admL('iOS / Other','iOS / Autres')}<div class="big">${(st.byOs.iOS||0)+(st.byOs['Nokia / Other']||0)}</div><div class="small">${admL('devices','appareils')}</div></div></div>
+  <div class="notice" style="margin-top:13px">${admL('These are the devices you have registered here — live online/offline status is not connected yet.','Ce sont les appareils que vous avez enregistrés ici — le statut en ligne/hors ligne en direct n’est pas encore connecté.')}</div>
+  <div style="height:13px"></div><div class="panel"><h4>${admL('Recent devices','Appareils récents')}</h4>${st.totalDevices?`<table class="table"><tr><th>${admL('Device','Appareil')}</th><th>OS</th><th>${admL('Client','Client')}</th><th>${admL('Added','Ajouté')}</th></tr>${AdminStore.listDevices().slice(0,5).map(d=>{const cl=AdminStore.listClients().find(x=>x.id===d.clientId);return `<tr><td>${esc(d.name)}</td><td>${esc(d.os)}</td><td>${cl?esc(cl.name):'—'}</td><td>${fmtDate(d.addedAt)}</td></tr>`}).join('')}</table>`:`<div class="small">${admL('No devices yet. Add your first one from the Devices tab.','Aucun appareil pour l’instant. Ajoutez-en un depuis l’onglet Appareils.')}</div>`}</div>`;
+ }
+ else if(s==='Devices') renderAdminDevices(c,'All');
+ else if(s==='Clients'){
+  const clients=AdminStore.listClients();
+  c.innerHTML=`<h2>${admL('Clients','Clients')}</h2><div class="sub">${admL('Your customers and the devices assigned to them.','Vos clients et les appareils qui leur sont associés.')}</div>
+  <div class="toolbar"><input class="search" id="clientSearch" placeholder="${admL('Search clients...','Rechercher des clients...')}" oninput="filterTable(this.value,'clientTable')"><button class="primary" onclick="toggleClientForm()">+ ${admL('New client','Nouveau client')}</button></div>
+  <div id="clientForm" style="display:none" class="panel"><div class="form-grid"><div class="field"><label>${admL('Client name','Nom du client')}</label><input id="ncName" placeholder="${admL('e.g. John Doe','ex. Jean Dupont')}"></div><div class="field"><label>${admL('Group (optional)','Groupe (facultatif)')}</label><input id="ncGroup" placeholder="${admL('e.g. Students, Family…','ex. Étudiants, Famille…')}"></div></div><br><button class="primary" onclick="submitNewClient()">${admL('Save','Enregistrer')}</button> <button class="ghost" onclick="toggleClientForm()">${admL('Cancel','Annuler')}</button></div>
+  ${clients.length?`<table class="table" id="clientTable"><tr><th>${admL('Client','Client')}</th><th>${admL('Group','Groupe')}</th><th>${admL('Devices','Appareils')}</th><th>${admL('Added','Ajouté')}</th><th></th></tr>${clients.map(cl=>`<tr><td>${esc(cl.name)}</td><td>${esc(cl.group)||'—'}</td><td>${AdminStore.listDevices().filter(d=>d.clientId===cl.id).length}</td><td>${fmtDate(cl.createdAt)}</td><td><button class="ghost" onclick="removeClientRow('${cl.id}')">${admL('Remove','Retirer')}</button></td></tr>`).join('')}</table>`:`<div class="panel small">${admL('No clients yet — add one to start attaching devices.','Aucun client pour l’instant — ajoutez-en un pour commencer à associer des appareils.')}</div>`}`;
+ }
+ else if(s==='Applications') c.innerHTML=`<h2>${admL('Applications','Applications')}</h2><div class="sub">${admL('Default policy template applied to newly configured devices.','Modèle de politique par défaut appliqué aux appareils nouvellement configurés.')}</div><table class="table"><tr><th>${admL('Application','Application')}</th><th>${admL('Package','Package')}</th><th>${admL('Policy','Politique')}</th><th>${admL('Allowed','Autorisé')}</th></tr>${appRows()}</table><div class="notice" style="margin-top:13px">${admL('This template is a starting point — the actual policy is sent to each phone from YiDream Android → Unlock & Apply.','Ce modèle est un point de départ — la politique réelle est envoyée à chaque téléphone depuis YiDream Android → Unlock & Apply.')}</div>`;
+ else if(s==='Notifications'){
+  const groups=AdminStore.stats().groups;
+  c.innerHTML=`<h2>${admL('Notifications','Notifications')}</h2><div class="sub">${admL('Send a message to your registered devices.','Envoyez un message à vos appareils enregistrés.')}</div><div class="panel"><div class="form-grid"><div class="field"><label>${admL('Audience','Destinataires')}</label><select id="notifAudience"><option>${admL('All devices','Tous les appareils')}</option>${groups.map(g=>`<option>${admL('Group','Groupe')}: ${esc(g)}</option>`).join('')}</select></div><div class="field"><label>${admL('Priority','Priorité')}</label><select id="notifPriority"><option>${admL('Normal','Normale')}</option><option>${admL('High','Haute')}</option></select></div><div class="field" style="grid-column:1/-1"><label>${admL('Message','Message')}</label><textarea id="notifMsg" placeholder="${admL('Write your notification…','Écrivez votre notification…')}"></textarea></div></div><br><button class="primary" onclick="sendNotification()">${admL('Queue notification','Mettre en file d’attente')}</button><div class="notice" style="margin-top:13px">${admL('Delivery requires a live connection between the device and YiDream Admin, which is not implemented yet — this records the message for now.','L’envoi nécessite une connexion en direct entre l’appareil et YiDream Admin, pas encore implémentée — ceci enregistre le message pour l’instant.')}</div></div>`;
+ }
+ else if(s==='Groups'){
+  const clients=AdminStore.listClients();
+  const groups={}; clients.forEach(cl=>{const g=cl.group||admL('Ungrouped','Sans groupe'); (groups[g]=groups[g]||[]).push(cl)});
+  const names=Object.keys(groups);
+  c.innerHTML=`<h2>${admL('Groups','Groupes')}</h2><div class="sub">${admL('Groups come from the “Group” field on each client.','Les groupes viennent du champ « Groupe » de chaque client.')}</div>${names.length?`<div class="panel-grid">${names.map(g=>`<div class="panel"><h4>${esc(g)}</h4><div class="big">${groups[g].length}</div><div class="small">${admL('clients','clients')}</div></div>`).join('')}</div>`:`<div class="panel small">${admL('No groups yet — assign a group when adding a client.','Aucun groupe pour l’instant — attribuez un groupe en ajoutant un client.')}</div>`}`;
+ }
+ else if(s==='Activity Logs'){
+  const logs=AdminStore.listLogs();
+  c.innerHTML=`<h2>${admL('Activity Logs','Journal d’activité')}</h2><div class="sub">${admL('Actions performed in this YiDream Admin account.','Actions effectuées dans ce compte YiDream Admin.')}</div><table class="table"><tr><th>${admL('Time','Heure')}</th><th>${admL('Action','Action')}</th></tr>${logs.length?logs.map(l=>`<tr><td>${esc(l.time)}</td><td>${esc(l.action)}</td></tr>`).join(''):`<tr><td colspan="2">${admL('No activity yet.','Aucune activité pour l’instant.')}</td></tr>`}</table>`;
+ }
+ else { // Settings
+  c.innerHTML=`<h2>${admL('Settings','Paramètres')}</h2><div class="sub">${admL('Account and local data for this browser.','Compte et données locales de ce navigateur.')}</div>
+  <div class="panel"><div class="field"><label>${admL('Shop / company name','Nom de la boutique / entreprise')}</label><input value="${esc(account.shopName)}" disabled></div><br><div class="field"><label>${admL('Email','E-mail')}</label><input value="${esc(account.email)}" disabled></div><br><button class="ghost" onclick="adminLogout()">${admL('Log out','Se déconnecter')}</button></div>
+  <div style="height:13px"></div><div class="panel"><h4>${admL('Danger zone','Zone de danger')}</h4><div class="small" style="margin-bottom:10px">${admL('Permanently erase this account and all clients/devices stored in this browser.','Efface définitivement ce compte et tous les clients/appareils stockés dans ce navigateur.')}</div><button class="ghost danger" onclick="adminEraseAll()">${admL('Erase local account & data','Effacer le compte et les données locales')}</button></div>`;
+ }
+}
+function toggleClientForm(){const f=document.getElementById('clientForm'); if(f) f.style.display=(f.style.display==='none')?'block':'none'}
+function submitNewClient(){
+ const name=document.getElementById('ncName').value, group=document.getElementById('ncGroup').value;
+ if(!name.trim()){toast(admL('Client name is required.','Le nom du client est requis.'));return}
+ AdminStore.addClient({name,group}); renderApp('admin','Clients'); applyLanguage();
+ toast(admL('Client added','Client ajouté'));
+}
+function removeClientRow(id){ if(confirm(admL('Remove this client?','Retirer ce client ?'))){AdminStore.removeClient(id); renderApp('admin','Clients'); applyLanguage();} }
+function sendNotification(){
+ const msg=document.getElementById('notifMsg').value;
+ if(!msg.trim()){toast(admL('Write a message first.','Écris d’abord un message.'));return}
+ AdminStore.addLog(admL('Notification queued: ','Notification mise en file : ')+msg.slice(0,60));
+ document.getElementById('notifMsg').value='';
+ toast(admL('Notification saved','Notification enregistrée'));
+}
+function adminLogout(){AdminStore.logout(); renderApp('admin','Dashboard'); applyLanguage()}
+function adminEraseAll(){ if(confirm(admL('This will permanently delete the local account and all its data. Continue?','Ceci supprimera définitivement le compte local et toutes ses données. Continuer ?'))){AdminStore.eraseAll(); renderApp('admin','Dashboard'); applyLanguage();} }
 
 function renderAdminDevices(c,os){
- const data={
-   All:[
-    ['Android','168','Qin F21 Pro','Android 12','Client #1042','Online'],
-    ['Android','168','Samsung Galaxy A52','Android 14','Client #1037','Online'],
-    ['Android','168','Qin F22','Android 12','Client #1028','Offline'],
-    ['iOS','42','iPhone 15','iOS 18','Client #1018','Online'],
-    ['iOS','42','iPhone 13','iOS 18','Client #1007','Online'],
-    ['Nokia / Other','38','Nokia 3210 4G','Nokia OS','Client #1039','Online']
-   ],
-   Android:[
-    ['Android','168','Qin F21 Pro','Android 12','Client #1042','Online'],
-    ['Android','168','Samsung Galaxy A52','Android 14','Client #1037','Online'],
-    ['Android','168','Qin F22','Android 12','Client #1028','Offline']
-   ],
-   iOS:[
-    ['iOS','42','iPhone 15','iOS 18','Client #1018','Online'],
-    ['iOS','42','iPhone 13','iOS 18','Client #1007','Online']
-   ],
-   'Nokia / Other':[
-    ['Nokia / Other','38','Nokia 3210 4G','Nokia OS','Client #1039','Online'],
-    ['Nokia / Other','38','Nokia 220 4G','Nokia OS','Client #1004','Offline']
-   ]
- };
- const rows=data[os]||data.All;
- const counts={Android:168,iOS:42,'Nokia / Other':38};
- c.innerHTML=`<h2>Devices</h2><div class="sub">All device management is handled here in YiDream Admin. Devices are separated by operating system.</div>
+ if(!AdminStore.isLoggedIn()){ renderAdminAuth(c); return; }
+ const all=AdminStore.listDevices();
+ const clientsById={}; AdminStore.listClients().forEach(cl=>clientsById[cl.id]=cl);
+ const counts={Android:0,iOS:0,'Nokia / Other':0}; all.forEach(d=>{counts[d.os]=(counts[d.os]||0)+1});
+ const rows=os==='All'?all:all.filter(d=>d.os===os);
+ c.innerHTML=`<h2>${admL('Devices','Appareils')}</h2><div class="sub">${admL('Devices you have prepared with YiDream. Live status requires a future connected release.','Appareils que vous avez préparés avec YiDream. Le statut en direct nécessite une future version connectée.')}</div>
  <div class="os-tabs">
-  <button class="os-tab ${os==='All'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'All')">All devices · 248</button>
+  <button class="os-tab ${os==='All'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'All')">${admL('All devices','Tous les appareils')} · ${all.length}</button>
   <button class="os-tab ${os==='Android'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'Android')">🤖 Android · ${counts.Android}</button>
-  <button class="os-tab ${os==='iOS'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'iOS')"> iOS · ${counts.iOS}</button>
+  <button class="os-tab ${os==='iOS'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'iOS')"> iOS · ${counts.iOS}</button>
   <button class="os-tab ${os==='Nokia / Other'?'active':''}" onclick="renderAdminDevices(document.getElementById('appContent'),'Nokia / Other')">📱 Nokia / Other · ${counts['Nokia / Other']}</button>
  </div>
- <div class="os-summary">
-  <div class="os-card" onclick="renderAdminDevices(document.getElementById('appContent'),'Android')"><div class="os-name">🤖 Android</div><div class="os-count">${counts.Android}</div><div class="os-sub">managed devices</div></div>
-  <div class="os-card" onclick="renderAdminDevices(document.getElementById('appContent'),'iOS')"><div class="os-name"> iOS</div><div class="os-count">${counts.iOS}</div><div class="os-sub">devices</div></div>
-  <div class="os-card" onclick="renderAdminDevices(document.getElementById('appContent'),'Nokia / Other')"><div class="os-name">📱 Nokia / Other</div><div class="os-count">${counts['Nokia / Other']}</div><div class="os-sub">devices</div></div>
-  <div class="os-card"><div class="os-name">🟢 Online</div><div class="os-count">231</div><div class="os-sub">across all platforms</div></div>
- </div>
- <div class="toolbar"><input class="search" placeholder="Search devices..." oninput="filterTable(this.value,'deviceTable')"><button class="primary" onclick="toast('Add device flow')">+ Add device</button></div>
- <table class="table" id="deviceTable"><tr><th>Device</th><th>OS</th><th>Client</th><th>Status</th><th>Action</th></tr>
- ${rows.map(r=>`<tr><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]==='Online'?'<span class="pill">Online</span>':'Offline'}</td><td><button class="ghost" onclick="openManagedDevice('${r[2]}','${r[3]}','${r[4]}')">Manage</button></td></tr>`).join('')}
- </table>`;
+ <div class="toolbar"><input class="search" placeholder="${admL('Search devices...','Rechercher des appareils...')}" oninput="filterTable(this.value,'deviceTable')"><button class="primary" onclick="toggleDeviceForm()">+ ${admL('Add device','Ajouter un appareil')}</button></div>
+ <div id="deviceForm" style="display:none" class="panel"><div class="form-grid">
+   <div class="field"><label>${admL('Device name','Nom de l’appareil')}</label><input id="ndName" placeholder="${admL('e.g. Galaxy A15','ex. Galaxy A15')}"></div>
+   <div class="field"><label>OS</label><select id="ndOs"><option>Android</option><option>iOS</option><option>Nokia / Other</option></select></div>
+   <div class="field"><label>${admL('Client (optional)','Client (facultatif)')}</label><select id="ndClient"><option value="">—</option>${AdminStore.listClients().map(cl=>`<option value="${cl.id}">${esc(cl.name)}</option>`).join('')}</select></div>
+   <div class="field"><label>${admL('Note (optional)','Note (facultative)')}</label><input id="ndNote" placeholder="${admL('Serial, config…','Numéro de série, config…')}"></div>
+ </div><br><button class="primary" onclick="submitNewDevice()">${admL('Save','Enregistrer')}</button> <button class="ghost" onclick="toggleDeviceForm()">${admL('Cancel','Annuler')}</button></div>
+ ${rows.length?`<table class="table" id="deviceTable"><tr><th>${admL('Device','Appareil')}</th><th>OS</th><th>${admL('Client','Client')}</th><th>${admL('Added','Ajouté')}</th><th></th></tr>
+ ${rows.map(d=>`<tr><td>${esc(d.name)}</td><td>${esc(d.os)}</td><td>${d.clientId&&clientsById[d.clientId]?esc(clientsById[d.clientId].name):'—'}</td><td>${fmtDate(d.addedAt)}</td><td><button class="ghost" onclick="openManagedDevice('${d.id}')">${admL('Manage','Gérer')}</button></td></tr>`).join('')}
+ </table>`:`<div class="panel small">${admL('No devices yet — add the ones you have prepared with YiDream Android.','Aucun appareil pour l’instant — ajoutez ceux que vous avez préparés avec YiDream Android.')}</div>`}`;
 }
-function openManagedDevice(name,os,client){
- const c=document.getElementById('appContent');
- c.innerHTML=`<div class="toolbar"><button class="ghost" onclick="renderAdminDevices(document.getElementById('appContent'),'All')">← Back to devices</button></div>
- <h2>${name}</h2><div class="sub">${os} · ${client}</div>
- <div class="panel-grid"><div class="panel">Connection<div class="big">Online</div><div class="small">Managed by YiDream Admin</div></div><div class="panel">Filter<div class="big">Active</div><div class="small">Current policy</div></div><div class="panel">Apps<div class="big">24</div><div class="small">installed</div></div></div>
- <div style="height:13px"></div><div class="panel"><h4>Device management</h4><div class="toolbar" style="margin-top:10px"><button class="primary" onclick="toast('Policy update sent')">Update policy</button><button class="ghost" onclick="toast('Notification sent')">Send notification</button><button class="ghost" onclick="toast('Restart command sent')">Restart device</button></div><div class="notice">This device is managed from YiDream Admin. Platform-specific tools and policies are applied from this central interface.</div></div>`;
+function toggleDeviceForm(){const f=document.getElementById('deviceForm'); if(f) f.style.display=(f.style.display==='none')?'block':'none'}
+function submitNewDevice(){
+ const name=document.getElementById('ndName').value;
+ if(!name.trim()){toast(admL('Device name is required.','Le nom de l’appareil est requis.'));return}
+ AdminStore.addDevice({name,os:document.getElementById('ndOs').value,clientId:document.getElementById('ndClient').value||null,note:document.getElementById('ndNote').value});
+ renderAdminDevices(document.getElementById('appContent'),'All'); applyLanguage();
+ toast(admL('Device added','Appareil ajouté'));
 }
-
-function deviceRows(){return `<tr><td>Qin F21 Pro</td><td>Qin F21 Pro</td><td>#1042</td><td><span class="pill">Online</span></td><td><button class="ghost" onclick="toast('Device opened')">Open</button></td></tr><tr><td>Nokia 3210 4G</td><td>Nokia 3210 4G</td><td>#1039</td><td><span class="pill">Online</span></td><td><button class="ghost" onclick="toast('Device opened')">Open</button></td></tr><tr><td>Qin F22</td><td>Qin F22</td><td>#1028</td><td>Offline</td><td><button class="ghost" onclick="toast('Device opened')">Open</button></td></tr>`}
+function openManagedDevice(id){
+ const c=document.getElementById('appContent'); const d=AdminStore.getDevice(id);
+ if(!d){ renderAdminDevices(c,'All'); return; }
+ const client=AdminStore.listClients().find(x=>x.id===d.clientId);
+ c.innerHTML=`<div class="toolbar"><button class="ghost" onclick="renderAdminDevices(document.getElementById('appContent'),'All')">← ${admL('Back to devices','Retour aux appareils')}</button></div>
+ <h2>${esc(d.name)}</h2><div class="sub">${esc(d.os)}${client?' · '+esc(client.name):''}</div>
+ <div class="panel-grid"><div class="panel">${admL('Connection','Connexion')}<div class="big" style="font-size:15px">${admL('Not connected','Non connecté')}</div><div class="small">${admL('Live status coming soon','Statut en direct à venir')}</div></div><div class="panel">${admL('Added','Ajouté')}<div class="big" style="font-size:15px">${fmtDate(d.addedAt)}</div></div><div class="panel">${admL('Note','Note')}<div class="small" style="margin-top:8px">${d.note?esc(d.note):admL('None','Aucune')}</div></div></div>
+ <div style="height:13px"></div><div class="panel"><h4>${admL('Device management','Gestion de l’appareil')}</h4><div class="toolbar" style="margin-top:10px"><button class="primary" onclick="toast(admL('Coming soon — requires an active connection to the device.','Bientôt — nécessite une connexion active à l’appareil.'))">${admL('Update policy','Mettre à jour la politique')}</button><button class="ghost" onclick="toast(admL('Coming soon — requires an active connection to the device.','Bientôt — nécessite une connexion active à l’appareil.'))">${admL('Send notification','Envoyer une notification')}</button><button class="ghost danger" onclick="removeDeviceAndBack('${d.id}')">${admL('Remove device','Retirer l’appareil')}</button></div><div class="notice">${admL('This record was entered manually. Full remote monitoring and control is planned for a future release (see project roadmap).','Cette fiche a été saisie manuellement. Le suivi et le contrôle à distance complets sont prévus pour une future version (voir la feuille de route du projet).')}</div></div>`;
+}
+function removeDeviceAndBack(id){ if(confirm(admL('Remove this device?','Retirer cet appareil ?'))){AdminStore.removeDevice(id); renderAdminDevices(document.getElementById('appContent'),'All'); applyLanguage();} }
 function appRows(){return `<tr><td>Phone</td><td>com.android.dialer</td><td>Allowed</td><td><button class="toggle on" onclick="this.classList.toggle('on')"></button></td></tr><tr><td>Messages</td><td>com.android.messaging</td><td>Allowed</td><td><button class="toggle on" onclick="this.classList.toggle('on')"></button></td></tr><tr><td>Chrome</td><td>com.android.chrome</td><td>Blocked</td><td><button class="toggle" onclick="this.classList.toggle('on')"></button></td></tr><tr><td>Social Media</td><td>category.social</td><td>Blocked</td><td><button class="toggle" onclick="this.classList.toggle('on')"></button></td></tr>`}
 function filterTable(q,id){document.querySelectorAll('#'+id+' tr').forEach((r,i)=>{if(i===0)return;r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none'})}
 var adbLogs=[];
 function getLang(){return currentLang}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c])}
 function renderLogs(c){c.innerHTML=`<h2>Setup logs</h2><div class="sub">Events from the current Android configuration session.</div><table class="table"><tr><th>Time</th><th>Step</th><th>Event</th></tr>${adbLogs.length?adbLogs.slice().reverse().map(l=>`<tr><td>${esc(l.time)}</td><td>${esc(l.step)}</td><td>${esc(l.event)}</td></tr>`).join(''):'<tr><td colspan="3">No events yet.</td></tr>'}</table>`}
 function renderAndroid(c,s){
  if(s==='Logs') return renderLogs(c);

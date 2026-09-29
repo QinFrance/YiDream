@@ -77,22 +77,45 @@ const sections = {
   'Install YiDream'(c) {
     c.innerHTML = `${head(t('install_title'), t('install_subtitle'), 1)}
       <div class="panel"><h4>YiDream Android</h4>
-        <div id="apkAuto" class="small">${esc(t('install_searching'))}</div><br>
-        <div class="field"><label>${esc(t('install_manual_label'))}</label><input type="file" id="apkInput" accept=".apk"></div><br>
-        <button class="primary" id="btnInstall">${esc(t('install_button'))}</button>
+        <div class="status-pill no" id="apkPill">${esc(t('install_searching'))}</div><br>
+        <button class="primary" id="btnInstall" disabled>${esc(t('install_button'))}</button>
         <button class="ghost" id="btnCheck">${esc(t('install_check'))}</button>
-        <div class="small" id="installStatus" style="margin-top:10px"></div></div>${logBox()}`;
+        <div class="small" id="installStatus" style="margin-top:10px"></div>
+        <div class="small" style="margin-top:14px"><a href="#" id="apkAdvancedLink" style="color:var(--muted)">${esc(t('install_advanced_toggle'))}</a></div>
+        <div id="apkAdvanced" style="display:none;margin-top:10px" class="field"><label>${esc(t('install_manual_label'))}</label><input type="file" id="apkInput" accept=".apk"></div>
+      </div>${logBox()}`;
+    const setPill = (ok, text) => { const pill = $('apkPill'); if (pill) { pill.className = 'status-pill ' + (ok ? 'ok' : 'no'); pill.textContent = text; } };
+    const refreshSource = () => {
+      // Ces éléments peuvent avoir disparu si l'utilisateur a changé de section
+      // pendant que la détection automatique de l'APK était encore en cours.
+      const btn = $('btnInstall');
+      const input = $('apkInput');
+      if (!btn || !input) return;
+      const manual = input.files[0];
+      state.selectedApk = manual || state.bundledApk || null;
+      btn.disabled = !state.selectedApk || !client.info;
+      if (manual) setPill(true, `${t('log_apk_found')} · ${manual.name} (${(manual.size / 1048576).toFixed(1)} Mo)`);
+      else if (state.bundledApk) setPill(true, `${t('log_apk_found')} (${(state.bundledApk.size / 1048576).toFixed(1)} Mo)`);
+      else setPill(false, t('log_apk_not_found'));
+    };
     (async () => {
       try {
         const r = await fetch('./yidream.apk', { cache: 'no-store' });
         if (!r.ok) throw new Error('nf');
         state.bundledApk = await r.blob();
-        $('apkAuto') && ($('apkAuto').textContent = `${t('log_apk_found')} (${(state.bundledApk.size / 1048576).toFixed(1)} Mo)`);
-      } catch { state.bundledApk = null; $('apkAuto') && ($('apkAuto').textContent = t('log_apk_not_found')); }
+      } catch { state.bundledApk = null; }
+      refreshSource();
     })();
+    $('apkAdvancedLink').onclick = (e) => {
+      e.preventDefault();
+      const box = $('apkAdvanced');
+      box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    };
+    $('apkInput').onchange = refreshSource;
     $('btnInstall').onclick = async () => {
-      const src = $('apkInput').files[0] || state.bundledApk;
-      if (!client.info || !src) { toast(t('log_connect_and_apk')); return; }
+      if (!client.info) { toast(t('log_connect_and_apk')); return; }
+      const src = state.selectedApk;
+      if (!src) { toast(t('log_connect_and_apk')); return; }
       try {
         log('Installation', `${t('log_installing')} (${(src.size / 1048576).toFixed(1)} Mo)`);
         await client.installApk(src);

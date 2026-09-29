@@ -15,12 +15,22 @@ Plateforme de gestion d'appareils Android filtrés. Ce dépôt contient l'app An
 
 Fusion du design **Suite** (Admin, Android, iOS, Info) avec la logique du configurateur v1 :
 
-- **YiDream Android** : connexion USB (WebUSB), installation/mise à jour de l'APK (détecté automatiquement sur le site ou choisi à la main), activation Device Owner, blocage par catégories + apps supplémentaires, envoi de la configuration au téléphone.
+- **YiDream Android** : connexion USB (WebUSB), installation/mise à jour de l'APK, activation Device Owner, blocage par catégories + apps supplémentaires, envoi de la configuration au téléphone.
 - **Unlock & Apply 🔒** et **Advanced 🔒** (protégés par mot de passe admin) : code du jour, application de la config, retrait des restrictions, désinstallation.
 - **Conditions d'utilisation** à accepter au premier chargement (recopie d'une phrase), consultables dans Info → Legal.
 - **Verrou d'origine** : le site refuse de fonctionner hors des adresses listées dans `webadb/src/config.js`.
 - Langues EN / FR / HE / YI, thème clair/sombre.
-- **YiDream Admin** (flotte, clients, dashboard) et **iOS** restent des **maquettes** : aucune donnée réelle, pas de backend.
+- **Design fusionné** : structure Suite (barre du haut, hero, cartes, fenêtres d'apps) + identité de l'ancien site (fond dégradé violet, accent violet, dock de badges colorés façon macOS, thème sombre violet).
+
+## Nouveautés v1.3
+
+- **Comptes revendeurs pour YiDream Admin** : à l'ouverture, un revendeur crée un compte (boutique, e-mail, mot de passe) ou se connecte. **C'est un compte local à ce navigateur (localStorage), pas un vrai compte cloud partagé** — poser cette base permet de brancher une vraie API plus tard sans revoir l'interface. Déconnexion et suppression du compte local dans Admin → Settings.
+- **Plus aucun faux chiffre dans Admin** : le dashboard, les appareils, les clients, les groupes et le journal d'activité partent tous de zéro et reflètent uniquement ce que le revendeur ajoute lui-même (formulaires « + Nouveau client » / « + Ajouter un appareil »). Un appareil ajouté ici est une fiche locale, pas une vraie connexion MDM — c'est dit explicitement dans l'interface pour ne pas donner une fausse impression de suivi en direct.
+- **Badges « OPEN APP » retirés** des 4 cartes de l'accueil.
+- **Installation de l'APK simplifiée** : le site détecte et propose automatiquement l'APK qu'il héberge — plus besoin d'aller chercher un fichier sur l'ordinateur. Un lien discret « Utiliser un fichier local (avancé) » reste disponible si besoin (APK bêta personnalisé, ou site sans APK publié).
+- **Logo agrandi** partout (barre du haut, fenêtres d'apps, panneau Admin, écran iOS) avec le nouveau fichier fourni, et utilisé comme favicon du site.
+
+**YiDream Admin est donc un vrai mini-CRM local fonctionnel (comptes, clients, appareils, notifications), mais toujours sans backend ni synchronisation entre appareils/navigateurs — voir « À faire avant de vendre » ci-dessous. iOS reste une maquette.**
 
 ## Mise en ligne
 
@@ -32,7 +42,8 @@ Si tu publies sous un autre nom de dépôt, ajoute son chemin dans `allowedSites
 
 ## ⚠️ À faire avant de vendre / distribuer
 
-- **Change le mot de passe admin** (défaut : `changeme123`). Le hash est dans `webadb/src/config.js` :
+- **Les comptes YiDream Admin sont locaux à chaque navigateur** : un revendeur qui change d'ordinateur ne retrouve pas ses clients/appareils, et le mot de passe (simple SHA-256, sans sel) n'est pas une vraie authentification. Pour plusieurs employés ou plusieurs postes, il faudra un vrai backend (comptes, base de données, synchronisation) — c'est justement ce que cette interface est prête à recevoir.
+- **Change le mot de passe admin du configurateur Web ADB** (différent des comptes Admin ci-dessus ; défaut : `changeme123`). Le hash est dans `webadb/src/config.js` :
   ```js
   crypto.subtle.digest("SHA-256", new TextEncoder().encode("TON_MOT_DE_PASSE"))
     .then(b => console.log([...new Uint8Array(b)].map(x => x.toString(16).padStart(2,"0")).join("")))

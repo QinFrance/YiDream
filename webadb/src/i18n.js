@@ -140,6 +140,7 @@ export const UI_STRINGS = {
 
 // Ajouts v1.2 (l'anglais sert de repli pour HE / YI).
 Object.assign(UI_STRINGS.en, {
+  blocking_note: "These settings are applied to the phone from the “Unlock & Apply” section (🔒).",
   unsupported: "WebUSB is unavailable — use Chrome or Edge on a computer.",
   device_none: "Waiting for device", device_none_sub: "Web ADB connection required",
   disconnect: "Disconnect", log_disconnected: "Device disconnected.",
@@ -150,10 +151,12 @@ Object.assign(UI_STRINGS.en, {
   password_first: "Enter the master password first.",
   section_settings: "Configurator preferences.",
   origin_title: "Unauthorized site", origin_body: "This tool only works from its official address:",
+  install_advanced_toggle: "Use a local file instead (advanced)",
   usb_help_title: "Windows: USB driver (Zadig)",
   usb_help: "WebUSB cannot use the standard ADB driver. Replace it with WinUSB using Zadig (zadig.akeo.ie): Options → List All Devices → select the phone → WinUSB → Replace Driver. Afterwards the classic adb.exe no longer sees this phone.",
 });
 Object.assign(UI_STRINGS.fr, {
+  blocking_note: "Ces réglages sont envoyés au téléphone depuis la section « Unlock & Apply » (🔒).",
   unsupported: "WebUSB indisponible — utilise Chrome ou Edge sur ordinateur.",
   device_none: "En attente d'un appareil", device_none_sub: "Connexion Web ADB requise",
   disconnect: "Déconnecter", log_disconnected: "Appareil déconnecté.",
@@ -164,6 +167,7 @@ Object.assign(UI_STRINGS.fr, {
   password_first: "Saisis d'abord le mot de passe maître.",
   section_settings: "Préférences du configurateur.",
   origin_title: "Site non autorisé", origin_body: "Cet outil ne fonctionne que depuis son adresse officielle :",
+  install_advanced_toggle: "Utiliser un fichier local à la place (avancé)",
   usb_help_title: "Windows : pilote USB (Zadig)",
   usb_help: "WebUSB ne peut pas utiliser le pilote ADB standard. Remplace-le par WinUSB avec Zadig (zadig.akeo.ie) : Options → List All Devices → choisis le téléphone → WinUSB → Replace Driver. Ensuite adb.exe classique ne voit plus ce téléphone.",
 });
