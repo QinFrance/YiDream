@@ -35,8 +35,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Configurer le SDK Android
-        uses: android-actions/setup-android@v3
+      # Le SDK Android est déjà préinstallé sur les machines GitHub (ubuntu-latest) :
+      # pas besoin d'une action tierce pour l'installer, ça évite ses pannes.
+      - name: Accepter les licences du SDK Android préinstallé
+        run: yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
 
       - name: Générer le gradle wrapper
         run: gradle wrapper --gradle-version 8.7
