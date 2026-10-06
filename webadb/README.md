@@ -15,3 +15,8 @@ src/i18n.js         Textes EN / FR / HE / YI
 src/legal.js        Conditions d'utilisation
 public/yidream.apk  Ajouté automatiquement par le workflow (non versionné)
 ```
+
+
+## Publication Pages
+
+Le site de présentation client est servi à la racine de YiDream. Le configurateur Android est compilé sous `/admin/` par le workflow `deploy-webadb.yml` afin de garder les deux espaces sur le même déploiement.
