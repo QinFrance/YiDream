@@ -1,9 +1,10 @@
-name: Deploy YiDream Web ADB
+name: Deploy YiDream client site and Android console
 
 on:
   push:
     branches: [ main, master ]
     paths:
+      - 'site/client/**'
       - 'webadb/**'
       - 'app/**'
       - 'build.gradle'
@@ -35,8 +36,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Le SDK Android est déjà préinstallé sur les machines GitHub (ubuntu-latest) :
-      # pas besoin d'une action tierce pour l'installer, ça évite ses pannes.
       - name: Accepter les licences du SDK Android préinstallé
         run: yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
 
@@ -49,10 +48,10 @@ jobs:
       - name: Compiler l'APK debug
         run: ./gradlew assembleDebug --no-daemon --stacktrace
 
-      - name: Copier l'APK dans le site (servi automatiquement)
+      - name: Copier l'APK dans le site
         run: cp app/build/outputs/apk/debug/app-debug.apk webadb/public/yidream.apk
 
-      # --- Compilation et déploiement du site ---
+      # --- Compilation et déploiement des deux espaces ---
       - name: Installer Node.js
         uses: actions/setup-node@v4
         with:
@@ -62,9 +61,17 @@ jobs:
         working-directory: webadb
         run: npm ci
 
-      - name: Compiler le site
+      - name: Compiler le site administrateur
         working-directory: webadb
         run: npm run build
+
+      - name: Assembler le site public et la console Android
+        run: |
+          mv webadb/dist "$RUNNER_TEMP/yidream-admin"
+          mkdir -p webadb/dist/admin webadb/dist/icons
+          cp -R "$RUNNER_TEMP/yidream-admin/." webadb/dist/admin/
+          cp site/client/index.html webadb/dist/index.html
+          cp webadb/assets/icons/yidream-original.png webadb/dist/icons/yidream-original.png
 
       - name: Configurer GitHub Pages
         uses: actions/configure-pages@v5
