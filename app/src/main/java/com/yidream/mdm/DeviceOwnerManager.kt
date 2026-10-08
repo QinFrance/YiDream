@@ -142,7 +142,7 @@ class DeviceOwnerManager(private val context: Context) {
         if (!isDeviceOwner()) return
         try {
             dpm.setLockTaskPackages(adminComponent, arrayOf(context.packageName))
-            dpm.clearPackagePersistentPreferredActivities(context.packageName)
+            dpm.clearPackagePersistentPreferredActivities(adminComponent, context.packageName)
         } catch (_: Exception) { }
     }
 

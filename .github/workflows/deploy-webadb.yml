@@ -74,6 +74,14 @@ jobs:
             cp app/build/outputs/apk/debug/app-debug.apk webadb/public/yidream.apk
           fi
 
+      - name: Décrire le type de signature pour le site
+        run: |
+          if [ "$RELEASE_SIGNING" = "true" ]; then
+            echo '{"releaseSigned":true}' > webadb/public/yidream-build.json
+          else
+            echo '{"releaseSigned":false}' > webadb/public/yidream-build.json
+          fi
+
       - name: Générer le manifeste avec l'empreinte de l'APK
         run: |
           sha256sum webadb/public/yidream.apk | cut -d ' ' -f1 > "$RUNNER_TEMP/yidream-apk.sha256"

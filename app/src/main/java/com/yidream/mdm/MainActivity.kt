@@ -127,9 +127,9 @@ class MainActivity : AppCompatActivity() {
         host.equals(ALLOWED_STORE_HOST, ignoreCase = true)
 
     private fun isAllowedApkUrl(uri: Uri): Boolean =
-        uri.scheme.equals("https", ignoreCase = true) &&
-            uri.host.equals(ALLOWED_STORE_HOST, ignoreCase = true) &&
-            uri.path.equals(ALLOWED_APK_PATH, ignoreCase = true)
+        uri.scheme?.equals("https", ignoreCase = true) == true &&
+            uri.host?.equals(ALLOWED_STORE_HOST, ignoreCase = true) == true &&
+            uri.path?.equals(ALLOWED_APK_PATH, ignoreCase = true) == true
 
     private fun handleApkLink(url: String) {
         val uri = try { Uri.parse(url) } catch (_: Exception) { null }

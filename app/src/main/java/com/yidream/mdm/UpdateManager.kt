@@ -36,8 +36,13 @@ class UpdateManager(private val context: Context) {
     suspend fun checkForUpdate(): UpdateInfo? = withContext(Dispatchers.IO) {
         try {
             val connection = URL(MANIFEST_URL).openConnection() as HttpURLConnection
+            connection.instanceFollowRedirects = false
             connection.connectTimeout = 8000
             connection.readTimeout = 8000
+            if (connection.responseCode !in 200..299) {
+                connection.disconnect()
+                return@withContext null
+            }
             val body = connection.inputStream.bufferedReader().readText()
             connection.disconnect()
 
