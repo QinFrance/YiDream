@@ -12,13 +12,8 @@ import java.net.URL
  * via SilentInstaller (capacité Device Owner confirmée, aucune confirmation
  * utilisateur requise, contrairement à ce qu'on pensait au début du projet).
  *
- * Format attendu à MANIFEST_URL (JSON hébergé sur ton propre serveur) :
- * {
- *   "versionCode": 2,
- *   "versionName": "v2",
- *   "apkUrl": "https://.../yidream-v2.apk",
- *   "changelog": "Corrections de bugs"
- * }
+ * The manifest is hosted with the public YiDream Pages site and includes
+ * the checksum of the APK produced by the deployment workflow.
  */
 class UpdateManager(private val context: Context) {
 
@@ -26,12 +21,14 @@ class UpdateManager(private val context: Context) {
         val versionCode: Int,
         val versionName: String,
         val apkUrl: String,
+        val apkSha256: String,
         val changelog: String
     )
 
     companion object {
         // À adapter : URL de ton fichier version.json (voir VERSIONING.md)
-        const val MANIFEST_URL = "https://yidream-tonpseudo.duckdns.org/yidream/version.json"
+        const val MANIFEST_URL = "https://qinfrance.github.io/YiDream/version.json"
+        const val APPROVED_APK_URL = "https://qinfrance.github.io/YiDream/admin/yidream.apk"
     }
 
     private val silentInstaller = SilentInstaller(context)
@@ -39,8 +36,13 @@ class UpdateManager(private val context: Context) {
     suspend fun checkForUpdate(): UpdateInfo? = withContext(Dispatchers.IO) {
         try {
             val connection = URL(MANIFEST_URL).openConnection() as HttpURLConnection
+            connection.instanceFollowRedirects = false
             connection.connectTimeout = 8000
             connection.readTimeout = 8000
+            if (connection.responseCode !in 200..299) {
+                connection.disconnect()
+                return@withContext null
+            }
             val body = connection.inputStream.bufferedReader().readText()
             connection.disconnect()
 
@@ -52,11 +54,18 @@ class UpdateManager(private val context: Context) {
                     else @Suppress("DEPRECATION") it.versionCode
                 }
 
+            val apkUrl = json.getString("apkUrl")
+            val apkSha256 = json.optString("apkSha256", "")
+            if (apkUrl != APPROVED_APK_URL || !apkSha256.matches(Regex("(?i)[0-9a-f]{64}"))) {
+                return@withContext null
+            }
+
             if (remoteVersionCode > currentVersionCode) {
                 UpdateInfo(
                     versionCode = remoteVersionCode,
                     versionName = json.getString("versionName"),
-                    apkUrl = json.getString("apkUrl"),
+                    apkUrl = apkUrl,
+                    apkSha256 = apkSha256,
                     changelog = json.optString("changelog", "")
                 )
             } else null
@@ -66,6 +75,6 @@ class UpdateManager(private val context: Context) {
     }
 
     suspend fun installUpdate(update: UpdateInfo): SilentInstaller.Result {
-        return silentInstaller.downloadAndInstall(update.apkUrl)
+        return silentInstaller.downloadAndInstall(update.apkUrl, update.apkSha256)
     }
 }

@@ -9,6 +9,14 @@ on:
       - 'settings.gradle'
       - 'gradle.properties'
       - '.github/workflows/build-apk.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'app/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
+      - '.github/workflows/build-apk.yml'
   workflow_dispatch: {}
 
 jobs:

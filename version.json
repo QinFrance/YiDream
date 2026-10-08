@@ -1,6 +1,7 @@
 {
-  "versionCode": 8,
-  "versionName": "v5.3",
-  "apkUrl": "https://yidream-tonpseudo.duckdns.org/yidream/yidream.apk",
-  "changelog": "Nouvelle adresse de contact, champ de code de deverrouillage en 6 cases separees"
+  "versionCode": 9,
+  "versionName": "v5.4",
+  "apkUrl": "https://qinfrance.github.io/YiDream/admin/yidream.apk",
+  "apkSha256": "",
+  "changelog": "YiDream lance son launcher musical, avec accès rapide à Zemer, Waze, Pulsar, Bluetooth et aux réglages."
 }

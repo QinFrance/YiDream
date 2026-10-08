@@ -1,78 +1,36 @@
-# Versioning et mises à jour de YiDream
+# Publication de YiDream
 
-## Convention de version
+## Numéro de version
 
-Chaque nouvelle version bump **deux valeurs en même temps** :
-- `versionCode` (un entier, toujours **+1** à chaque version, jamais réutilisé)
-- `versionName` (le nom affiché : `v1`, `v2`, `v3`, ...)
+Pour chaque version, augmente `versionCode` et change `versionName` dans
+`app/build.gradle` et `version.json`. La publication du site calcule le
+SHA-256 de l'APK et le place dans le manifeste publié.
 
-`versionCode` sert à la comparaison technique (l'app compare des entiers, pas
-des strings). `versionName` c'est juste l'étiquette lisible. Les deux avancent
-ensemble.
+## Clé de signature Android
 
-| Version | versionCode | versionName |
-|---|---|---|
-| Première version | 1 | v1 |
-| Après une modif | 2 | v2 |
-| Après une autre modif | 3 | v3 |
+Une APK destinée à des mises à jour durables doit être signée avec la même clé
+privée à chaque publication. Ne place jamais le fichier de clé dans le dépôt.
 
-## À chaque modification du projet, procédure complète
+Dans les paramètres GitHub du dépôt, ajoute ces quatre Actions secrets :
 
-### 1. Bump la version dans `app/build.gradle`
-```gradle
-defaultConfig {
-    ...
-    versionCode 2        // ← +1 par rapport à avant
-    versionName "v2"      // ← v1 → v2 → v3 ...
-}
-```
+- `YIDREAM_KEYSTORE_BASE64` : fichier keystore encodé en Base64
+- `YIDREAM_STORE_PASSWORD`
+- `YIDREAM_KEY_ALIAS`
+- `YIDREAM_KEY_PASSWORD`
 
-### 2. Recompiler l'APK
-Dans Android Studio : **Build > Build Bundle(s) / APK(s) > Build APK(s)**
-→ récupère `app-debug.apk`, renomme-le `yidream.apk`
+Garde une copie de sauvegarde du keystore et de ses mots de passe. Sans ces
+secrets, le workflow publie seulement un APK de prévisualisation signé en debug
+sur le site et dans les artefacts Actions ; il ne crée pas de version GitHub
+Release. Une APK de prévisualisation peut s'installer sur un appareil vierge,
+mais elle ne convient pas à une chaîne de mises à jour destinée au public.
 
-### 3. Publier l'APK sur GitHub (Releases)
-- Va sur ton repo GitHub → onglet **Releases** (à droite) → **"Create a new release"**
-- **Tag** : `v2` (doit matcher le `versionName`)
-- Titre libre (ex: "Version 2")
-- Glisse-dépose `yidream.apk` dans la zone "Attach binaries"
-- **Publish release**
-- Clique-droit sur le fichier `yidream.apk` dans la release publiée → "Copier le
-  lien" → c'est l'URL à mettre dans `apkUrl` (étape suivante)
+## Publication
 
-### 4. Mettre à jour `version.json` (à la racine du repo)
-```json
-{
-  "versionCode": 2,
-  "versionName": "v2",
-  "apkUrl": "https://github.com/TONPSEUDO/YiDream/releases/download/v2/yidream.apk",
-  "changelog": "Description courte de ce qui a changé"
-}
-```
+Le workflow `Deploy YiDream client site and Android console` construit l'APK,
+l'ajoute au site Web ADB et publie le site sur
+[YiDream Pages](https://qinfrance.github.io/YiDream/). Quand les secrets de
+signature sont présents, il crée aussi une GitHub Release `v5.4` avec l'APK.
 
-### 5. Pousser sur GitHub
-```bash
-git add .
-git commit -m "Version v2"
-git push
-```
-
-### 6. C'est tout — l'app va la détecter toute seule
-Dès que `version.json` est à jour sur GitHub, n'importe quel téléphone avec
-YiDream ouvert et qui appuie sur **"Vérifier les mises à jour"** va :
-1. Lire `version.json` (URL codée dans `UpdateManager.MANIFEST_URL`)
-2. Voir que `versionCode: 2 > 1` (sa version actuelle)
-3. Télécharger l'APK depuis `apkUrl`
-4. Ouvrir l'installeur système (une confirmation à taper sur le téléphone,
-   pas totalement silencieux — voir README pour l'explication technique)
-
-## Configuration à faire une seule fois
-
-Dans `app/src/main/java/com/yidream/mdm/UpdateManager.kt`, remplace
-`TONPSEUDO` par ton vrai pseudo GitHub :
-```kotlin
-const val MANIFEST_URL = "https://raw.githubusercontent.com/TONPSEUDO/YiDream/main/version.json"
-```
-Recompile après ce changement (il est intégré en dur dans l'APK, donc il faut
-une v1 avec la bonne URL avant de pouvoir faire des updates automatiques —
-pense à changer ça avant ta toute première release).
+Le programme de mise à jour n'accepte que l'URL YiDream publiée et compare le
+SHA-256 du fichier avant l'installation silencieuse. Android vérifie également
+que la signature de l'APK correspond à celle de l'application déjà installée.

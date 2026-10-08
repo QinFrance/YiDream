@@ -11,12 +11,25 @@ android {
         applicationId "com.yidream.mdm"
         minSdk 26
         targetSdk 34
-        versionCode 8
-        versionName "v5.3"
+        versionCode 9
+        versionName "v5.4"
+    }
+
+    signingConfigs {
+        release {
+            def releaseStoreFile = project.findProperty('yidreamStoreFile')
+            if (releaseStoreFile) {
+                storeFile file(releaseStoreFile)
+                storePassword project.findProperty('yidreamStorePassword')
+                keyAlias project.findProperty('yidreamKeyAlias')
+                keyPassword project.findProperty('yidreamKeyPassword')
+            }
+        }
     }
 
     buildTypes {
         release {
+            if (project.hasProperty('yidreamStoreFile')) signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

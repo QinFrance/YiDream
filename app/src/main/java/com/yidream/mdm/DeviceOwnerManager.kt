@@ -3,7 +3,12 @@ package com.yidream.mdm
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.UserManager
+import android.provider.Settings
 
 class DeviceOwnerManager(private val context: Context) {
 
@@ -81,6 +86,74 @@ class DeviceOwnerManager(private val context: Context) {
         if (blockStore) knownStores.forEach { setAppBlocked(it, true) }
         extraPackages.forEach { setAppBlocked(it, true) }
     }
+
+    /**
+     * Make YiDream the persistent home app and allow only the launcher, its
+     * selected companion apps, and Android Settings while the device is in
+     * lock-task mode. This has effect only after proper Device Owner setup.
+     */
+    fun configureDedicatedLauncher(launcherActivity: Class<*>) {
+        if (!isDeviceOwner()) return
+        try {
+            val homeFilter = IntentFilter(Intent.ACTION_MAIN).apply {
+                addCategory(Intent.CATEGORY_HOME)
+                addCategory(Intent.CATEGORY_DEFAULT)
+            }
+            dpm.addPersistentPreferredActivity(
+                adminComponent,
+                homeFilter,
+                ComponentName(context, launcherActivity)
+            )
+        } catch (_: Exception) { }
+
+        val allowed = linkedSetOf(context.packageName)
+        listOf(
+            "com.jtech.zemer",
+            "com.waze",
+            "com.rhmsoft.pulsar",
+            "com.android.settings",
+            "com.samsung.android.settings"
+        ).forEach { packageName ->
+            if (isPackageInstalled(packageName)) allowed.add(packageName)
+        }
+        listOf(
+            Intent(Settings.ACTION_SETTINGS),
+            Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+        ).forEach { intent ->
+            try {
+                context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)
+                    ?.activityInfo?.packageName?.let { allowed.add(it) }
+            } catch (_: Exception) { }
+        }
+
+        try {
+            dpm.setLockTaskPackages(adminComponent, allowed.toTypedArray())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                dpm.setLockTaskFeatures(
+                    adminComponent,
+                    DevicePolicyManager.LOCK_TASK_FEATURE_HOME or
+                        DevicePolicyManager.LOCK_TASK_FEATURE_NOTIFICATIONS
+                )
+            }
+        } catch (_: Exception) { }
+    }
+
+    fun leaveDedicatedMode() {
+        if (!isDeviceOwner()) return
+        try {
+            dpm.setLockTaskPackages(adminComponent, arrayOf(context.packageName))
+            dpm.clearPackagePersistentPreferredActivities(adminComponent, context.packageName)
+        } catch (_: Exception) { }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun isPackageInstalled(packageName: String): Boolean =
+        try {
+            context.packageManager.getPackageInfo(packageName, 0)
+            true
+        } catch (_: Exception) {
+            false
+        }
 
     // ---------------------------------------------------------------
     // Restrictions globales de l'appareil.

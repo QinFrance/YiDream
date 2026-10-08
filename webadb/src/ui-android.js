@@ -77,13 +77,19 @@ const sections = {
   'Install YiDream'(c) {
     c.innerHTML = `${head(t('install_title'), t('install_subtitle'), 1)}
       <div class="panel"><h4>YiDream Android</h4>
+        <p class="small" id="releaseNote" style="margin:8px 0 12px"></p>
         <div class="status-pill no" id="apkPill">${esc(t('install_searching'))}</div><br>
         <button class="primary" id="btnInstall" disabled>${esc(t('install_button'))}</button>
         <button class="ghost" id="btnCheck">${esc(t('install_check'))}</button>
         <div class="small" id="installStatus" style="margin-top:10px"></div>
+        <div class="small" style="margin-top:9px"><a href="./launcher-preview.html" target="_blank" rel="noopener">${esc(t('launcher_preview'))}</a></div>
         <div class="small" style="margin-top:14px"><a href="#" id="apkAdvancedLink" style="color:var(--muted)">${esc(t('install_advanced_toggle'))}</a></div>
         <div id="apkAdvanced" style="display:none;margin-top:10px" class="field"><label>${esc(t('install_manual_label'))}</label><input type="file" id="apkInput" accept=".apk"></div>
       </div>${logBox()}`;
+    fetch('./yidream-build.json', { cache: 'no-store' }).then(r => r.json()).then(info => {
+      const note = $('releaseNote');
+      if (note && info.releaseSigned !== true) note.textContent = t('install_distribution_warning');
+    }).catch(() => {});
     const setPill = (ok, text) => { const pill = $('apkPill'); if (pill) { pill.className = 'status-pill ' + (ok ? 'ok' : 'no'); pill.textContent = text; } };
     const refreshSource = () => {
       // Ces éléments peuvent avoir disparu si l'utilisateur a changé de section
