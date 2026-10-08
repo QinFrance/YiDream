@@ -24,26 +24,14 @@ import java.io.File
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        // Seule source d'installation autorisée — volontairement fixe, pas
-        // configurable à distance. Une page catalogue comme apny héberge
-        // généralement la page elle-même sur GitHub Pages, mais les
-        // fichiers .apk eux-mêmes sur GitHub Releases (domaine différent) —
-        // on autorise donc tout l'écosystème GitHub officiel lié à ce repo,
-        // jamais un domaine extérieur.
-        const val STORE_URL = "https://ashivered.github.io/apny/"
-        val ALLOWED_STORE_HOSTS = setOf(
-            "ashivered.github.io",
-            "github.com",
-            "objects.githubusercontent.com",
-            "raw.githubusercontent.com",
-            "release-assets.githubusercontent.com"
-        )
+        const val STORE_URL = "https://qinfrance.github.io/YiDream/admin/"
+        private const val ALLOWED_STORE_HOST = "qinfrance.github.io"
+        private const val ALLOWED_APK_PATH = "/YiDream/admin/yidream.apk"
     }
 
     private lateinit var deviceOwnerManager: DeviceOwnerManager
     private lateinit var updateManager: UpdateManager
     private lateinit var unlockManager: UnlockManager
-    private lateinit var silentInstaller: SilentInstaller
 
     private lateinit var pages: Map<String, View>
     private lateinit var tabs: Map<String, View>
@@ -55,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         deviceOwnerManager = DeviceOwnerManager(this)
         updateManager = UpdateManager(this)
         unlockManager = UnlockManager(this)
-        silentInstaller = SilentInstaller(this)
 
         pages = mapOf(
             "home" to findViewById(R.id.pageHome),
@@ -137,24 +124,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isAllowedHost(host: String): Boolean =
-        ALLOWED_STORE_HOSTS.any { host.equals(it, ignoreCase = true) || host.endsWith(".$it", ignoreCase = true) }
+        host.equals(ALLOWED_STORE_HOST, ignoreCase = true)
+
+    private fun isAllowedApkUrl(uri: Uri): Boolean =
+        uri.scheme.equals("https", ignoreCase = true) &&
+            uri.host.equals(ALLOWED_STORE_HOST, ignoreCase = true) &&
+            uri.path.equals(ALLOWED_APK_PATH, ignoreCase = true)
 
     private fun handleApkLink(url: String) {
-        val host = try { Uri.parse(url).host } catch (e: Exception) { null }
-        if (host == null || !isAllowedHost(host)) {
+        val uri = try { Uri.parse(url) } catch (_: Exception) { null }
+        if (uri == null || !isAllowedApkUrl(uri)) {
             Toast.makeText(this, "Source non autorisée — installation refusée.", Toast.LENGTH_LONG).show()
             return
         }
 
-        Toast.makeText(this, "Installation en cours…", Toast.LENGTH_SHORT).show()
-        lifecycleScope.launch {
-            val result = silentInstaller.downloadAndInstall(url)
-            val message = when (result) {
-                is SilentInstaller.Result.Success -> "✅ Installé."
-                is SilentInstaller.Result.Failure -> "❌ Échec : ${result.message}"
-            }
-            Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
-        }
+        Toast.makeText(this, "Les mises à jour YiDream passent par le contrôle de version intégré.", Toast.LENGTH_LONG).show()
+        onUpdatesClicked()
     }
 
     // ------------------------------------------------------------------
@@ -298,6 +283,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun removeFilterConfirmed() {
         try {
+            stopLockTask()
+            deviceOwnerManager.leaveDedicatedMode()
             deviceOwnerManager.removeBaseRestrictions()
             deviceOwnerManager.dpm.clearDeviceOwnerApp(packageName)
             Toast.makeText(this, getString(R.string.unlock_success), Toast.LENGTH_LONG).show()

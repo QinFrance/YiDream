@@ -14,7 +14,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -25,6 +25,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      RELEASE_SIGNING: ${{ secrets.YIDREAM_KEYSTORE_BASE64 != '' && secrets.YIDREAM_KEY_ALIAS != '' && secrets.YIDREAM_KEY_PASSWORD != '' && secrets.YIDREAM_STORE_PASSWORD != '' }}
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
@@ -45,11 +47,57 @@ jobs:
       - name: Rendre gradlew exécutable
         run: chmod +x ./gradlew
 
-      - name: Compiler l'APK debug
+      - name: Préparer la clé de signature
+        if: env.RELEASE_SIGNING == 'true'
+        env:
+          YIDREAM_KEYSTORE_BASE64: ${{ secrets.YIDREAM_KEYSTORE_BASE64 }}
+        run: echo "$YIDREAM_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/yidream-release.jks"
+
+      - name: Compiler l'APK signé
+        if: env.RELEASE_SIGNING == 'true'
+        env:
+          ORG_GRADLE_PROJECT_yidreamStoreFile: ${{ runner.temp }}/yidream-release.jks
+          ORG_GRADLE_PROJECT_yidreamStorePassword: ${{ secrets.YIDREAM_STORE_PASSWORD }}
+          ORG_GRADLE_PROJECT_yidreamKeyAlias: ${{ secrets.YIDREAM_KEY_ALIAS }}
+          ORG_GRADLE_PROJECT_yidreamKeyPassword: ${{ secrets.YIDREAM_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Compiler l'APK installable de prévisualisation
+        if: env.RELEASE_SIGNING != 'true'
         run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Copier l'APK dans le site
-        run: cp app/build/outputs/apk/debug/app-debug.apk webadb/public/yidream.apk
+        run: |
+          if [ "$RELEASE_SIGNING" = "true" ]; then
+            cp app/build/outputs/apk/release/app-release.apk webadb/public/yidream.apk
+          else
+            cp app/build/outputs/apk/debug/app-debug.apk webadb/public/yidream.apk
+          fi
+
+      - name: Générer le manifeste avec l'empreinte de l'APK
+        run: |
+          sha256sum webadb/public/yidream.apk | cut -d ' ' -f1 > "$RUNNER_TEMP/yidream-apk.sha256"
+          jq --rawfile apkSha "$RUNNER_TEMP/yidream-apk.sha256" '.apkSha256 = ($apkSha | gsub("\n"; ""))' version.json > "$RUNNER_TEMP/version.json"
+
+      - name: Publier l'APK dans les artefacts GitHub Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: yidream-install-v5.4
+          path: webadb/public/yidream.apk
+          if-no-files-found: error
+
+      - name: Créer la version YiDream v5.4
+        if: env.RELEASE_SIGNING == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v5.4
+          name: YiDream v5.4
+          body: |
+            YiDream avec le launcher musical, les modes portrait et paysage, ainsi que des raccourcis vers Zemer, Waze, Pulsar, Bluetooth et les réglages.
+          files: webadb/public/yidream.apk
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # --- Compilation et déploiement des deux espaces ---
       - name: Installer Node.js
@@ -72,6 +120,8 @@ jobs:
           cp -R "$RUNNER_TEMP/yidream-admin/." webadb/dist/admin/
           cp site/client/index.html webadb/dist/index.html
           cp webadb/assets/icons/yidream-original.png webadb/dist/icons/yidream-original.png
+          cp "$RUNNER_TEMP/version.json" webadb/dist/version.json
+          cp webadb/public/launcher-preview.html webadb/dist/launcher-preview.html
 
       - name: Configurer GitHub Pages
         uses: actions/configure-pages@v5

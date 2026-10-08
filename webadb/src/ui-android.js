@@ -81,6 +81,7 @@ const sections = {
         <button class="primary" id="btnInstall" disabled>${esc(t('install_button'))}</button>
         <button class="ghost" id="btnCheck">${esc(t('install_check'))}</button>
         <div class="small" id="installStatus" style="margin-top:10px"></div>
+        <div class="small" style="margin-top:9px"><a href="./launcher-preview.html" target="_blank" rel="noopener">${esc(t('launcher_preview'))}</a></div>
         <div class="small" style="margin-top:14px"><a href="#" id="apkAdvancedLink" style="color:var(--muted)">${esc(t('install_advanced_toggle'))}</a></div>
         <div id="apkAdvanced" style="display:none;margin-top:10px" class="field"><label>${esc(t('install_manual_label'))}</label><input type="file" id="apkInput" accept=".apk"></div>
       </div>${logBox()}`;
