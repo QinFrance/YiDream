@@ -1,7 +1,7 @@
 {
-  "versionCode": 9,
-  "versionName": "v5.4",
+  "versionCode": 10,
+  "versionName": "v5.5",
   "apkUrl": "https://qinfrance.github.io/YiDream/admin/yidream.apk",
   "apkSha256": "",
-  "changelog": "YiDream lance son launcher musical, avec accès rapide à Zemer, Waze, Pulsar, Bluetooth et aux réglages."
+  "changelog": "Nouvel accueil avec statut du filtre, accès rapides à la boutique et aux réglages, interface claire et navigation modernisée."
 }

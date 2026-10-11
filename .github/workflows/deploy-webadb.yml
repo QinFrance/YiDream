@@ -7,6 +7,7 @@ on:
       - 'site/client/**'
       - 'webadb/**'
       - 'app/**'
+      - 'version.json'
       - 'build.gradle'
       - 'settings.gradle'
       - 'gradle.properties'
@@ -90,18 +91,18 @@ jobs:
       - name: Publier l'APK dans les artefacts GitHub Actions
         uses: actions/upload-artifact@v4
         with:
-          name: yidream-install-v5.4
+          name: yidream-install-v5.5
           path: webadb/public/yidream.apk
           if-no-files-found: error
 
-      - name: Créer la version YiDream v5.4
+      - name: Créer la version YiDream v5.5
         if: env.RELEASE_SIGNING == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v5.4
-          name: YiDream v5.4
+          tag_name: v5.5
+          name: YiDream v5.5
           body: |
-            YiDream avec le launcher musical, les modes portrait et paysage, ainsi que des raccourcis vers Zemer, Waze, Pulsar, Bluetooth et les réglages.
+            Nouvelle interface YiDream : accueil avec statut du filtre, raccourcis boutique et réglages, cartes arrondies et navigation modernisée.
           files: webadb/public/yidream.apk
           fail_on_unmatched_files: true
         env:

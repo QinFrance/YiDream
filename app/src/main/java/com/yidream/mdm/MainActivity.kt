@@ -67,7 +67,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.rowUpdates).setOnClickListener { onUpdatesClicked() }
         findViewById<View>(R.id.rowRemoveFilter).setOnClickListener { onRemoveFilterClicked() }
 
-        selectTab("home")
+        findViewById<View>(R.id.homeOpenStore).setOnClickListener { selectTab("store") }
+        findViewById<View>(R.id.homeOpenSettings).setOnClickListener { selectTab("settings") }
+        selectTab(savedInstanceState?.getString("selectedTab") ?: "home")
         importWebAdbConfigIfPresent()
     }
 
@@ -75,10 +77,20 @@ class MainActivity : AppCompatActivity() {
     // Navigation par onglets
     // ------------------------------------------------------------------
 
+    private var selectedTab = "home"
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("selectedTab", selectedTab)
+        super.onSaveInstanceState(outState)
+    }
+
     private fun selectTab(key: String) {
+        selectedTab = key
         pages.forEach { (k, v) -> v.visibility = if (k == key) View.VISIBLE else View.GONE }
         tabs.forEach { (k, v) ->
-            v.alpha = if (k == key) 1.0f else 0.5f
+            v.isSelected = k == key
+            v.alpha = if (k == key) 1.0f else 0.65f
+            v.setBackgroundResource(if (k == key) R.drawable.bg_glass_pill_selected else R.drawable.bg_glass_pill)
         }
     }
 
@@ -184,6 +196,7 @@ class MainActivity : AppCompatActivity() {
         val statusBanner = findViewById<TextView>(R.id.statusBanner)
         val isOwner = deviceOwnerManager.isDeviceOwner()
         statusBanner.text = if (isOwner) getString(R.string.status_owner) else getString(R.string.status_not_owner)
+        findViewById<TextView>(R.id.homeStatus).text = statusBanner.text
         if (isOwner) {
             statusBanner.setBackgroundResource(R.drawable.bg_status_success)
             statusBanner.setTextColor(getColor(R.color.status_success_text))
