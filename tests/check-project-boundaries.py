@@ -11,3 +11,13 @@ migration=s[s.index('private fun restoreFilterAppRole()'):s.index('// Navigation
 assert 'clearDeviceOwnerApp' not in migration and 'removeBaseRestrictions' not in migration
 old=(p/'app/src/main/java/com/yidream/mdm/LauncherActivity.kt').read_text();assert 'MainActivity::class.java' in old and 'WebView' not in old
 print('PASS: YiDream opens filter dashboard, has no HOME role, retains owner and filtering during migration.')
+
+resources=p/'app/src/main/res'
+layout=(resources/'layout/activity_main.xml').read_text()
+assert 'pageSites' in layout and 'storeContent' in layout and '<WebView' not in layout
+assert '@drawable/bg_app_gradient' in layout
+assert '<color name="accent_navy">#0C1C38</color>' in (resources/'values/colors.xml').read_text()
+controller=(p/'app/src/main/java/com/yidream/mdm/MdmPortalController.kt').read_text()
+assert 'service.requestSite' in controller and 'UUID.randomUUID()' in controller
+assert 'portal.refreshStore()' in s and 'portal.refreshSites()' in s
+print('PASS: native store and site requests use the original YiDream palette.')

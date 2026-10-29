@@ -1,16 +1,10 @@
 package com.yidream.mdm
 
 import android.app.AlertDialog
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,15 +17,11 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        const val STORE_URL = "https://qinfrance.github.io/YiDream/admin/"
-        private const val ALLOWED_STORE_HOST = "qinfrance.github.io"
-        private const val ALLOWED_APK_PATH = "/YiDream/admin/yidream.apk"
-    }
-
     private lateinit var deviceOwnerManager: DeviceOwnerManager
     private lateinit var updateManager: UpdateManager
     private lateinit var unlockManager: UnlockManager
+
+    private lateinit var portal: MdmPortalController
 
     private lateinit var pages: Map<String, View>
     private lateinit var tabs: Map<String, View>
@@ -49,18 +39,21 @@ class MainActivity : AppCompatActivity() {
             "home" to findViewById(R.id.pageHome),
             "store" to findViewById(R.id.pageStore),
             "settings" to findViewById(R.id.pageSettings),
+            "sites" to findViewById(R.id.pageSites),
             "about" to findViewById(R.id.pageAbout)
         )
         tabs = mapOf(
             "home" to findViewById(R.id.tabHome),
             "store" to findViewById(R.id.tabStore),
             "settings" to findViewById(R.id.tabSettings),
+            "sites" to findViewById(R.id.tabSites),
             "about" to findViewById(R.id.tabAbout)
         )
 
         tabs.forEach { (key, view) -> view.setOnClickListener { selectTab(key) } }
 
-        setupStoreWebView()
+        portal = MdmPortalController(this)
+        findViewById<View>(R.id.rowPairDevice).setOnClickListener { portal.pair() }
         setupLanguagePicker()
         refreshStatus()
         setupVersionAndContact()
@@ -102,73 +95,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun selectTab(key: String) {
         selectedTab = key
+        if (key == "store") portal.refreshStore()
+        if (key == "sites") portal.refreshSites()
         pages.forEach { (k, v) -> v.visibility = if (k == key) View.VISIBLE else View.GONE }
         tabs.forEach { (k, v) ->
             v.isSelected = k == key
             v.alpha = if (k == key) 1.0f else 0.65f
             v.setBackgroundResource(if (k == key) R.drawable.bg_glass_pill_selected else R.drawable.bg_glass_pill)
+            if (v is LinearLayout) for (i in 0 until v.childCount) {
+                val child = v.getChildAt(i)
+                val color = getColor(if (k == key) R.color.white else R.color.accent_navy)
+                if (child is TextView) child.setTextColor(color)
+                if (child is android.widget.ImageView) child.setColorFilter(color)
+            }
         }
     }
 
     // ------------------------------------------------------------------
     // App Store — WebView verrouillée sur une seule source
     // ------------------------------------------------------------------
-
-    private fun setupStoreWebView() {
-        val webView = findViewById<WebView>(R.id.storeWebView)
-        val progress = findViewById<ProgressBar>(R.id.storeProgress)
-
-        webView.settings.javaScriptEnabled = true
-        webView.settings.domStorageEnabled = true
-
-        webView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                progress.progress = newProgress
-                progress.visibility = if (newProgress >= 100) View.GONE else View.VISIBLE
-            }
-        }
-
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                val url = request?.url?.toString() ?: return false
-                // "contains" plutôt que "endsWith" : beaucoup de liens de
-                // téléchargement ont des paramètres après ".apk" (ex: ?token=...)
-                if (url.contains(".apk", ignoreCase = true)) {
-                    handleApkLink(url)
-                    return true
-                }
-                val host = try { Uri.parse(url).host } catch (e: Exception) { null }
-                return host != null && !isAllowedHost(host)
-            }
-        }
-
-        webView.setDownloadListener { url, _, _, _, _ ->
-            // Le DownloadListener se déclenche dès qu'Android reconnaît un
-            // contenu non affichable (comme une APK) — indépendamment de la
-            // forme exacte de l'URL, c'est le filet de sécurité le plus fiable.
-            handleApkLink(url)
-        }
-        webView.loadUrl(STORE_URL)
-    }
-
-    private fun isAllowedHost(host: String): Boolean =
-        host.equals(ALLOWED_STORE_HOST, ignoreCase = true)
-
-    private fun isAllowedApkUrl(uri: Uri): Boolean =
-        uri.scheme?.equals("https", ignoreCase = true) == true &&
-            uri.host?.equals(ALLOWED_STORE_HOST, ignoreCase = true) == true &&
-            uri.path?.equals(ALLOWED_APK_PATH, ignoreCase = true) == true
-
-    private fun handleApkLink(url: String) {
-        val uri = try { Uri.parse(url) } catch (_: Exception) { null }
-        if (uri == null || !isAllowedApkUrl(uri)) {
-            Toast.makeText(this, "Source non autorisée — installation refusée.", Toast.LENGTH_LONG).show()
-            return
-        }
-
-        Toast.makeText(this, "Les mises à jour YiDream passent par le contrôle de version intégré.", Toast.LENGTH_LONG).show()
-        onUpdatesClicked()
-    }
 
     // ------------------------------------------------------------------
     // Réglages — langue

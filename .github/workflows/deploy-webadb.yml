@@ -94,16 +94,16 @@ jobs:
       - name: Publier l'APK dans les artefacts GitHub Actions
         uses: actions/upload-artifact@v4
         with:
-          name: yidream-install-v5.6
+          name: yidream-install-v5.7
           path: webadb/public/yidream.apk
           if-no-files-found: error
 
-      - name: Créer la version YiDream v5.6
+      - name: Créer la version YiDream v5.7
         if: env.RELEASE_SIGNING == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v5.6
-          name: YiDream v5.6
+          tag_name: v5.7
+          name: YiDream v5.7
           body: |
             YiDream : accueil, boutique, réglages et filtre. Le launcher musical est réservé au projet distinct YZ MDM.
           files: webadb/public/yidream.apk
