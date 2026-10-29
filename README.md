@@ -66,3 +66,11 @@ npm run dev     # http://localhost:5173 (le verrou d'origine est levé sur local
 ```
 
 Windows : WebUSB exige de remplacer le pilote USB du téléphone par WinUSB avec Zadig (détails affichés dans l'onglet Connect).
+
+## Boutique et demandes de sites (v5.7)
+
+L’application utilise des écrans Android natifs avec la palette YiDream d’origine. Dans YiDream Suite, « Boutique et demandes » permet de publier les APK approuvées, de générer un code d’association et de répondre aux demandes. L’utilisateur saisit ce code dans les réglages de l’application.
+
+Avant mise en service, appliquer `20261029000000_mdm_catalog_and_site_requests.sql` du dépôt YiDream-Suite dans Supabase. Aucun rôle administrateur ni clé serveur ne doit être placé dans l’APK. Sans migration, l’interface indique que le service doit être activé ; elle ne simule aucun envoi réussi.
+
+Une décision d’acceptation est transmise à l’utilisateur ; elle ne configure pas à elle seule un filtrage réseau par domaine. Ce filtrage doit être assuré par la solution réseau retenue.

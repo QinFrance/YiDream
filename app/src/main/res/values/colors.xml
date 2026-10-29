@@ -5,11 +5,11 @@
     <color name="accent_blue">#014DB3</color>
     <color name="accent_blue_soft">#E8EFFB</color>
 
-    <color name="bg_grouped">#F4F6FA</color>
+    <color name="bg_grouped">#F2F2F7</color>
     <color name="surface_card">#FFFFFF</color>
 
     <color name="text_primary">#1C1C1E</color>
-    <color name="text_secondary">#596579</color>
+    <color name="text_secondary">#8E8E93</color>
     <color name="text_tertiary">#C7C7CC</color>
 
     <color name="status_success_bg">#E3F7E9</color>
@@ -22,13 +22,13 @@
     <color name="white">#FFFFFF</color>
 
     <!-- Tons "verre" : blancs et bords semi-transparents pour l'effet dépoli -->
-    <color name="glass_fill">#FFFFFF</color>
-    <color name="glass_fill_light">#F0F4FA</color>
-    <color name="glass_border">#E4E9F1</color>
+    <color name="glass_fill">#CCFFFFFF</color>
+    <color name="glass_fill_light">#99FFFFFF</color>
+    <color name="glass_border">#66FFFFFF</color>
     <color name="glass_highlight">#33FFFFFF</color>
     <color name="glass_shadow">#1A0C1C38</color>
 
-    <color name="text_on_gradient_secondary">#FFFFFF</color>
+    <color name="text_on_gradient_secondary">#CCFFFFFF</color>
 
     <!-- Dégradé de fond (navy → bleu → bleu clair) derrière les panneaux de verre -->
     <color name="gradient_start">#0C1C38</color>

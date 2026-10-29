@@ -1,7 +1,7 @@
 {
-  "versionCode": 11,
-  "versionName": "v5.6",
+  "versionCode": 12,
+  "versionName": "v5.7",
   "apkUrl": "https://qinfrance.github.io/YiDream/admin/yidream.apk",
   "apkSha256": "",
-  "changelog": "YiDream retrouve son interface de gestion du filtre : accueil, boutique, réglages et informations. Le launcher musical appartient au projet YZ MDM."
+  "changelog": "Application MDM YiDream : couleurs originales, boutique native administrée et demandes de sites avec suivi. Association du téléphone par code administrateur."
 }
