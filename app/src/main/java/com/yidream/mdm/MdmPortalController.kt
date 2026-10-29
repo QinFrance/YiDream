@@ -72,6 +72,8 @@ class MdmPortalController(private val activity: AppCompatActivity) {
         store.removeAllViews()
         label(store, text(R.string.mdm_catalog_description))
         if (needsPairing(store)) return
+        val owner = DeviceOwnerManager(activity).isDeviceOwner()
+        if (!owner) label(store, text(R.string.mdm_owner_required))
         val state = label(store, text(R.string.mdm_loading))
         activity.lifecycleScope.launch {
             try {
@@ -84,6 +86,7 @@ class MdmPortalController(private val activity: AppCompatActivity) {
                     label(store, app.getString("name"), true)
                     label(store, app.optString("description"))
                     val install = action(store, text(R.string.mdm_install)) { }
+                    install.isEnabled = owner
                     install.setOnClickListener {
                         install.isEnabled = false
                         activity.lifecycleScope.launch {

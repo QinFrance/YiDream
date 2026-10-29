@@ -51,4 +51,6 @@
   <string name="mdm_invalid_site">Entrez une adresse HTTPS valide, sans identifiant ni mot de passe.</string>
   <string name="mdm_service_missing">Le service MDM doit encore être activé par votre administrateur.</string>
   <string name="mdm_network_error">La connexion au service a échoué. Vérifiez le réseau ou le code d’association, puis réessayez.</string>
+  <string name="mdm_owner_required">La configuration administrateur de cet appareil doit être terminée pour installer les applications.</string>
+  <string name="mdm_site_shortcut">Envoyer une adresse à votre administrateur</string>
 </resources>

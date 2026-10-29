@@ -19,6 +19,7 @@ class CatalogInstaller(private val context: Context) {
 
 
     suspend fun install(app: org.json.JSONObject): SilentInstaller.Result = withContext(Dispatchers.IO) {
+        if (!DeviceOwnerManager(context).isDeviceOwner()) return@withContext SilentInstaller.Result.Failure("Configuration MDM requise.")
         val apkUrl = app.getString("apk_url")
         val expectedSha256 = app.getString("sha256")
         val expectedPackage = app.getString("package_name")

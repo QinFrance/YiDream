@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.rowUpdates).setOnClickListener { onUpdatesClicked() }
         findViewById<View>(R.id.rowRemoveFilter).setOnClickListener { onRemoveFilterClicked() }
 
+        findViewById<View>(R.id.homeOpenSites).setOnClickListener { selectTab("sites") }
         findViewById<View>(R.id.homeOpenStore).setOnClickListener { selectTab("store") }
         findViewById<View>(R.id.homeOpenSettings).setOnClickListener { selectTab("settings") }
         selectTab(savedInstanceState?.getString("selectedTab") ?: "home")
