@@ -29,7 +29,7 @@ mais elle ne convient pas à une chaîne de mises à jour destinée au public.
 Le workflow `Deploy YiDream client site and Android console` construit l'APK,
 l'ajoute au site Web ADB et publie le site sur
 [YiDream Pages](https://qinfrance.github.io/YiDream/). Quand les secrets de
-signature sont présents, il crée aussi une GitHub Release `v5.4` avec l'APK.
+signature sont présents, il crée aussi une GitHub Release `v5.6` avec l'APK.
 
 Le programme de mise à jour n'accepte que l'URL YiDream publiée et compare le
 SHA-256 du fichier avant l'installation silencieuse. Android vérifie également

@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         deviceOwnerManager = DeviceOwnerManager(this)
+        restoreFilterAppRole()
         updateManager = UpdateManager(this)
         unlockManager = UnlockManager(this)
 
@@ -71,6 +72,21 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.homeOpenSettings).setOnClickListener { selectTab("settings") }
         selectTab(savedInstanceState?.getString("selectedTab") ?: "home")
         importWebAdbConfigIfPresent()
+    }
+
+    /** Remove only the former music launcher policy; keep the configured filter and owner. */
+    private fun restoreFilterAppRole() {
+        val preferences = getSharedPreferences("yidream_role_migration", MODE_PRIVATE)
+        if (!deviceOwnerManager.isDeviceOwner() || preferences.getBoolean("filter_app_v56", false)) return
+        try {
+            stopLockTask()
+        } catch (_: IllegalArgumentException) {
+            // No lock-task session is active.
+        } catch (_: SecurityException) {
+            // Android already ended the old activity's lock-task session.
+        }
+        deviceOwnerManager.leaveDedicatedMode()
+        preferences.edit().putBoolean("filter_app_v56", true).apply()
     }
 
     // ------------------------------------------------------------------

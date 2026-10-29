@@ -1,6 +1,10 @@
-# YiDream v1.2
+# YiDream
 
 Plateforme de gestion d'appareils Android filtrés. Ce dépôt contient l'app Android et le site **YiDream Suite** (configurateur Web ADB).
+
+## Application Android
+
+YiDream ouvre directement les onglets Accueil, Boutique, Réglages et À propos pour gérer le filtre. Le launcher musical est un projet distinct : [YZ MDM](https://github.com/QinFrance/YZ-MDM). YiDream ne remplace pas l’écran d’accueil Android.
 
 ## Contenu
 

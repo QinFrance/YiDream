@@ -1,0 +1,13 @@
+from pathlib import Path
+import xml.etree.ElementTree as E
+p=Path(__file__).resolve().parents[1]; n={'a':'http://schemas.android.com/apk/res/android'}; key='{'+n['a']+'}name'
+r=E.parse(p/'app/src/main/AndroidManifest.xml').getroot()
+launchers=[a.attrib[key] for a in r.findall('.//activity') if a.find("intent-filter/category[@a:name='android.intent.category.LAUNCHER']",n) is not None]
+assert launchers==['.MainActivity'],launchers
+assert not r.findall(".//category[@a:name='android.intent.category.HOME']",n)
+s=(p/'app/src/main/java/com/yidream/mdm/MainActivity.kt').read_text(); assert all('"'+tab+'" to findViewById' in s for tab in ['home','store','settings','about'])
+assert 'deviceOwnerManager.leaveDedicatedMode()' in s
+migration=s[s.index('private fun restoreFilterAppRole()'):s.index('// Navigation par onglets')]
+assert 'clearDeviceOwnerApp' not in migration and 'removeBaseRestrictions' not in migration
+old=(p/'app/src/main/java/com/yidream/mdm/LauncherActivity.kt').read_text();assert 'MainActivity::class.java' in old and 'WebView' not in old
+print('PASS: YiDream opens filter dashboard, has no HOME role, retains owner and filtering during migration.')

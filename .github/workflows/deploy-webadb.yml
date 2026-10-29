@@ -32,6 +32,9 @@ jobs:
       - name: Récupérer le code
         uses: actions/checkout@v4
 
+      - name: Vérifier la séparation YiDream et YZ
+        run: python3 tests/check-project-boundaries.py
+
       # --- Compilation de l'APK Android, pour le bundler dans le site ---
       - name: Installer Java 17
         uses: actions/setup-java@v4
@@ -91,18 +94,18 @@ jobs:
       - name: Publier l'APK dans les artefacts GitHub Actions
         uses: actions/upload-artifact@v4
         with:
-          name: yidream-install-v5.5
+          name: yidream-install-v5.6
           path: webadb/public/yidream.apk
           if-no-files-found: error
 
-      - name: Créer la version YiDream v5.5
+      - name: Créer la version YiDream v5.6
         if: env.RELEASE_SIGNING == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v5.5
-          name: YiDream v5.5
+          tag_name: v5.6
+          name: YiDream v5.6
           body: |
-            Nouvelle interface YiDream : accueil avec statut du filtre, raccourcis boutique et réglages, cartes arrondies et navigation modernisée.
+            YiDream : accueil, boutique, réglages et filtre. Le launcher musical est réservé au projet distinct YZ MDM.
           files: webadb/public/yidream.apk
           fail_on_unmatched_files: true
         env:
@@ -130,7 +133,6 @@ jobs:
           cp site/client/index.html webadb/dist/index.html
           cp webadb/assets/icons/yidream-original.png webadb/dist/icons/yidream-original.png
           cp "$RUNNER_TEMP/version.json" webadb/dist/version.json
-          cp webadb/public/launcher-preview.html webadb/dist/launcher-preview.html
 
       - name: Configurer GitHub Pages
         uses: actions/configure-pages@v5
