@@ -26,4 +26,12 @@
   <string name="home_quick_access">שנעלער צוטריט</string>
   <string name="home_store_description">אַנטדעקן דערלויבטע אַפּליקאַציעס</string>
   <string name="home_settings_description">שפּראַך, שוץ און דערהייַנטיקונגען</string>
+  <string name="ui_brand_caption">מיין אָרט</string>
+  <string name="ui_home_title">אַ קלאָרער אָרט.</string>
+  <string name="ui_home_accent">לויט אייערע באַדערפֿענישן.</string>
+  <string name="ui_settings_subtitle">אייערע באַשטעטיקונגען, אויף איין אָרט.</string>
+  <string name="ui_store_eyebrow">אייער אויסוואַל</string>
+  <string name="ui_connection_section">אייער מכשיר</string>
+  <string name="ui_updates_caption">ווערסיע און נײַעס</string>
+  <string name="ui_pair_caption">פֿאַרבינדן דעם מכשיר מיט אייער YiDream־אָרט</string>
 </resources>

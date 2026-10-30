@@ -47,6 +47,16 @@ jobs:
       - name: Compiler l'APK debug
         run: ./gradlew testDebugUnitTest assembleDebug --no-daemon --stacktrace
 
+      - name: Conserver les captures et contrôles des écrans
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yidream-ui-previews
+          path: |
+            app/build/ui-previews
+            app/build/reports/tests/testDebugUnitTest
+          if-no-files-found: ignore
+
       - name: Publier l'APK comme artefact téléchargeable
         uses: actions/upload-artifact@v4
         with:

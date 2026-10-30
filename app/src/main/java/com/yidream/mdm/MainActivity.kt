@@ -127,13 +127,22 @@ class MainActivity : AppCompatActivity() {
 
         val row = findViewById<LinearLayout>(R.id.languageRow)
         row.removeAllViews()
+        val currentLanguage = AppCompatDelegate.getApplicationLocales().get(0)?.language
+            ?: resources.configuration.locales[0].language
+        val density = resources.displayMetrics.density
 
         options.forEach { opt ->
             val item = TextView(this).apply {
                 text = "${opt.flag}\n${opt.label}"
-                textSize = 13f
+                textSize = 12f
                 gravity = android.view.Gravity.CENTER
-                setPadding(16, 8, 16, 8)
+                setPadding((4 * density).toInt(), (12 * density).toInt(), (4 * density).toInt(), (12 * density).toInt())
+                minHeight = (64 * density).toInt()
+                setBackgroundResource(R.drawable.ui_language_chip)
+                isSelected = opt.tag == when (currentLanguage) { "iw" -> "he"; "ji" -> "yi"; else -> currentLanguage }
+                setTextColor(getColor(if (isSelected) R.color.accent_blue else R.color.text_secondary))
+                setTypeface(typeface, if (isSelected) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
+                contentDescription = opt.label
                 layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 isClickable = true
                 isFocusable = true

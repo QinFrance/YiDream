@@ -26,4 +26,12 @@
   <string name="home_quick_access">גישה מהירה</string>
   <string name="home_store_description">גילוי אפליקציות מאושרות</string>
   <string name="home_settings_description">שפה, הגנה ועדכונים</string>
+  <string name="ui_brand_caption">האזור שלי</string>
+  <string name="ui_home_title">מרחב ברור.</string>
+  <string name="ui_home_accent">מותאם לכם.</string>
+  <string name="ui_settings_subtitle">ההעדפות שלכם, במקום אחד.</string>
+  <string name="ui_store_eyebrow">הבחירה שלכם</string>
+  <string name="ui_connection_section">המכשיר שלכם</string>
+  <string name="ui_updates_caption">גרסה ועדכונים</string>
+  <string name="ui_pair_caption">חיבור המכשיר לאזור YiDream שלכם</string>
 </resources>

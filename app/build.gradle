@@ -11,8 +11,8 @@ android {
         applicationId "com.yidream.mdm"
         minSdk 26
         targetSdk 34
-        versionCode 15
-        versionName "v5.8.2"
+        versionCode 16
+        versionName "v5.9"
     }
 
     signingConfigs {
@@ -44,6 +44,17 @@ android {
         jvmTarget = '17'
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            all {
+                maxHeapSize = '2g'
+                systemProperty 'java.awt.headless', 'true'
+                systemProperty 'yidream.uiPreviewDir', file("$buildDir/ui-previews").absolutePath
+            }
+        }
+    }
+
     buildFeatures {
         viewBinding true
         buildConfig true
@@ -52,6 +63,7 @@ android {
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.17'
     implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
