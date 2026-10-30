@@ -1,0 +1,4 @@
+<resources>
+    <!-- Android 8.1+ supports dark system navigation icons on the light surface. -->
+    <color name="system_navigation_bar">@color/bg_grouped</color>
+</resources>

@@ -8,7 +8,7 @@
         <item name="android:statusBarColor">@color/bg_grouped</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:navigationBarColor">@color/bg_grouped</item>
+        <item name="android:navigationBarColor">@color/system_navigation_bar</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 </resources>
