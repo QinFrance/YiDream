@@ -19,18 +19,32 @@ Dans les paramètres GitHub du dépôt, ajoute ces quatre Actions secrets :
 - `YIDREAM_KEY_PASSWORD`
 
 Garde une copie de sauvegarde du keystore et de ses mots de passe. Sans ces
-secrets, le workflow publie seulement un APK de prévisualisation signé en debug
-sur le site et dans les artefacts Actions ; il ne crée pas de version GitHub
-Release. Une APK de prévisualisation peut s'installer sur un appareil vierge,
-mais elle ne convient pas à une chaîne de mises à jour destinée au public.
+secrets, le workflow compile et teste un APK de prévisualisation disponible
+uniquement dans les artefacts Actions. Il ne déploie pas le site, ne remplace
+pas l'APK ni le manifeste public et ne crée pas de version GitHub Release.
+Une clé debug créée sur un nouveau runner peut différer de celle du précédent :
+ces APK ne doivent pas être proposées comme mises à jour sur les téléphones.
+
+Le certificat public de production est épinglé dans `signing-certificate.sha256`.
+La publication vérifie la signature réelle de l'APK avec l'outil Android avant
+de le diffuser ; modifier les secrets avec une autre clé ne suffit pas à
+remplacer silencieusement cette identité.
+
+La clé d'origine est nécessaire pour remplacer une APK déjà installée. Le
+certificat public présent dans un ancien APK ne permet pas de reconstruire sa
+clé privée. Conserve la configuration MDM et l'application existante pendant
+le diagnostic ; ne désinstalle pas l'application pour contourner ce refus.
 
 ## Publication
 
 Le workflow `Deploy YiDream client site and Android console` construit l'APK,
 l'ajoute au site Web ADB et publie le site sur
 [YiDream Pages](https://qinfrance.github.io/YiDream/). Quand les secrets de
-signature sont présents, il crée aussi une GitHub Release `v5.6` avec l'APK.
+signature sont présents, il crée aussi la GitHub Release correspondant à la version de l'APK.
 
 Le programme de mise à jour n'accepte que l'URL YiDream publiée et compare le
-SHA-256 du fichier avant l'installation silencieuse. Android vérifie également
-que la signature de l'APK correspond à celle de l'application déjà installée.
+SHA-256 du fichier, le paquet, la version annoncée et la compatibilité de
+signature avant l'installation. Il attend le résultat Android et vérifie la
+version effectivement installée avant d'annoncer un succès. Android conserve
+la décision finale, notamment lors d'une rotation de clé avec preuve valide.
+

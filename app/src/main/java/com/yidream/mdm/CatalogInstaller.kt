@@ -3,6 +3,7 @@ package com.yidream.mdm
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CancellationException
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
@@ -74,21 +75,17 @@ class CatalogInstaller(private val context: Context) {
                 return@withContext SilentInstaller.Result.Failure("La vérification de l'APK a échoué.")
             }
 
-            run {
-                @Suppress("DEPRECATION")
-                val archive = context.packageManager.getPackageArchiveInfo(tempFile.absolutePath, 0)
-                require(archive?.packageName == expectedPackage) { "Le paquet ne correspond pas au catalogue." }
-                val expectedVersion = app.optLong("version_code", 0L)
-                val archiveVersion = if (android.os.Build.VERSION.SDK_INT >= 28) archive!!.longVersionCode else archive!!.versionCode.toLong()
-                require(expectedVersion > 0L && archiveVersion == expectedVersion) { "La version de l’APK ne correspond pas au catalogue." }
-                PackageSessionInstaller(context).install(tempFile)
-            }.also { tempFile.delete() }
+            PackageSessionInstaller(context).install(tempFile, expectedPackage, app.optLong("version_code", 0L))
+        } catch (cancelled: CancellationException) {
+            throw cancelled
         } catch (e: Exception) {
             tempFile.delete()
             SilentInstaller.Result.Failure(e.message ?: "Erreur inconnue")
         } finally {
+            tempFile.delete()
             connection?.disconnect()
         }
     }
 
 }
+

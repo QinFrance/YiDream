@@ -8,9 +8,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 /**
- * Vérifie et installe les mises à jour de YiDream lui-même — SILENCIEUSEMENT,
- * via SilentInstaller (capacité Device Owner confirmée, aucune confirmation
- * utilisateur requise, contrairement à ce qu'on pensait au début du projet).
+ * Updates YiDream through its Device Owner installation session. Submission is
+ * never considered success without Android's result and the installed version.
  *
  * The manifest is hosted with the public YiDream Pages site and includes
  * the checksum of the APK produced by the deployment workflow.
@@ -37,6 +36,8 @@ class UpdateManager(private val context: Context) {
         try {
             val connection = URL(MANIFEST_URL).openConnection() as HttpURLConnection
             connection.instanceFollowRedirects = false
+            connection.useCaches = false
+            connection.setRequestProperty("Cache-Control", "no-cache")
             connection.connectTimeout = 8000
             connection.readTimeout = 8000
             if (connection.responseCode !in 200..299) {
@@ -75,6 +76,7 @@ class UpdateManager(private val context: Context) {
     }
 
     suspend fun installUpdate(update: UpdateInfo): SilentInstaller.Result {
-        return silentInstaller.downloadAndInstall(update.apkUrl, update.apkSha256)
+        return silentInstaller.downloadAndInstall(update.apkUrl, update.apkSha256, update.versionCode.toLong())
     }
 }
+

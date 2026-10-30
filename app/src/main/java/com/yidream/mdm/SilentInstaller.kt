@@ -3,6 +3,7 @@ package com.yidream.mdm
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CancellationException
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
@@ -19,7 +20,10 @@ class SilentInstaller(private val context: Context) {
         data class Failure(val message: String) : Result()
     }
 
-    suspend fun downloadAndInstall(apkUrl: String, expectedSha256: String): Result = withContext(Dispatchers.IO) {
+    suspend fun downloadAndInstall(apkUrl: String, expectedSha256: String, expectedVersion: Long): Result = withContext(Dispatchers.IO) {
+        if (!DeviceOwnerManager(context).isDeviceOwner()) {
+            return@withContext Result.Failure("L’installation depuis YiDream nécessite la configuration administrateur du téléphone.")
+        }
         if (apkUrl != UpdateManager.APPROVED_APK_URL) {
             return@withContext Result.Failure("Source d'installation non autorisée.")
         }
@@ -32,6 +36,8 @@ class SilentInstaller(private val context: Context) {
         try {
             connection = URL(apkUrl).openConnection() as HttpURLConnection
             connection.instanceFollowRedirects = false
+            connection.useCaches = false
+            connection.setRequestProperty("Cache-Control", "no-cache")
             connection.connectTimeout = 15000
             connection.readTimeout = 20000
             val response = connection.responseCode
@@ -60,13 +66,17 @@ class SilentInstaller(private val context: Context) {
                 return@withContext Result.Failure("La vérification de l'APK a échoué.")
             }
 
-            PackageSessionInstaller(context).install(tempFile).also { tempFile.delete() }
+            PackageSessionInstaller(context).install(tempFile, context.packageName, expectedVersion)
+        } catch (cancelled: CancellationException) {
+            throw cancelled
         } catch (e: Exception) {
             tempFile.delete()
             Result.Failure(e.message ?: "Erreur inconnue")
         } finally {
+            tempFile.delete()
             connection?.disconnect()
         }
     }
 
 }
+

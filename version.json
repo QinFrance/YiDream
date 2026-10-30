@@ -1,7 +1,7 @@
 {
-  "versionCode": 14,
-  "versionName": "v5.8.1",
+  "versionCode": 15,
+  "versionName": "v5.8.2",
   "apkUrl": "https://qinfrance.github.io/YiDream/admin/yidream.apk",
   "apkSha256": "",
-  "changelog": "Nouveau design YiDream, À propos dans Réglages, applications de base et mises à jour de la boutique, suivi des autorisations révoquées."
+  "changelog": "Mises à jour vérifiées : contrôle de signature, confirmation de la version installée et signature de production conservée."
 }

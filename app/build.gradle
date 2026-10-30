@@ -11,8 +11,8 @@ android {
         applicationId "com.yidream.mdm"
         minSdk 26
         targetSdk 34
-        versionCode 14
-        versionName "v5.8.1"
+        versionCode 15
+        versionName "v5.8.2"
     }
 
     signingConfigs {
@@ -60,3 +60,4 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.3'
 }
+

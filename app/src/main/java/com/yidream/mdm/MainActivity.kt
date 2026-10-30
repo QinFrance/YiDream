@@ -179,11 +179,17 @@ class MainActivity : AppCompatActivity() {
                     lifecycleScope.launch {
                         Toast.makeText(this@MainActivity, "Installation…", Toast.LENGTH_SHORT).show()
                         val result = updateManager.installUpdate(update)
-                        val message = when (result) {
-                            is SilentInstaller.Result.Success -> "✅ Mise à jour installée."
-                            is SilentInstaller.Result.Failure -> "❌ Échec : ${result.message}"
+                        when (result) {
+                            is SilentInstaller.Result.Success -> {
+                                setupVersionAndContact()
+                                Toast.makeText(this@MainActivity, "Mise à jour confirmée par Android.", Toast.LENGTH_LONG).show()
+                            }
+                            is SilentInstaller.Result.Failure -> AlertDialog.Builder(this@MainActivity)
+                                .setTitle("Mise à jour non installée")
+                                .setMessage(result.message)
+                                .setPositiveButton("Fermer", null)
+                                .show()
                         }
-                        Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
                     }
                 }
                 .setNegativeButton("Plus tard", null)
@@ -196,8 +202,16 @@ class MainActivity : AppCompatActivity() {
     // ------------------------------------------------------------------
 
     private fun setupVersionAndContact() {
+        @Suppress("DEPRECATION")
+        val installed = packageManager.getPackageInfo(packageName, 0)
+        val code = if (android.os.Build.VERSION.SDK_INT >= 28) installed.longVersionCode else installed.versionCode.toLong()
         findViewById<TextView>(R.id.versionLabel).text =
-            "${getString(R.string.about_version_label)} : ${BuildConfig.VERSION_NAME} (build ${BuildConfig.VERSION_CODE})"
+            "${getString(R.string.about_version_label)} : ${installed.versionName} (build $code)"
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupVersionAndContact()
     }
 
     private fun onRemoveFilterClicked() {
@@ -303,3 +317,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+

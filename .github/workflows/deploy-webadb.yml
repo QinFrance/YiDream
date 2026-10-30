@@ -26,11 +26,21 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      release_signed: ${{ steps.signing.outputs.release_signed }}
     env:
       RELEASE_SIGNING: ${{ secrets.YIDREAM_KEYSTORE_BASE64 != '' && secrets.YIDREAM_KEY_ALIAS != '' && secrets.YIDREAM_KEY_PASSWORD != '' && secrets.YIDREAM_STORE_PASSWORD != '' }}
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
+
+      - name: Vérifier la signature avant publication
+        id: signing
+        run: |
+          echo "release_signed=$RELEASE_SIGNING" >> "$GITHUB_OUTPUT"
+          if [ "$RELEASE_SIGNING" != "true" ]; then
+            echo "::notice::Clé de signature durable absente : compilation de test uniquement. Le site et sa mise à jour ne seront pas remplacés par une APK signée avec une clé debug éphémère."
+          fi
 
       - name: Vérifier la séparation YiDream et YZ
         run: python3 tests/check-project-boundaries.py
@@ -50,6 +60,9 @@ jobs:
 
       - name: Rendre gradlew exécutable
         run: chmod +x ./gradlew
+
+      - name: Tester la vérification des mises à jour
+        run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
 
       - name: Préparer la clé de signature
         if: env.RELEASE_SIGNING == 'true'
@@ -78,6 +91,10 @@ jobs:
             cp app/build/outputs/apk/debug/app-debug.apk webadb/public/yidream.apk
           fi
 
+      - name: Vérifier la signature de production conservée
+        if: env.RELEASE_SIGNING == 'true'
+        run: python3 tests/verify-apk-certificate.py webadb/public/yidream.apk signing-certificate.sha256
+
       - name: Décrire le type de signature pour le site
         run: |
           if [ "$RELEASE_SIGNING" = "true" ]; then
@@ -94,16 +111,16 @@ jobs:
       - name: Publier l'APK dans les artefacts GitHub Actions
         uses: actions/upload-artifact@v4
         with:
-          name: yidream-install-v5.8.1
+          name: yidream-${{ env.RELEASE_SIGNING == 'true' && 'release' || 'preview' }}-v5.8.2
           path: webadb/public/yidream.apk
           if-no-files-found: error
 
-      - name: Créer la version YiDream v5.8.1
+      - name: Créer la version YiDream v5.8.2
         if: env.RELEASE_SIGNING == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v5.8.1
-          name: YiDream v5.8.1
+          tag_name: v5.8.2
+          name: YiDream v5.8.2
           body: |
             YiDream : accueil, boutique, réglages et filtre. Le launcher musical est réservé au projet distinct YZ MDM.
           files: webadb/public/yidream.apk
@@ -144,6 +161,7 @@ jobs:
 
   deploy:
     needs: build
+    if: needs.build.outputs.release_signed == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -152,3 +170,4 @@ jobs:
       - name: Déployer sur GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
