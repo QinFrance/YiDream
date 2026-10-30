@@ -5,86 +5,83 @@
       <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/app_name" android:textSize="32sp" android:textColor="@color/white" android:textStyle="bold" android:layout_marginTop="12dp" />
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/home_subtitle" android:textSize="16sp" android:textColor="@color/text_on_gradient_secondary" android:id="@+id/homeSubtitle" android:layout_marginTop="8dp" android:layout_marginBottom="28dp" />
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_home_hero" android:padding="24dp">
-          <ImageView android:layout_width="64dp" android:layout_height="64dp" android:src="@drawable/ic_tab_home" android:tint="@color/white" android:importantForAccessibility="no" />
-          <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/home_protection" android:textSize="24sp" android:textColor="@color/white" android:textStyle="bold" android:layout_marginTop="20dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_protection_card" android:padding="22dp">
+          <ImageView android:layout_width="42dp" android:layout_height="42dp" android:src="@drawable/ic_shield" android:tint="@color/white" android:importantForAccessibility="no" />
+          <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/home_protection" android:textSize="22sp" android:textColor="@color/white" android:textStyle="bold" android:layout_marginTop="18dp" />
           <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/status_not_owner" android:textSize="15sp" android:textColor="@color/white" android:id="@+id/homeStatus" android:layout_marginTop="12dp" />
         </LinearLayout>
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/home_quick_access" android:textSize="13sp" android:textColor="@color/white" android:textStyle="bold" android:layout_marginTop="28dp" android:layout_marginBottom="12dp" />
-        <LinearLayout android:id="@+id/homeOpenStore" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_glass_card" android:foreground="?attr/selectableItemBackground" android:padding="20dp" android:layout_marginBottom="12dp" android:clickable="true" android:focusable="true" android:minHeight="88dp">
+        <LinearLayout android:id="@+id/homeOpenStore" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_quick_action" android:foreground="?attr/selectableItemBackground" android:padding="18dp" android:layout_marginBottom="14dp" android:clickable="true" android:focusable="true" android:minHeight="90dp">
           <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_tab_store" android:tint="@color/accent_blue" android:layout_marginEnd="16dp" android:importantForAccessibility="no" />
           <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/tab_store" android:textSize="18sp" android:textColor="@color/text_primary" android:textStyle="bold" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/home_store_description" android:textSize="14sp" android:textColor="@color/text_secondary" android:layout_marginTop="4dp" />
           </LinearLayout>
+          <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_marginStart="12dp" android:src="@drawable/ic_chevron" android:importantForAccessibility="no" android:rotationY="0" />
         </LinearLayout>
-        <LinearLayout android:id="@+id/homeOpenSites" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_glass_card" android:foreground="?attr/selectableItemBackground" android:padding="20dp" android:layout_marginBottom="12dp" android:clickable="true" android:focusable="true" android:minHeight="88dp">
+        <LinearLayout android:id="@+id/homeOpenSites" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_quick_action" android:foreground="?attr/selectableItemBackground" android:padding="18dp" android:layout_marginBottom="14dp" android:clickable="true" android:focusable="true" android:minHeight="90dp">
           <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_tab_sites" android:tint="@color/accent_blue" android:layout_marginEnd="16dp" android:importantForAccessibility="no" />
           <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/mdm_new_request" android:textSize="18sp" android:textColor="@color/text_primary" android:textStyle="bold" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/mdm_site_shortcut" android:textSize="14sp" android:textColor="@color/text_secondary" android:layout_marginTop="4dp" />
           </LinearLayout>
+          <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_marginStart="12dp" android:src="@drawable/ic_chevron" android:importantForAccessibility="no" android:rotationY="0" />
         </LinearLayout>
-        <LinearLayout android:id="@+id/homeOpenSettings" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_glass_card" android:foreground="?attr/selectableItemBackground" android:padding="20dp" android:layout_marginBottom="12dp" android:clickable="true" android:focusable="true" android:minHeight="88dp">
+        <LinearLayout android:id="@+id/homeOpenSettings" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_quick_action" android:foreground="?attr/selectableItemBackground" android:padding="18dp" android:layout_marginBottom="14dp" android:clickable="true" android:focusable="true" android:minHeight="90dp">
           <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_tab_settings" android:tint="@color/accent_blue" android:layout_marginEnd="16dp" android:importantForAccessibility="no" />
           <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/tab_settings" android:textSize="18sp" android:textColor="@color/text_primary" android:textStyle="bold" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/home_settings_description" android:textSize="14sp" android:textColor="@color/text_secondary" android:layout_marginTop="4dp" />
           </LinearLayout>
+          <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_marginStart="12dp" android:src="@drawable/ic_chevron" android:importantForAccessibility="no" android:rotationY="0" />
         </LinearLayout>
       </LinearLayout>
     </ScrollView>
     <LinearLayout android:id="@+id/pageStore" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:visibility="gone">
       <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/tab_store" android:textSize="28sp" android:textStyle="bold" android:textColor="@color/white" android:padding="24dp" />
-      <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+      <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
         <LinearLayout android:id="@+id/storeContent" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" />
       </ScrollView>
     </LinearLayout>
     <ScrollView android:id="@+id/pageSettings" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone">
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
         <TextView style="@style/Text.LargeTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:layout_marginBottom="16dp" android:textColor="@color/white" android:text="@string/settings_title" />
         <TextView android:id="@+id/statusBanner" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/bg_status_warning" android:textColor="@color/status_warning_text" android:textStyle="bold" android:textSize="14sp" android:padding="16dp" android:layout_marginBottom="20dp" android:text="@string/status_not_owner" />
         <TextView style="@style/Text.SectionHeader" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingBottom="8dp" android:textColor="@color/text_on_gradient_secondary" android:text="@string/settings_language" />
         <LinearLayout android:id="@+id/languageRow" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/bg_glass_card" android:padding="12dp" android:layout_marginBottom="20dp" />
-        <TextView android:id="@+id/rowUpdates" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Text.Body" android:background="@drawable/bg_glass_card" android:padding="16dp" android:text="@string/settings_check_updates" android:textColor="@color/accent_navy" android:textStyle="bold" android:clickable="true" android:focusable="true" />
-        <TextView style="@style/Text.Body" android:id="@+id/rowPairDevice" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:background="@drawable/bg_glass_card" android:padding="18dp" android:text="@string/mdm_pair" android:textColor="@color/accent_navy" android:clickable="true" android:focusable="true" />
-      </LinearLayout>
-    </ScrollView>
-    <ScrollView android:id="@+id/pageAbout" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone">
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
-        <TextView style="@style/Text.LargeTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:layout_marginBottom="16dp" android:textColor="@color/white" android:text="@string/about_title" />
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_glass_card" android:padding="18dp">
-          <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Text.Body" android:text="@string/about_filter_info" />
-          <TextView android:id="@+id/versionLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:textColor="@color/text_secondary" android:text="YiDream" />
-          <TextView android:id="@+id/contactLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textColor="@color/accent_blue" android:autoLink="email" android:text="yiddishdream@gmail.com" />
+        <TextView android:id="@+id/rowUpdates" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Text.Body" android:background="@drawable/bg_quick_action" android:padding="20dp" android:text="@string/settings_check_updates" android:textColor="@color/accent_navy" android:textStyle="bold" android:clickable="true" android:focusable="true" android:minHeight="60dp" />
+        <TextView style="@style/Text.Body" android:id="@+id/rowPairDevice" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:background="@drawable/bg_quick_action" android:padding="20dp" android:text="@string/mdm_pair" android:textColor="@color/accent_navy" android:clickable="true" android:focusable="true" android:minHeight="60dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="0dp" android:id="@+id/sectionAbout" android:layout_marginTop="28dp">
+          <TextView style="@style/Text.LargeTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="0dp" android:layout_marginBottom="16dp" android:textColor="@color/white" android:text="@string/about_title" android:textSize="18sp" />
+          <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_glass_card" android:padding="18dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Text.Body" android:text="@string/about_filter_info" />
+            <TextView android:id="@+id/versionLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:textColor="@color/text_secondary" android:text="YiDream" />
+            <TextView android:id="@+id/contactLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textColor="@color/accent_blue" android:autoLink="email" android:text="yiddishdream@gmail.com" />
+          </LinearLayout>
+          <TextView android:id="@+id/rowRemoveFilter" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Text.Body" android:background="@drawable/bg_glass_card" android:padding="16dp" android:layout_marginTop="16dp" android:text="@string/about_remove_filter" android:textColor="@color/danger" android:textStyle="bold" android:clickable="true" android:focusable="true" />
         </LinearLayout>
-        <TextView android:id="@+id/rowRemoveFilter" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Text.Body" android:background="@drawable/bg_glass_card" android:padding="16dp" android:layout_marginTop="16dp" android:text="@string/about_remove_filter" android:textColor="@color/danger" android:textStyle="bold" android:clickable="true" android:focusable="true" />
       </LinearLayout>
     </ScrollView>
     <ScrollView android:id="@+id/pageSites" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone">
       <LinearLayout android:id="@+id/sitesContent" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp" />
     </ScrollView>
   </FrameLayout>
-  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/bg_glass_bar" android:paddingVertical="12dp">
-    <LinearLayout android:id="@+id/tabHome" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:paddingVertical="10dp" android:background="?attr/selectableItemBackground" android:layout_marginHorizontal="3dp">
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="@drawable/bg_navigation" android:layout_marginHorizontal="16dp" android:layout_marginBottom="14dp" android:padding="8dp" android:elevation="10dp">
+    <LinearLayout android:id="@+id/tabHome" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:paddingVertical="8dp" android:background="@drawable/bg_nav_item" android:layout_marginHorizontal="2dp" android:minHeight="60dp">
       <ImageView android:id="@+id/tabHomeIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tab_home" />
-      <TextView android:id="@+id/tabHomeLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_home" android:textSize="11sp" android:textColor="@color/accent_navy" android:textStyle="bold" />
+      <TextView android:id="@+id/tabHomeLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_home" android:textSize="12sp" android:textColor="@color/accent_navy" android:textStyle="bold" android:layout_marginTop="5dp" />
     </LinearLayout>
-    <LinearLayout android:id="@+id/tabStore" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:paddingVertical="10dp" android:background="?attr/selectableItemBackground" android:layout_marginHorizontal="3dp">
+    <LinearLayout android:id="@+id/tabStore" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:paddingVertical="8dp" android:background="@drawable/bg_nav_item" android:layout_marginHorizontal="2dp" android:minHeight="60dp">
       <ImageView android:id="@+id/tabStoreIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tab_store" />
-      <TextView android:id="@+id/tabStoreLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_store" android:textSize="11sp" android:textColor="@color/accent_navy" android:textStyle="bold" />
+      <TextView android:id="@+id/tabStoreLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_store" android:textSize="12sp" android:textColor="@color/accent_navy" android:textStyle="bold" android:layout_marginTop="5dp" />
     </LinearLayout>
-    <LinearLayout android:id="@+id/tabSites" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:paddingVertical="10dp" android:clickable="true" android:focusable="true">
+    <LinearLayout android:id="@+id/tabSites" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:paddingVertical="8dp" android:clickable="true" android:focusable="true" android:minHeight="60dp" android:background="@drawable/bg_nav_item" android:layout_marginHorizontal="2dp">
       <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tab_sites" />
-      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mdm_sites" android:textSize="11sp" android:textColor="@color/accent_navy" android:textStyle="bold" />
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mdm_sites" android:textSize="12sp" android:textColor="@color/accent_navy" android:textStyle="bold" android:layout_marginTop="5dp" />
     </LinearLayout>
-    <LinearLayout android:id="@+id/tabSettings" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:paddingVertical="10dp" android:background="?attr/selectableItemBackground" android:layout_marginHorizontal="3dp">
+    <LinearLayout android:id="@+id/tabSettings" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:paddingVertical="8dp" android:background="@drawable/bg_nav_item" android:layout_marginHorizontal="2dp" android:minHeight="60dp">
       <ImageView android:id="@+id/tabSettingsIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tab_settings" />
-      <TextView android:id="@+id/tabSettingsLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_settings" android:textSize="11sp" android:textColor="@color/accent_navy" android:textStyle="bold" />
-    </LinearLayout>
-    <LinearLayout android:id="@+id/tabAbout" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:paddingVertical="10dp" android:background="?attr/selectableItemBackground" android:layout_marginHorizontal="3dp">
-      <ImageView android:id="@+id/tabAboutIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_tab_about" />
-      <TextView android:id="@+id/tabAboutLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_about" android:textSize="11sp" android:textColor="@color/accent_navy" android:textStyle="bold" />
+      <TextView android:id="@+id/tabSettingsLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tab_settings" android:textSize="12sp" android:textColor="@color/accent_navy" android:textStyle="bold" android:layout_marginTop="5dp" />
     </LinearLayout>
   </LinearLayout>
 </LinearLayout>

@@ -29,6 +29,15 @@ class MdmService(context: Context) {
             .put("request_reason", reason.trim()).put("client_request_id", requestId))
     }
 
+    internal fun authorizeDownload(connection: HttpURLConnection, url: URL) {
+        if (url.protocol == "https" && url.host == "jqrznghqwdjbizjehzrm.supabase.co" &&
+            (url.port == -1 || url.port == 443) && url.path.startsWith("/storage/v1/object/authenticated/yd-apks/")) {
+            check(paired) { "PAIR_REQUIRED" }
+            connection.setRequestProperty("apikey", PUBLIC_KEY)
+            connection.setRequestProperty("x-yidream-device-token", preferences.getString("token", ""))
+        }
+    }
+
     private fun credentials(): JSONObject {
         check(paired) { "PAIR_REQUIRED" }
         return JSONObject().put("device_token", preferences.getString("token", ""))

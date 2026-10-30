@@ -40,6 +40,7 @@ class CatalogInstaller(private val context: Context) {
                 require(downloadUrl.protocol == "https" && downloadUrl.userInfo == null) { "Source HTTPS requise." }
                 val opened = downloadUrl.openConnection() as HttpURLConnection
                 connection = opened
+                MdmService(context).authorizeDownload(opened, downloadUrl)
                 opened.instanceFollowRedirects = false
                 opened.connectTimeout = 15000
                 opened.readTimeout = 20000
@@ -79,6 +80,9 @@ class CatalogInstaller(private val context: Context) {
                 @Suppress("DEPRECATION")
                 val archive = context.packageManager.getPackageArchiveInfo(tempFile.absolutePath, 0)
                 require(archive?.packageName == expectedPackage) { "Le paquet ne correspond pas au catalogue." }
+                val expectedVersion = app.optLong("version_code", 0L)
+                val archiveVersion = if (android.os.Build.VERSION.SDK_INT >= 28) archive!!.longVersionCode else archive!!.versionCode.toLong()
+                require(expectedVersion > 0L && archiveVersion == expectedVersion) { "La version de l’APK ne correspond pas au catalogue." }
                 installSilently(tempFile)
             }.also { tempFile.delete() }
         } catch (e: Exception) {
@@ -89,7 +93,7 @@ class CatalogInstaller(private val context: Context) {
         }
     }
 
-    private fun installSilently(apkFile: File): SilentInstaller.Result {
+    private suspend fun installSilently(apkFile: File): SilentInstaller.Result {
         return try {
             val packageInstaller = context.packageManager.packageInstaller
             val params = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
@@ -103,15 +107,20 @@ class CatalogInstaller(private val context: Context) {
                 session.fsync(out)
             }
 
-            val intent = android.content.Intent(context, MyDeviceAdminReceiver::class.java)
+            val intent = android.content.Intent(context, CatalogInstallResultReceiver::class.java)
             val pendingIntent = android.app.PendingIntent.getBroadcast(
                 context, sessionId, intent,
                 android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_MUTABLE
             )
-            session.commit(pendingIntent.intentSender)
-            session.close()
-
-            SilentInstaller.Result.Success
+            val completion = kotlinx.coroutines.CompletableDeferred<SilentInstaller.Result>()
+            CatalogInstallSessions.pending[sessionId] = completion
+            try {
+                session.commit(pendingIntent.intentSender)
+                kotlinx.coroutines.withTimeout(120_000L) { completion.await() }
+            } finally {
+                CatalogInstallSessions.pending.remove(sessionId)
+                session.close()
+            }
         } catch (e: Exception) {
             SilentInstaller.Result.Failure(e.message ?: "Échec de l'installation")
         }

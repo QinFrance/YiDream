@@ -5,7 +5,7 @@ r=E.parse(p/'app/src/main/AndroidManifest.xml').getroot()
 launchers=[a.attrib[key] for a in r.findall('.//activity') if a.find("intent-filter/category[@a:name='android.intent.category.LAUNCHER']",n) is not None]
 assert launchers==['.MainActivity'],launchers
 assert not r.findall(".//category[@a:name='android.intent.category.HOME']",n)
-s=(p/'app/src/main/java/com/yidream/mdm/MainActivity.kt').read_text(); assert all('"'+tab+'" to findViewById' in s for tab in ['home','store','settings','about'])
+s=(p/'app/src/main/java/com/yidream/mdm/MainActivity.kt').read_text(); assert all('"'+tab+'" to findViewById' in s for tab in ['home','store','settings','sites'])
 assert 'deviceOwnerManager.leaveDedicatedMode()' in s
 migration=s[s.index('private fun restoreFilterAppRole()'):s.index('// Navigation par onglets')]
 assert 'clearDeviceOwnerApp' not in migration and 'removeBaseRestrictions' not in migration
@@ -21,3 +21,11 @@ controller=(p/'app/src/main/java/com/yidream/mdm/MdmPortalController.kt').read_t
 assert 'service.requestSite' in controller and 'UUID.randomUUID()' in controller
 assert 'portal.refreshStore()' in s and 'portal.refreshSites()' in s
 print('PASS: native store and site requests use the original YiDream palette.')
+
+root_layout=E.parse(resources/'layout/activity_main.xml').getroot()
+a='{http://schemas.android.com/apk/res/android}'
+settings=next(e for e in root_layout.iter() if e.get(a+'id')=='@+id/pageSettings')
+assert any(e.get(a+'id')=='@+id/sectionAbout' for e in settings.iter())
+assert not any(e.get(a+'id') in ('@+id/tabAbout','@+id/pageAbout') for e in root_layout.iter())
+assert all(any(e.get(a+'id')=='@+id/'+id for e in settings.iter()) for id in ['versionLabel','contactLabel','rowRemoveFilter'])
+print('PASS: About, version, contact and filter removal are accessible inside Settings; four bottom tabs only.')

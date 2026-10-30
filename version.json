@@ -1,7 +1,7 @@
 {
-  "versionCode": 12,
-  "versionName": "v5.7",
+  "versionCode": 13,
+  "versionName": "v5.8",
   "apkUrl": "https://qinfrance.github.io/YiDream/admin/yidream.apk",
   "apkSha256": "",
-  "changelog": "Application MDM YiDream : couleurs originales, boutique native administrée et demandes de sites avec suivi. Association du téléphone par code administrateur."
+  "changelog": "Nouveau design YiDream, À propos dans Réglages, applications de base et mises à jour de la boutique, suivi des autorisations révoquées."
 }
