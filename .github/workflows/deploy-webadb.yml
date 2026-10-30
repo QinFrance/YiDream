@@ -123,16 +123,16 @@ jobs:
       - name: Publier l'APK dans les artefacts GitHub Actions
         uses: actions/upload-artifact@v4
         with:
-          name: yidream-${{ env.RELEASE_SIGNING == 'true' && 'release' || 'preview' }}-v5.9
+          name: yidream-${{ env.RELEASE_SIGNING == 'true' && 'release' || 'preview' }}-v5.9.1
           path: webadb/public/yidream.apk
           if-no-files-found: error
 
-      - name: Créer la version YiDream v5.9
+      - name: Créer la version YiDream v5.9.1
         if: env.RELEASE_SIGNING == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v5.9
-          name: YiDream v5.9
+          tag_name: v5.9.1
+          name: YiDream v5.9.1
           body: |
             Nouveau design inspiré du site YiDream : fond clair, titres marine, cartes d’applications et boutons Installer bleus arrondis.
             Toutes les fonctions existantes sont conservées : association, installation et mises à jour, demandes de sites, langues, réglages et retrait du filtre protégé.

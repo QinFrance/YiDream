@@ -17,7 +17,8 @@
     <color name="status_warning_bg">#FFF4DF</color>
     <color name="status_warning_text">#8C5A10</color>
 
-    <color name="danger">#F04438</color>
+    <color name="danger">#B63D38</color>
+    <color name="system_navigation_bar">#0C1C38</color>
     <color name="divider">#E4EAF3</color>
     <color name="white">#FFFFFF</color>
 
