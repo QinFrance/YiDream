@@ -33,6 +33,7 @@ internal class CatalogScreenController(private val activity: AppCompatActivity, 
     private fun label(parent: LinearLayout, value: String, size: Float = 14f, color: Int = muted): TextView = TextView(activity).also {
         it.text = value
         it.textSize = size
+        it.textAlignment = android.view.View.TEXT_ALIGNMENT_VIEW_START
         it.setTextColor(color)
         it.setLineSpacing(dp(3).toFloat(), 1f)
         parent.addView(it, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(9) })

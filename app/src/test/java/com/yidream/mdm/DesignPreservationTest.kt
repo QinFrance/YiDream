@@ -1,10 +1,13 @@
 package com.yidream.mdm
 
+import android.app.LocaleManager
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.os.Looper
+import android.os.LocaleList
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -16,7 +19,9 @@ import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestName
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
@@ -27,6 +32,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
 import java.io.File
+import java.util.Locale
 
 /**
  * Draws the real Android layouts and native catalog cards, with local fixture data only.
@@ -38,8 +44,12 @@ import java.io.File
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @LooperMode(LooperMode.Mode.PAUSED)
 class DesignPreservationTest {
+    @get:Rule
+    val testName = TestName()
     private lateinit var controller: ActivityController<MainActivity>
     private lateinit var activity: MainActivity
+    private lateinit var previousLocale: Locale
+    private lateinit var previousLocaleList: LocaleList
     private val pages = linkedMapOf(
         R.id.tabHome to R.id.pageHome,
         R.id.tabStore to R.id.pageStore,
@@ -50,6 +60,29 @@ class DesignPreservationTest {
     @Before
     fun launchWithoutAnyRealDeviceCredential() {
         val app = RuntimeEnvironment.getApplication()
+        val rtl = testName.methodName == "rtlScreenKeepsFourTabsAndTheNativeCatalogLayout"
+        val qualifiers = when {
+            rtl -> "he-ldrtl-w320dp-h640dp-xhdpi"
+            testName.methodName == "narrowScreenKeepsNavigationAndPrimaryInstallActionReachable" -> "fr-w320dp-h568dp-xhdpi"
+            else -> "fr-w360dp-h800dp-xhdpi"
+        }
+        // LocaleManager's Robolectric shadow records app locales, but does not
+        // apply the framework resource update. Establish both before onCreate so
+        // AppCompat cannot inherit a French resource context for an RTL preview.
+        RuntimeEnvironment.setQualifiers(qualifiers)
+        previousLocale = Locale.getDefault()
+        previousLocaleList = LocaleList.getDefault()
+        val locales = LocaleList.forLanguageTags(if (rtl) "he" else "fr")
+        val locale = requireNotNull(locales[0])
+        Locale.setDefault(locale)
+        LocaleList.setDefault(locales)
+        requireNotNull(app.getSystemService(LocaleManager::class.java)).applicationLocales = locales
+        val configuration = Configuration(app.resources.configuration).apply {
+            setLocales(locales)
+            setLayoutDirection(locale)
+        }
+        @Suppress("DEPRECATION")
+        app.resources.updateConfiguration(configuration, app.resources.displayMetrics)
         app.getSharedPreferences("yidream_device_portal", Context.MODE_PRIVATE).edit().clear().commit()
         controller = Robolectric.buildActivity(MainActivity::class.java).create().start().resume().visible()
         activity = controller.get()
@@ -59,7 +92,12 @@ class DesignPreservationTest {
 
     @After
     fun closeActivity() {
-        if (::controller.isInitialized) controller.pause().stop().destroy()
+        try {
+            if (::controller.isInitialized) controller.pause().stop().destroy()
+        } finally {
+            if (::previousLocale.isInitialized) Locale.setDefault(previousLocale)
+            if (::previousLocaleList.isInitialized) LocaleList.setDefault(previousLocaleList)
+        }
     }
 
     @Test
@@ -99,8 +137,16 @@ class DesignPreservationTest {
         assertTrue(activity.findViewById<TextView>(R.id.versionLabel).text.contains(BuildConfig.VERSION_NAME))
         capture("settings", 360, 800)
         val settings = activity.findViewById<ScrollView>(R.id.pageSettings)
-        settings.fullScroll(View.FOCUS_DOWN)
+        // fullScroll can leave an animation pending under the paused test looper.
+        // Position the real ScrollView synchronously after its content is measured.
+        settings.isSmoothScrollingEnabled = false
+        layout(360, 800)
+        val scrollBottom = (settings.getChildAt(0).measuredHeight -
+            (settings.measuredHeight - settings.paddingTop - settings.paddingBottom)).coerceAtLeast(0)
+        settings.scrollTo(0, scrollBottom)
         shadowOf(Looper.getMainLooper()).idle()
+        layout(360, 800)
+        assertEquals("Settings has reached the measured bottom without an animation", scrollBottom, settings.scrollY)
         assertTrue(activity.findViewById<View>(R.id.rowRemoveFilter).getGlobalVisibleRect(Rect()))
         capture("settings-about", 360, 800)
 
@@ -147,9 +193,16 @@ class DesignPreservationTest {
     fun rtlScreenKeepsFourTabsAndTheNativeCatalogLayout() {
         layout(320, 640)
         assertEquals(View.LAYOUT_DIRECTION_RTL, activity.findViewById<View>(R.id.pageHome).layoutDirection)
+        assertEquals("האזור שלי", activity.getString(R.string.ui_brand_caption))
+        assertTrue("The actual header uses the Hebrew resource, not French text in an RTL layout",
+            texts().any { it.text.toString() == "האזור שלי" })
         pages.keys.forEach { tab -> assertFullyVisible(activity.findViewById(tab), 320) }
         capture("home-rtl", 320, 640)
         select(R.id.tabStore, R.id.pageStore)
+        assertEquals("חנות אפליקציות", activity.getString(R.string.tab_store))
+        assertTrue("The real store title is Hebrew",
+            descendants(activity.findViewById(R.id.pageStore)).filterIsInstance<TextView>()
+                .any { it.text.toString() == "חנות אפליקציות" })
         showCatalogFixtures()
         capture("store-rtl", 320, 640)
     }
