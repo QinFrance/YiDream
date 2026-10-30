@@ -66,4 +66,12 @@
   <string name="store_open">Ouvrir</string>
   <string name="store_install_progress">%1$d/%2$d · %3$s…</string>
   <string name="store_batch_result">%1$d installation(s) réussie(s), %2$d échec(s).</string>
+  <string name="ui_brand_caption">MON ESPACE</string>
+  <string name="ui_home_title">Un espace clair.</string>
+  <string name="ui_home_accent">À votre mesure.</string>
+  <string name="ui_settings_subtitle">Vos préférences, au même endroit.</string>
+  <string name="ui_store_eyebrow">VOTRE SÉLECTION</string>
+  <string name="ui_connection_section">VOTRE APPAREIL</string>
+  <string name="ui_updates_caption">Version et nouveautés</string>
+  <string name="ui_pair_caption">Relier cet appareil à votre espace YiDream</string>
 </resources>

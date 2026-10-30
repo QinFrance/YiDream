@@ -66,6 +66,16 @@ jobs:
       - name: Tester la vérification des mises à jour
         run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
 
+      - name: Conserver les captures et contrôles des écrans
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yidream-ui-previews
+          path: |
+            app/build/ui-previews
+            app/build/reports/tests/testDebugUnitTest
+          if-no-files-found: ignore
+
       - name: Préparer la clé de signature
         if: env.RELEASE_SIGNING == 'true'
         env:
@@ -113,18 +123,19 @@ jobs:
       - name: Publier l'APK dans les artefacts GitHub Actions
         uses: actions/upload-artifact@v4
         with:
-          name: yidream-${{ env.RELEASE_SIGNING == 'true' && 'release' || 'preview' }}-v5.8.2
+          name: yidream-${{ env.RELEASE_SIGNING == 'true' && 'release' || 'preview' }}-v5.9
           path: webadb/public/yidream.apk
           if-no-files-found: error
 
-      - name: Créer la version YiDream v5.8.2
+      - name: Créer la version YiDream v5.9
         if: env.RELEASE_SIGNING == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v5.8.2
-          name: YiDream v5.8.2
+          tag_name: v5.9
+          name: YiDream v5.9
           body: |
-            YiDream : accueil, boutique, réglages et filtre. Le launcher musical est réservé au projet distinct YZ MDM.
+            Nouveau design inspiré du site YiDream : fond clair, titres marine, cartes d’applications et boutons Installer bleus arrondis.
+            Toutes les fonctions existantes sont conservées : association, installation et mises à jour, demandes de sites, langues, réglages et retrait du filtre protégé.
           files: webadb/public/yidream.apk
           fail_on_unmatched_files: true
         env:

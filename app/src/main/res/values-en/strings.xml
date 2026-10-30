@@ -26,4 +26,12 @@
   <string name="home_quick_access">QUICK ACCESS</string>
   <string name="home_store_description">Discover approved applications</string>
   <string name="home_settings_description">Language, protection and updates</string>
+  <string name="ui_brand_caption">MY SPACE</string>
+  <string name="ui_home_title">A clearer space.</string>
+  <string name="ui_home_accent">Made for you.</string>
+  <string name="ui_settings_subtitle">Your preferences, in one place.</string>
+  <string name="ui_store_eyebrow">YOUR SELECTION</string>
+  <string name="ui_connection_section">YOUR DEVICE</string>
+  <string name="ui_updates_caption">Latest version and release notes</string>
+  <string name="ui_pair_caption">Connect this device to your YiDream space</string>
 </resources>
