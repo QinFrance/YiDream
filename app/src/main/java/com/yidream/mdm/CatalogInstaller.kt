@@ -1,8 +1,6 @@
 package com.yidream.mdm
 
 import android.content.Context
-import android.content.pm.PackageInstaller
-import android.content.pm.PackageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -83,7 +81,7 @@ class CatalogInstaller(private val context: Context) {
                 val expectedVersion = app.optLong("version_code", 0L)
                 val archiveVersion = if (android.os.Build.VERSION.SDK_INT >= 28) archive!!.longVersionCode else archive!!.versionCode.toLong()
                 require(expectedVersion > 0L && archiveVersion == expectedVersion) { "La version de l’APK ne correspond pas au catalogue." }
-                installSilently(tempFile)
+                PackageSessionInstaller(context).install(tempFile)
             }.also { tempFile.delete() }
         } catch (e: Exception) {
             tempFile.delete()
@@ -93,36 +91,4 @@ class CatalogInstaller(private val context: Context) {
         }
     }
 
-    private suspend fun installSilently(apkFile: File): SilentInstaller.Result {
-        return try {
-            val packageInstaller = context.packageManager.packageInstaller
-            val params = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
-            params.setInstallReason(PackageManager.INSTALL_REASON_POLICY)
-
-            val sessionId = packageInstaller.createSession(params)
-            val session = packageInstaller.openSession(sessionId)
-
-            session.openWrite("yidream_catalog", 0, apkFile.length()).use { out ->
-                apkFile.inputStream().use { input -> input.copyTo(out) }
-                session.fsync(out)
-            }
-
-            val intent = android.content.Intent(context, CatalogInstallResultReceiver::class.java)
-            val pendingIntent = android.app.PendingIntent.getBroadcast(
-                context, sessionId, intent,
-                android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_MUTABLE
-            )
-            val completion = kotlinx.coroutines.CompletableDeferred<SilentInstaller.Result>()
-            CatalogInstallSessions.pending[sessionId] = completion
-            try {
-                session.commit(pendingIntent.intentSender)
-                kotlinx.coroutines.withTimeout(120_000L) { completion.await() }
-            } finally {
-                CatalogInstallSessions.pending.remove(sessionId)
-                session.close()
-            }
-        } catch (e: Exception) {
-            SilentInstaller.Result.Failure(e.message ?: "Échec de l'installation")
-        }
-    }
 }

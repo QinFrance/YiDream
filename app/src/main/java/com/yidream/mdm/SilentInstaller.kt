@@ -1,8 +1,6 @@
 package com.yidream.mdm
 
 import android.content.Context
-import android.content.pm.PackageInstaller
-import android.content.pm.PackageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -62,7 +60,7 @@ class SilentInstaller(private val context: Context) {
                 return@withContext Result.Failure("La vérification de l'APK a échoué.")
             }
 
-            installSilently(tempFile).also { tempFile.delete() }
+            PackageSessionInstaller(context).install(tempFile).also { tempFile.delete() }
         } catch (e: Exception) {
             tempFile.delete()
             Result.Failure(e.message ?: "Erreur inconnue")
@@ -71,31 +69,4 @@ class SilentInstaller(private val context: Context) {
         }
     }
 
-    private fun installSilently(apkFile: File): Result {
-        return try {
-            val packageInstaller = context.packageManager.packageInstaller
-            val params = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
-            params.setInstallReason(PackageManager.INSTALL_REASON_POLICY)
-
-            val sessionId = packageInstaller.createSession(params)
-            val session = packageInstaller.openSession(sessionId)
-
-            session.openWrite("yidream_update", 0, apkFile.length()).use { out ->
-                apkFile.inputStream().use { input -> input.copyTo(out) }
-                session.fsync(out)
-            }
-
-            val intent = android.content.Intent(context, MyDeviceAdminReceiver::class.java)
-            val pendingIntent = android.app.PendingIntent.getBroadcast(
-                context, sessionId, intent,
-                android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_MUTABLE
-            )
-            session.commit(pendingIntent.intentSender)
-            session.close()
-
-            Result.Success
-        } catch (e: Exception) {
-            Result.Failure(e.message ?: "Échec de l'installation")
-        }
-    }
 }
