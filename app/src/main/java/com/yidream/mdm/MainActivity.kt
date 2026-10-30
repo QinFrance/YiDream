@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
                 setPadding((4 * density).toInt(), (12 * density).toInt(), (4 * density).toInt(), (12 * density).toInt())
                 minHeight = (64 * density).toInt()
                 setBackgroundResource(R.drawable.ui_language_chip)
-                isSelected = opt.tag == currentLanguage
+                isSelected = opt.tag == when (currentLanguage) { "iw" -> "he"; "ji" -> "yi"; else -> currentLanguage }
                 setTextColor(getColor(if (isSelected) R.color.accent_blue else R.color.text_secondary))
                 setTypeface(typeface, if (isSelected) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
                 contentDescription = opt.label
