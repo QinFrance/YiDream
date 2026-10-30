@@ -21,5 +21,7 @@
         <action android:name="android.app.action.DEVICE_OWNER_CHANGED" />
       </intent-filter>
     </receiver>
+    <receiver android:name=".CatalogInstallResultReceiver" android:exported="false" />
   </application>
+  <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 </manifest>

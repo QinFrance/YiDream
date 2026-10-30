@@ -3,7 +3,7 @@
   <string name="status_not_owner">⚠️ Pas encore actif — configure via le Web ADB</string>
   <string name="status_owner">✅ Actif et protégé</string>
   <string name="tab_home">Accueil</string>
-  <string name="tab_store">App Store</string>
+  <string name="tab_store">Boutique</string>
   <string name="tab_settings">Réglages</string>
   <string name="tab_about">À propos</string>
   <string name="home_title">YiDream</string>
@@ -53,4 +53,17 @@
   <string name="mdm_network_error">La connexion au service a échoué. Vérifiez le réseau ou le code d’association, puis réessayez.</string>
   <string name="mdm_owner_required">La configuration administrateur de cet appareil doit être terminée pour installer les applications.</string>
   <string name="mdm_site_shortcut">Envoyer une adresse à votre administrateur</string>
+  <string name="mdm_revoked">Autorisation révoquée</string>
+  <string name="store_update_all">Tout mettre à jour</string>
+  <string name="store_install_base">Installer les applications de base</string>
+  <string name="store_no_updates">Aucune mise à jour disponible pour vos applications installées.</string>
+  <string name="store_base_badge">APPLICATION DE BASE</string>
+  <string name="store_not_installed">Pas encore installée</string>
+  <string name="store_installed_version">Version installée : %1$s</string>
+  <string name="store_available_version">Version disponible : %1$s</string>
+  <string name="store_apk_missing">L’administrateur doit encore préparer le fichier APK.</string>
+  <string name="store_update">Mettre à jour</string>
+  <string name="store_open">Ouvrir</string>
+  <string name="store_install_progress">%1$d/%2$d · %3$s…</string>
+  <string name="store_batch_result">%1$d installation(s) réussie(s), %2$d échec(s).</string>
 </resources>

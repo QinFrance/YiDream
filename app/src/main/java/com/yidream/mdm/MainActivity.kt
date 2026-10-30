@@ -39,15 +39,13 @@ class MainActivity : AppCompatActivity() {
             "home" to findViewById(R.id.pageHome),
             "store" to findViewById(R.id.pageStore),
             "settings" to findViewById(R.id.pageSettings),
-            "sites" to findViewById(R.id.pageSites),
-            "about" to findViewById(R.id.pageAbout)
+            "sites" to findViewById(R.id.pageSites)
         )
         tabs = mapOf(
             "home" to findViewById(R.id.tabHome),
             "store" to findViewById(R.id.tabStore),
             "settings" to findViewById(R.id.tabSettings),
-            "sites" to findViewById(R.id.tabSites),
-            "about" to findViewById(R.id.tabAbout)
+            "sites" to findViewById(R.id.tabSites)
         )
 
         tabs.forEach { (key, view) -> view.setOnClickListener { selectTab(key) } }
@@ -64,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.homeOpenSites).setOnClickListener { selectTab("sites") }
         findViewById<View>(R.id.homeOpenStore).setOnClickListener { selectTab("store") }
         findViewById<View>(R.id.homeOpenSettings).setOnClickListener { selectTab("settings") }
-        selectTab(savedInstanceState?.getString("selectedTab") ?: "home")
+        selectTab(MainNavigation.restore(savedInstanceState?.getString("selectedTab")))
         importWebAdbConfigIfPresent()
     }
 
@@ -94,15 +92,16 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    private fun selectTab(key: String) {
+    private fun selectTab(requestedKey: String) {
+        val key = MainNavigation.restore(requestedKey)
         selectedTab = key
         if (key == "store") portal.refreshStore()
         if (key == "sites") portal.refreshSites()
         pages.forEach { (k, v) -> v.visibility = if (k == key) View.VISIBLE else View.GONE }
         tabs.forEach { (k, v) ->
             v.isSelected = k == key
-            v.alpha = if (k == key) 1.0f else 0.65f
-            v.setBackgroundResource(if (k == key) R.drawable.bg_glass_pill_selected else R.drawable.bg_glass_pill)
+            v.alpha = 1.0f
+            v.setBackgroundResource(R.drawable.bg_nav_item)
             if (v is LinearLayout) for (i in 0 until v.childCount) {
                 val child = v.getChildAt(i)
                 val color = getColor(if (k == key) R.color.white else R.color.accent_navy)
@@ -111,10 +110,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    // ------------------------------------------------------------------
-    // App Store — WebView verrouillée sur une seule source
-    // ------------------------------------------------------------------
 
     // ------------------------------------------------------------------
     // Réglages — langue

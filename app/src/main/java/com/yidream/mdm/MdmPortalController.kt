@@ -16,17 +16,17 @@ import java.util.UUID
 /** Native catalog and website requests, independent from the administrator website. */
 class MdmPortalController(private val activity: AppCompatActivity) {
     private val service = MdmService(activity)
-    private var storeGeneration = 0
+    private val catalogScreen = CatalogScreenController(activity, service)
     private var sitesGeneration = 0
     private val store get() = activity.findViewById<LinearLayout>(R.id.storeContent)
     private val sites get() = activity.findViewById<LinearLayout>(R.id.sitesContent)
     private fun text(id: Int) = activity.getString(id)
     private fun dp(value: Int) = (value * activity.resources.displayMetrics.density).toInt()
     private fun label(parent: LinearLayout, value: String, title: Boolean = false): TextView = TextView(activity).also {
-        it.text = value; it.textSize = if (title) 22f else 15f
-        it.setTextColor(activity.getColor(R.color.accent_navy))
+        it.text = value; it.textSize = if (title) 26f else 15f
+        it.setTextColor(activity.getColor(if (title) R.color.white else R.color.accent_navy))
         it.setPadding(dp(18), dp(14), dp(18), dp(14))
-        it.setBackgroundResource(R.drawable.bg_glass_card)
+        if (!title) it.setBackgroundResource(R.drawable.bg_quick_action)
         parent.addView(it, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(12) })
     }
     private fun action(parent: LinearLayout, title: String, run: () -> Unit): Button = Button(activity).also {
@@ -67,45 +67,7 @@ class MdmPortalController(private val activity: AppCompatActivity) {
         }
         dialog.show()
     }
-    fun refreshStore() {
-        val generation = ++storeGeneration
-        store.removeAllViews()
-        label(store, text(R.string.mdm_catalog_description))
-        if (needsPairing(store)) return
-        val owner = DeviceOwnerManager(activity).isDeviceOwner()
-        if (!owner) label(store, text(R.string.mdm_owner_required))
-        val state = label(store, text(R.string.mdm_loading))
-        activity.lifecycleScope.launch {
-            try {
-                val apps = service.catalog()
-                if (generation != storeGeneration) return@launch
-                store.removeView(state)
-                if (apps.length() == 0) label(store, text(R.string.mdm_empty_catalog))
-                for (i in 0 until apps.length()) {
-                    val app = apps.getJSONObject(i)
-                    label(store, app.getString("name"), true)
-                    label(store, app.optString("description"))
-                    val install = action(store, text(R.string.mdm_install)) { }
-                    install.isEnabled = owner
-                    install.setOnClickListener {
-                        install.isEnabled = false
-                        activity.lifecycleScope.launch {
-                            try {
-                                val result = CatalogInstaller(activity).install(app)
-                                install.text = when (result) {
-                                    is SilentInstaller.Result.Success -> text(R.string.mdm_install_submitted)
-                                    is SilentInstaller.Result.Failure -> text(R.string.mdm_install_failed)
-                                }
-                            } catch (_: Exception) { install.text = text(R.string.mdm_install_failed) }
-                            finally { install.isEnabled = true }
-                        }
-                    }
-                }
-            } catch (error: Exception) { state.text = message(error) }
-            if (generation != storeGeneration) return@launch
-            action(store, text(R.string.mdm_refresh)) { refreshStore() }
-        }
-    }
+    fun refreshStore() = catalogScreen.load { pair() }
     fun refreshSites() {
         val generation = ++sitesGeneration
         sites.removeAllViews()
@@ -125,6 +87,7 @@ class MdmPortalController(private val activity: AppCompatActivity) {
                     val status = text(when (item.getString("status")) {
                         "approved" -> R.string.mdm_approved
                         "rejected" -> R.string.mdm_rejected
+                        "revoked" -> R.string.mdm_revoked
                         else -> R.string.mdm_pending
                     })
                     label(sites, item.getString("site_url") + "\n" + status +
