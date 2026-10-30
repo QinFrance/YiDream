@@ -43,7 +43,9 @@ jobs:
           fi
 
       - name: Vérifier la séparation YiDream et YZ
-        run: python3 tests/check-project-boundaries.py
+        run: |
+          python3 tests/check-project-boundaries.py
+          python3 -m unittest discover -s tests -p '*_test.py'
 
       # --- Compilation de l'APK Android, pour le bundler dans le site ---
       - name: Installer Java 17
